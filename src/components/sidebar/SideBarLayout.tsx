@@ -84,10 +84,7 @@ export default function SideBarLayout({ children, role }: SideBarLayoutProps) {
         </DrawerHeader>
         <Navigation role={role} />
       </Drawer>
-      <Main open={isSidebarOpen}>
-        {/*<DrawerHeader />*/}
-        {children}
-      </Main>
+      <Main open={isSidebarOpen}>{children}</Main>
     </Box>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import { createHubConnection } from "../lib/signalr";
+import { createHubConnection } from "../../lib/signalr";
 
 const API_BASE = process.env.REACT_APP_API_BASE || "";
 

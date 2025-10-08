@@ -5,8 +5,8 @@ import type { RootState } from "../../store";
 import type { AddressData } from "../../models/UserProfile";
 import { useAddressData } from "../../hooks/useAddressData";
 import Spinner from "../Spinner";
-import * as Yup from "yup";
 import { useForm } from "../../hooks/useForm";
+import { addressValidationSchema } from "../../utils/schemaValidators";
 
 interface AddressFormProps {
   initialValues?: AddressData;
@@ -27,17 +27,9 @@ export default function AddressForm({
 }: AddressFormProps) {
   const frozenInitials = React.useRef(initialValues).current;
 
-  const validationSchema = Yup.object({
-    addressCountry: Yup.string().required("Country is required"),
-    addressCity: Yup.string().required("City is required"),
-    addressStreet: Yup.string().required("Street is required"),
-    addressStreetNumber: Yup.string().required("Street number is required"),
-    addressZip: Yup.string().required("Zip is required"),
-  });
-
   const formik = useForm<AddressData>(
     frozenInitials,
-    validationSchema,
+    addressValidationSchema,
     onSubmit,
     true,
   );

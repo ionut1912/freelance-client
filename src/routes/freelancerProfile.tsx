@@ -1,4 +1,4 @@
-import FreelancerPage from "../components/FreelancerPage";
+import FreelancerPage from "../components/userProfile/FreelancerPage";
 
 export default function Home() {
   return (

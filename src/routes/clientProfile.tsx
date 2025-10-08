@@ -1,4 +1,4 @@
-import ClientPage from "../components/ClientPage";
+import ClientPage from "../components/userProfile/ClientPage";
 
 export default function Home() {
   return (

@@ -8,14 +8,17 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../store";
-import { verifyCapturedFace } from "../store/face-verification/thunks";
-import { ClientProfileDto, FreelancerProfileDto } from "../models/UserProfile";
-import { useCamera } from "../hooks/useCamera";
-import { useCameraAvailability } from "../hooks/useCameraAvailability";
+import { AppDispatch } from "../../store";
+import { verifyCapturedFace } from "../../store/face-verification/thunks";
+import {
+  ClientProfileDto,
+  FreelancerProfileDto,
+} from "../../models/UserProfile";
+import { useCamera } from "../../hooks/useCamera";
+import { useCameraAvailability } from "../../hooks/useCameraAvailability";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import RemoteCaptureFallback from "./RemoteCaptureFallback";
-import { useRemotePhotoReceiver } from "../hooks/useRemotePhotoReceiver";
+import { useRemotePhotoReceiver } from "../../hooks/useRemotePhotoReceiver";
 
 interface VerifyPhotoProps {
   profile: ClientProfileDto | FreelancerProfileDto;

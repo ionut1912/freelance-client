@@ -139,6 +139,14 @@ interface CalendarData {
   events: CalendarEvent[];
 }
 
+interface UserFormValues {
+  email: string;
+  username: string;
+  phone?: string;
+  image?: string;
+  bio?: string;
+}
+
 type CalendarType = UseSuspenseQueryResult<CalendarData[]>;
 
 export type {
@@ -163,4 +171,5 @@ export type {
   CalendarEvent,
   CalendarData,
   CalendarType,
+  UserFormValues,
 };

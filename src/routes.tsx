@@ -85,6 +85,13 @@ const routes: RouteObject[] = [
             Component,
           })),
       },
+      {
+        path: routesLinks.userProfile,
+        lazy: () =>
+          import("./routes/userProfile").then(({ default: Component }) => ({
+            Component,
+          })),
+      },
     ],
   },
 ];

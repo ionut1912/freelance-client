@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import QRCode from "react-qr-code";
-import { createHubConnection } from "../lib/signalr";
+import { createHubConnection } from "../../lib/signalr";
 
 const API_BASE = process.env.REACT_APP_API_BASE || "";
 

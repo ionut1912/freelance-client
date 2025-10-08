@@ -1,4 +1,4 @@
-import MobileCapturePage from "../components/MobileCapturePage";
+import MobileCapturePage from "../components/camera/MobileCapturePage";
 
 export default function Home() {
   return (

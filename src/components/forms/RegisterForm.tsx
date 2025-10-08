@@ -12,8 +12,8 @@ import { AppDispatch, RootState } from "../../store";
 import { registerUser } from "../../store/auth/thunks";
 import { RegisterDto } from "../../models/Accounts";
 import { useForm } from "../../hooks/useForm";
-import * as Yup from "yup";
 import PasswordInput from "./common/PasswordInput";
+import { registerValidationSchema } from "../../utils/schemaValidators";
 
 const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
   email: "",
@@ -29,16 +29,7 @@ export default function RegisterForm() {
 
   const formik = useForm<Omit<RegisterDto, "role">>(
     INITIAL_VALUES,
-    Yup.object({
-      email: Yup.string().email("Invalid email").required("Email is required"),
-      username: Yup.string().required("Username is required"),
-      password: Yup.string()
-        .min(6, "Password too short")
-        .required("Password is required"),
-      phoneNumber: Yup.string()
-        .matches(/^[0-9]+$/, "Only digits")
-        .required("Phone number is required"),
-    }),
+    registerValidationSchema,
     (values) => {
       if (role) {
         dispatch(registerUser({ payload: { ...values, role }, navigate }));

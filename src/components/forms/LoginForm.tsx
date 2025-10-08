@@ -12,8 +12,8 @@ import { AppDispatch } from "../../store";
 import { loginUser } from "../../store/auth/thunks";
 import { LoginDto } from "../../models/Accounts";
 import { useForm } from "../../hooks/useForm";
-import * as Yup from "yup";
 import PasswordInput from "./common/PasswordInput";
+import { loginValidationSchema } from "../../utils/schemaValidators";
 
 export default function LoginForm() {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,10 +21,7 @@ export default function LoginForm() {
 
   const formik = useForm<LoginDto>(
     { username: "", password: "" },
-    Yup.object({
-      username: Yup.string().required("Username is required"),
-      password: Yup.string().required("Password is required"),
-    }),
+    loginValidationSchema,
     (values) => dispatch(loginUser({ payload: values, navigate })),
     true,
   );

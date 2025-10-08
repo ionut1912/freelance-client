@@ -4,20 +4,32 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { routesLinks } from "../../routes/index";
 import SideBarLayout from "../sidebar/SideBarLayout";
+import Spinner from "../Spinner";
+import { useCurrentUser } from "../../hooks/useCurerentUser";
 
 export default function RequireAuth() {
   const location = useLocation();
   const role = useSelector((state: RootState) => state.auth.role!);
+  const { freelancerProfile, clientProfile, loading } = useCurrentUser();
+  const user = role === "Client" ? clientProfile : freelancerProfile;
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   if (!isAuthenticated()) {
     return (
       <Navigate to={routesLinks.login} replace state={{ from: location }} />
     );
   }
-  return (
-    <>
-      <SideBarLayout role={role}>
-        <Outlet />
-      </SideBarLayout>
-    </>
+
+  const shouldRenderSidebar = role && user;
+
+  return shouldRenderSidebar ? (
+    <SideBarLayout role={role}>
+      <Outlet />
+    </SideBarLayout>
+  ) : (
+    <Outlet />
   );
 }

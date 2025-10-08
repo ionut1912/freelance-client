@@ -3,7 +3,6 @@ import { useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, TextField, Autocomplete, Button } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
-import * as Yup from "yup";
 import { useForm } from "../../hooks/useForm";
 import { FreelancerData, SkillDto } from "../../models/UserProfile";
 import { AppDispatch, RootState } from "../../store";
@@ -11,6 +10,7 @@ import { loadSkills } from "../../store/skills/thunks";
 import { loadLanguages } from "../../store/language/thunks";
 import { Language } from "../../models/ExternalApis";
 import Spinner from "../Spinner";
+import { freelnacerValidationSchema } from "../../utils/schemaValidators";
 
 interface FreelancerDataFormProps {
   initialValues?: FreelancerData;
@@ -78,41 +78,9 @@ export default function FreelancerDataForm({
     [languagesRaw],
   );
 
-  const validationSchema: Yup.ObjectSchema<FreelancerData> = Yup.object({
-    programmingLanguages: Yup.array()
-      .of(Yup.string().trim().required())
-      .min(1, "Select at least one language")
-      .required(),
-    foreignLanguages: Yup.array()
-      .of(Yup.string().trim().required())
-      .max(10, "Too many items")
-      .required(),
-
-    experience: Yup.string()
-      .trim()
-      .min(3, "Too short")
-      .required("Experience is required"),
-
-    rate: Yup.number()
-      .typeError("Must be a number")
-      .min(0, "Must be >= 0")
-      .max(10000, "Too high")
-      .required("Rate is required"),
-
-    currency: Yup.string()
-      .trim()
-      .matches(/^[A-Za-z]{3}$/, "Use 3-letter code")
-      .required("Currency is required"),
-
-    portfolioUrl: Yup.string()
-      .trim()
-      .url("Invalid URL")
-      .required("Portfolio is required"),
-  });
-
   const formik = useForm<FreelancerData>(
     frozenInitials,
-    validationSchema,
+    freelnacerValidationSchema,
     onSubmit,
     true,
   );

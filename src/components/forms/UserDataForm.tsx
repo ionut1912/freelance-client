@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Box, TextField, Button } from "@mui/material";
-import * as Yup from "yup";
 import { useForm } from "../../hooks/useForm";
 import { UserData } from "../../models/UserProfile";
-import CameraCapture from "../CameraCapture";
+import CameraCapture from "../camera/CameraCapture";
 import { useEffect } from "react";
+import { userDataValidationSchema } from "../../utils/schemaValidators";
 
 interface UserDataFormProps {
   initialValues?: UserData;
@@ -19,22 +19,9 @@ export default function UserDataForm({
 }: UserDataFormProps) {
   const frozenInitials = React.useRef(initialValues).current;
 
-  const validationSchema = Yup.object({
-    bio: Yup.string()
-      .trim()
-      .min(10, "Bio must be at least 10 characters")
-      .required("Bio is required"),
-    image: Yup.string()
-      .required("Image is required")
-      .matches(
-        /^data:image\/[a-zA-Z]+;base64,/,
-        "Image must be a valid base64 image",
-      ),
-  });
-
   const formik = useForm<UserData>(
     frozenInitials,
-    validationSchema,
+    userDataValidationSchema,
     onSubmit,
     true,
   );
