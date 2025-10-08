@@ -9,7 +9,7 @@ import { AppDispatch, RootState } from "../../store";
 import { loadSkills } from "../../store/skills/thunks";
 import { loadLanguages } from "../../store/language/thunks";
 import { Language } from "../../models/ExternalApis";
-import Spinner from "../Spinner";
+import Spinner from "../wrappers/Spinner";
 import { freelnacerValidationSchema } from "../../utils/schemaValidators";
 
 interface FreelancerDataFormProps {

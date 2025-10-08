@@ -73,6 +73,7 @@ export enum AccountGeneralFieldsNames {
   username = "username",
   email = "email",
   phone = "phone",
+  bio = "bio",
   image = "image",
 }
 
@@ -81,6 +82,7 @@ export const accountGeneralFormSchema = Yup.object({
   [AccountGeneralFieldsNames.email]: Yup.string().email().required(),
   [AccountGeneralFieldsNames.phone]: Yup.string().required(),
   [AccountGeneralFieldsNames.image]: Yup.string().optional().defined(),
+  [AccountGeneralFieldsNames.bio]: Yup.string().optional().defined(),
 });
 
 export type AccountGeneralForm = Yup.InferType<typeof accountGeneralFormSchema>;

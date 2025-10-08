@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { routesLinks } from "../../routes/index";
 import SideBarLayout from "../sidebar/SideBarLayout";
-import Spinner from "../Spinner";
+import Spinner from "../wrappers/Spinner";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 
 export default function RequireAuth() {

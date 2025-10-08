@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import type { AddressData } from "../../models/UserProfile";
 import { useAddressData } from "../../hooks/useAddressData";
-import Spinner from "../Spinner";
+import Spinner from "../wrappers/Spinner";
 import { useForm } from "../../hooks/useForm";
 import { addressValidationSchema } from "../../utils/schemaValidators";
 

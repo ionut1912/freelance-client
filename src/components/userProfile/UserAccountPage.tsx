@@ -3,7 +3,7 @@ import { useCurrentUser } from "../../hooks/useCurerentUser";
 import { Box, Container, Tab, TabProps, Tabs } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import Spinner from "../Spinner";
+import Spinner from "../wrappers/Spinner";
 import PageHeader from "../pageHeader/PageHeader";
 import { Person, Settings } from "@mui/icons-material";
 import TabPanel from "./TabPanel";
@@ -39,7 +39,7 @@ export default function UserAccountPage() {
         phone: user.user.phoneNumber,
         username: user.user.username,
         image: user.image,
-        bio:user.bio
+        bio: user.bio,
       }
     : undefined;
 

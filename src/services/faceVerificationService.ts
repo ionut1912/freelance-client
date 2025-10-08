@@ -9,7 +9,7 @@ export default function verifyFace(
   faceVerificationRequest: FaceVerificationRequest,
 ): Promise<AxiosResponse<VerifyFaceResult>> {
   return api.post<VerifyFaceResult>(
-    `${API_URL}/api/verifyFace`,
+    `${API_URL}/verifyFace`,
     faceVerificationRequest,
     { headers: { "requires-auth": "" } },
   );

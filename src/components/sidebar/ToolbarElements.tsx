@@ -3,7 +3,7 @@ import { UserRole } from "../../models/UserProfile";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 import UserMenu from "./user-menu/UserMenu";
 import { Stack } from "@mui/material";
-import Spinner from "../Spinner";
+import Spinner from "../wrappers/Spinner";
 interface ToolbarElementsProps {
   role: UserRole;
 }

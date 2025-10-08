@@ -16,7 +16,7 @@ import {
 import VerifyPhoto from "../camera/VerifyPhoto";
 import AddressForm from "../forms/AddressForm";
 import UserDataForm from "../forms/UserDataForm";
-import Spinner from "../Spinner";
+import Spinner from "../wrappers/Spinner";
 import { routesLinks } from "../../routes/index";
 import Dashboard from "../dashboard/Dashboard";
 

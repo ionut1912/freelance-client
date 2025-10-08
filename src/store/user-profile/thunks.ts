@@ -5,7 +5,6 @@ import {
   CreateClientProfileRequest,
   CreateFreelancerProfileRequest,
   PatchUserProfileAddressRequest,
-  PatchUserDetailsRequest,
   PatchFreelancerProfielRequest,
   ClientProfileDto,
   FreelancerProfileDto,
@@ -17,8 +16,8 @@ import {
   deleteUserProfile,
   getCurrentUserProfile,
   getUserProfiles,
+  updateImage,
   updateUserProfileAddress,
-  updateUserProfileDetails,
 } from "../../services/userProfileService";
 import { createClientProfile } from "../../services/clientProfileService";
 import {
@@ -53,6 +52,25 @@ export const loadCurrentUserProfile = createAsyncThunk<
 
   return { clientProfiles: [], freelancerProfiles: [] };
 });
+
+export const patchImage = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: AxiosError; dispatch: AppDispatch }
+>(
+  "userProfile/patchUserProfileImage",
+  async (payload, { dispatch, rejectWithValue }) => {
+    try {
+      await updateImage(payload);
+      toast.success("Image updated successfully");
+      dispatch(loadCurrentUserProfile());
+    } catch (error) {
+      const messages = extractErrorMessages(error);
+      messages.forEach((m) => toast.error(m));
+      return rejectWithValue(error as AxiosError);
+    }
+  },
+);
 
 export const saveClientProfile = createAsyncThunk<
   void,
@@ -128,25 +146,6 @@ export const patchUserProfileAddress = createAsyncThunk<
     try {
       await updateUserProfileAddress(payload);
       toast.success("Address updated successfully");
-      dispatch(loadCurrentUserProfile());
-    } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
-      return rejectWithValue(error as AxiosError);
-    }
-  },
-);
-
-export const patchUserData = createAsyncThunk<
-  void,
-  PatchUserDetailsRequest,
-  { rejectValue: AxiosError; dispatch: AppDispatch }
->(
-  "userProfile/patchUserData",
-  async (payload, { dispatch, rejectWithValue }) => {
-    try {
-      await updateUserProfileDetails(payload);
-      toast.success("Details updated successfully");
       dispatch(loadCurrentUserProfile());
     } catch (error) {
       const messages = extractErrorMessages(error);

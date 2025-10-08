@@ -3,7 +3,7 @@ import { TaskDto } from "./Tasks";
 import { ProjectDto } from "./Projects";
 import { ContractsDto } from "./Contracts";
 import { InvoicesDto } from "./Invoices";
-import { FreelancerDetailsData, UserDetailsData } from "./Ui";
+import { FreelancerDetailsData } from "./Ui";
 import { NavigateFunction } from "react-router-dom";
 
 type UserRole = "Client" | "Freelancer";
@@ -105,10 +105,6 @@ interface PatchFreelancerProfielRequest {
   freelancerData: FreelancerDetailsData;
 }
 
-interface PatchUserDetailsRequest {
-  profileId: number;
-  userData: UserDetailsData;
-}
 interface ClientProfileDto extends BaseProfileDto {}
 
 interface UpdateClientProfileRequest extends BaseUpdateProfile {}
@@ -159,7 +155,6 @@ export type {
   AddressDto,
   PatchFreelancerProfielRequest,
   PatchUserProfileAddressRequest,
-  PatchUserDetailsRequest,
   GetSkillsResult,
   UserRole,
   VerifyFaceRequest,

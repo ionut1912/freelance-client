@@ -66,11 +66,6 @@ interface FreelancerProfileData extends BaseProfileData {
   portfolioUrl: string;
 }
 
-interface UserDetailsData {
-  bio: string;
-  image: string;
-}
-
 interface FreelancerDetailsData {
   programmingLanguages: string[];
   areas: string[];
@@ -79,14 +74,6 @@ interface FreelancerDetailsData {
   rate: number;
   currency: string;
   portfolioUrl: string;
-}
-
-interface DialogData {
-  userProfileId: number;
-  dialogName: string;
-  address?: AddressDto;
-  userDetails?: UserDetailsData;
-  freelancerData?: FreelancerDetailsData;
 }
 
 interface PaginatedDataRequest {
@@ -153,8 +140,6 @@ export type {
   ClientProfileData,
   FreelancerProfileData,
   FreelancerDetailsData,
-  UserDetailsData,
-  DialogData,
   NavigationItemType,
   PaginatedList,
   PaginatedDataRequest,

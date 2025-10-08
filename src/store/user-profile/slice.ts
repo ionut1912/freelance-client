@@ -5,6 +5,7 @@ import {
   saveClientProfile,
   saveFreelancerProfile,
   patchUserProfileAddress,
+  patchImage,
 } from "./thunks";
 
 const initialState: UserProfileState = {
@@ -48,6 +49,9 @@ const userProfileSlice = createSlice({
         state.error = action.payload ?? null;
       })
       .addCase(patchUserProfileAddress.rejected, (state, action) => {
+        state.error = action.payload ?? null;
+      })
+      .addCase(patchImage.rejected, (state, action) => {
         state.error = action.payload ?? null;
       });
   },
