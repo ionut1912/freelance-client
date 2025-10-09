@@ -20,21 +20,27 @@ import {
   AccountGeneralForm,
   accountGeneralFormSchema,
 } from "../../utils/schemaValidators";
-import { UserFormValues } from "../../models/Ui";
+import { UpdateUserRequest } from "../../models/Ui";
 import GenericModal from "../wrappers/GenericModal";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
-import { patchImage } from "../../store/user-profile/thunks";
+import { AppDispatch, RootState } from "../../store";
+import { patchImage, patchUserData } from "../../store/user-profile/thunks";
+import { useDispatch, useSelector } from "react-redux";
+import { useCurrentUser } from "../../hooks/useCurerentUser";
 
 interface Props {
-  defaultValues?: UserFormValues;
   submitButtonText?: string;
 }
 
-export default function UserForm({
-  defaultValues,
-  submitButtonText = "Save changes",
-}: Props) {
+export default function UserForm({ submitButtonText = "Save changes" }: Props) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { freelancerProfile, clientProfile, loading } = useCurrentUser();
+  const role = useSelector((state: RootState) => state.auth.role);
+  const user = role === "Client" ? clientProfile : freelancerProfile;
+
+  const [open, setOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -43,58 +49,78 @@ export default function UserForm({
     reset,
   } = useForm<AccountGeneralForm>({
     resolver: yupResolver(accountGeneralFormSchema),
-    defaultValues,
+    defaultValues: {
+      username: "",
+      email: "",
+      phone: "",
+      bio: "",
+      image: "",
+    },
+    mode: "onBlur",
   });
 
-  const dispatch = useDispatch<AppDispatch>();
-  const [open, setOpen] = useState<boolean>(false);
-  const [uploading, setUploading] = useState<boolean>(false);
-
-  const handleSave = useCallback((data: AccountGeneralForm) => {
-    console.log(data);
-  }, []);
-
   useEffect(() => {
-    if (defaultValues) {
-      reset(defaultValues);
+    if (user) {
+      const values = {
+        username: user.user?.username || "",
+        email: user.user?.email || "",
+        phone: user.user?.phoneNumber || "",
+        bio: user.bio || "",
+        image: user.image || "",
+      };
+      reset(values);
     }
-  }, [defaultValues, reset]);
+  }, [user, reset]);
 
-  const convertToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
+  const handleSave = useCallback(
+    async (data: AccountGeneralForm) => {
+      setSaving(true);
+      try {
+        const updateUser: UpdateUserRequest = {
+          username: data.username,
+          email: data.email,
+          phoneNumber: data.phone,
+          bio: data.bio!,
+        };
+        await dispatch(patchUserData(updateUser));
+      } finally {
+        setSaving(false);
+      }
+    },
+    [dispatch],
+  );
+
+  const convertToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
     });
-  };
 
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-
     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (!validTypes.includes(file.type)) {
       alert("Only JPG, JPEG, and PNG files are allowed.");
       return;
     }
-
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       alert("File size must be less than 5 MB.");
       return;
     }
-
     setUploading(true);
     try {
       const base64Image = await convertToBase64(file);
-      await dispatch(patchImage(base64Image));
-      reset({
-        ...getValues(),
-        image: base64Image,
-      });
-    } catch (err) {
-      console.error("Upload failed:", err);
+      const resultAction = await dispatch(patchImage(base64Image));
+      if (patchImage.fulfilled.match(resultAction)) {
+        reset({
+          ...getValues(),
+          image: base64Image,
+        });
+      }
     } finally {
       setUploading(false);
       event.target.value = "";
@@ -113,6 +139,11 @@ export default function UserForm({
   const handleNo = () => setOpen(false);
 
   const userFormValues = getValues();
+
+  if (loading)
+    return <Typography textAlign="center">Loading user data...</Typography>;
+  if (!user)
+    return <Typography textAlign="center">No user profile found.</Typography>;
 
   return (
     <form onSubmit={handleSubmit(handleSave)}>
@@ -241,8 +272,8 @@ export default function UserForm({
             </Stack>
           </CardContent>
           <CardActions sx={{ justifyContent: "flex-end", padding: 2 }}>
-            <Button type="submit" variant="contained">
-              {submitButtonText}
+            <Button type="submit" variant="contained" disabled={saving}>
+              {saving ? "Saving..." : submitButtonText}
             </Button>
           </CardActions>
         </Card>

@@ -1,5 +1,9 @@
 import { AxiosResponse } from "axios";
-import { PaginatedDataRequest, PaginatedList } from "../models/Ui";
+import {
+  PaginatedDataRequest,
+  PaginatedList,
+  UpdateUserRequest,
+} from "../models/Ui";
 import { api, API_URL } from "./utils";
 import { PatchUserProfileAddressRequest } from "../models/UserProfile";
 
@@ -52,4 +56,12 @@ export function updateImage(image: string): Promise<AxiosResponse<void>> {
       headers: { "requires-auth": "" },
     },
   );
+}
+
+export function updateUserData(
+  userDataRequest: UpdateUserRequest,
+): Promise<AxiosResponse<void>> {
+  return api.patch(`${API_URL}/userProfiles/userData`, userDataRequest, {
+    headers: { "requires-auth": "" },
+  });
 }

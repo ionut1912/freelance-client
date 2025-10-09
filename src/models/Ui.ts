@@ -134,6 +134,13 @@ interface UserFormValues {
   bio?: string;
 }
 
+interface UpdateUserRequest {
+  username: string;
+  email: string;
+  phoneNumber: string;
+  bio: string;
+}
+
 type CalendarType = UseSuspenseQueryResult<CalendarData[]>;
 
 export type {
@@ -157,4 +164,5 @@ export type {
   CalendarData,
   CalendarType,
   UserFormValues,
+  UpdateUserRequest,
 };

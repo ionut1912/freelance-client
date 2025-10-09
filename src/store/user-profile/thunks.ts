@@ -9,7 +9,7 @@ import {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
-import { PaginatedDataRequest } from "../../models/Ui";
+import { PaginatedDataRequest, UpdateUserRequest } from "../../models/Ui";
 import { extractErrorMessages } from "../../utils/httpError";
 import { AppDispatch, RootState } from "../../store";
 import {
@@ -17,6 +17,7 @@ import {
   getCurrentUserProfile,
   getUserProfiles,
   updateImage,
+  updateUserData,
   updateUserProfileAddress,
 } from "../../services/userProfileService";
 import { createClientProfile } from "../../services/clientProfileService";
@@ -131,6 +132,25 @@ export const removeUserProfile = createAsyncThunk<
           payload: id,
         });
     } catch (error) {
+      return rejectWithValue(error as AxiosError);
+    }
+  },
+);
+
+export const patchUserData = createAsyncThunk<
+  void,
+  UpdateUserRequest,
+  { rejectValue: AxiosError; dispatch: AppDispatch }
+>(
+  "userProfile/patchUserData",
+  async (payload, { dispatch, rejectWithValue }) => {
+    try {
+      await updateUserData(payload);
+      toast.success("Profile updated successfully");
+      dispatch(loadCurrentUserProfile());
+    } catch (error) {
+      const messages = extractErrorMessages(error);
+      messages.forEach((m) => toast.error(m));
       return rejectWithValue(error as AxiosError);
     }
   },

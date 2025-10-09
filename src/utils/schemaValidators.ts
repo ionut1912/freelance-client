@@ -17,23 +17,19 @@ export const freelnacerValidationSchema = Yup.object({
     .of(Yup.string().trim().required())
     .max(10, "Too many items")
     .required(),
-
   experience: Yup.string()
     .trim()
     .min(3, "Too short")
     .required("Experience is required"),
-
   rate: Yup.number()
     .typeError("Must be a number")
     .min(0, "Must be >= 0")
     .max(10000, "Too high")
     .required("Rate is required"),
-
   currency: Yup.string()
     .trim()
     .matches(/^[A-Za-z]{3}$/, "Use 3-letter code")
     .required("Currency is required"),
-
   portfolioUrl: Yup.string()
     .trim()
     .url("Invalid URL")
@@ -52,7 +48,7 @@ export const registerValidationSchema = Yup.object({
     .min(6, "Password too short")
     .required("Password is required"),
   phoneNumber: Yup.string()
-    .matches(/^[0-9]+$/, "Only digits")
+    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
     .required("Phone number is required"),
 });
 
@@ -62,11 +58,11 @@ export const userDataValidationSchema = Yup.object({
     .min(10, "Bio must be at least 10 characters")
     .required("Bio is required"),
   image: Yup.string()
-    .required("Image is required")
     .matches(
       /^data:image\/[a-zA-Z]+;base64,/,
       "Image must be a valid base64 image",
-    ),
+    )
+    .required("Image is required"),
 });
 
 export enum AccountGeneralFieldsNames {
@@ -78,11 +74,17 @@ export enum AccountGeneralFieldsNames {
 }
 
 export const accountGeneralFormSchema = Yup.object({
-  [AccountGeneralFieldsNames.username]: Yup.string().required(),
-  [AccountGeneralFieldsNames.email]: Yup.string().email().required(),
-  [AccountGeneralFieldsNames.phone]: Yup.string().required(),
-  [AccountGeneralFieldsNames.image]: Yup.string().optional().defined(),
-  [AccountGeneralFieldsNames.bio]: Yup.string().optional().defined(),
+  [AccountGeneralFieldsNames.username]: Yup.string().required(
+    "Username is required",
+  ),
+  [AccountGeneralFieldsNames.email]: Yup.string()
+    .email("Invalid email")
+    .required("Email is required"),
+  [AccountGeneralFieldsNames.phone]: Yup.string()
+    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+    .required("Phone number is required"),
+  [AccountGeneralFieldsNames.image]: Yup.string().required("Image is required"),
+  [AccountGeneralFieldsNames.bio]: Yup.string().required("Bio is required"),
 });
 
 export type AccountGeneralForm = Yup.InferType<typeof accountGeneralFormSchema>;
