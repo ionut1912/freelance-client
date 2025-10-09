@@ -81,14 +81,18 @@ export const deleteUserAccount = createAsyncThunk<
 
 export const deleteCurrentUserAccount = createAsyncThunk<
   void,
-  void,
+  { navigate: NavigateFunction },
   { rejectValue: AxiosError }
->("auth/deleteCurrentUserAccount", async (_, { rejectWithValue }) => {
-  try {
-    await deleteCurrentAccount();
-  } catch (error) {
-    const messages = extractErrorMessages(error);
-    messages.forEach((m) => toast.error(m));
-    return rejectWithValue(error as AxiosError);
-  }
-});
+>(
+  "auth/deleteCurrentUserAccount",
+  async ({ navigate }, { rejectWithValue }) => {
+    try {
+      await deleteCurrentAccount();
+      navigate(routesLinks.home);
+    } catch (error) {
+      const messages = extractErrorMessages(error);
+      messages.forEach((m) => toast.error(m));
+      return rejectWithValue(error as AxiosError);
+    }
+  },
+);

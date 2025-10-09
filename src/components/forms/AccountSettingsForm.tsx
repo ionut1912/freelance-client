@@ -7,15 +7,23 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import CheckboxWithForm from "./common/CheckboxWithForm";
 import { UserFormValues } from "../../models/Ui";
+import GenericModal from "../wrappers/GenericModal";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
+import { useNavigate } from "react-router-dom";
+import { deleteCurrentUserAccount } from "../../store/auth/thunks";
+
 interface Props {
   defaultValues?: UserFormValues;
 }
 export default function AccountSettingsForm({ defaultValues }: Props) {
   const leftColumnSx = { maxWidth: "200px", width: "100%" };
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { control, handleSubmit } = useForm({
     defaultValues: {
       enableEmailNotifications: true,
@@ -24,11 +32,16 @@ export default function AccountSettingsForm({ defaultValues }: Props) {
       profilePublic: false,
     },
   });
-
+  const [open, setOpen] = useState(false);
   const handleSave = useCallback((data: unknown) => {
     console.log(data);
   }, []);
+  const handleYes = async () => {
+    await dispatch(deleteCurrentUserAccount({ navigate }));
+    setOpen(false);
+  };
 
+  const handleNo = () => setOpen(false);
   return (
     <form onSubmit={handleSubmit(handleSave)}>
       <Card elevation={2} sx={{ padding: 2 }}>
@@ -94,9 +107,20 @@ export default function AccountSettingsForm({ defaultValues }: Props) {
                 </Typography>
               </Stack>
               <Stack spacing={2}>
-                <Button variant={"contained"} color={"error"}>
+                <Button
+                  variant={"contained"}
+                  color={"error"}
+                  onClick={() => setOpen(true)}
+                >
                   Delete account
                 </Button>
+                <GenericModal
+                  open={open}
+                  handleClose={() => setOpen(false)}
+                  text="Are you sure you want to delete your account?"
+                  onYes={handleYes}
+                  onNo={handleNo}
+                />
               </Stack>
             </Stack>
           </Stack>

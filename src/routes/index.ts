@@ -19,4 +19,5 @@ export const routesLinks = {
   allProjects: "/all-projects",
   proposals: "/proposals",
   calendar: "/calendar",
+  home: "/",
 };

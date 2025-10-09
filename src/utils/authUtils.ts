@@ -52,7 +52,7 @@ export function navigateByRole(
       navigate(routesLinks.client);
       break;
     default:
-      navigate("/");
+      navigate(routesLinks.home);
   }
 }
 

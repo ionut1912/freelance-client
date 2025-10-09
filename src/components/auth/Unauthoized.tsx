@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { routesLinks } from "../../routes/index";
 export default function Unauthorized() {
   const location = useLocation() as any;
-  const fromPath = location?.state?.from?.pathname ?? "/";
+  const fromPath = location?.state?.from?.pathname ?? routesLinks.home;
 
   return (
     <main className="min-h-dvh grid place-items-center bg-gradient-to-b from-slate-50 to-white">

@@ -5,13 +5,14 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "../../store";
 import { navigateByRole } from "../../utils/authUtils";
+import { routesLinks } from "../../routes/index";
 
 export default function NotFound() {
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role);
   const handleReturnHome = () => {
     if (!isAuthenticated) {
-      navigate("/");
+      navigate(routesLinks.home);
     } else {
       navigateByRole(role!, navigate);
     }

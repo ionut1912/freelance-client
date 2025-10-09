@@ -5,6 +5,7 @@ import {
   isRouteErrorResponse,
   useNavigate,
 } from "react-router-dom";
+import { routesLinks } from "../../routes/index";
 
 export default function ErrorBoundary() {
   const error = useRouteError();
@@ -23,7 +24,7 @@ export default function ErrorBoundary() {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate("/")}
+            onClick={() => navigate(routesLinks.home)}
             className="mt-4"
           >
             Go Back Home
@@ -45,7 +46,7 @@ export default function ErrorBoundary() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => navigate("/")}
+          onClick={() => navigate(routesLinks.home)}
           className="mt-4"
         >
           Go Back Home

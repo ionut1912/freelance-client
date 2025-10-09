@@ -20,6 +20,7 @@ import {
   verifyClientProfile,
 } from "../user-profile/slice";
 import { removeUserProfile } from "../user-profile/thunks";
+import { routesLinks } from "../../routes/index";
 
 export const verifyCapturedFace = createAsyncThunk<
   VerifyFaceResult,
@@ -37,7 +38,10 @@ export const verifyCapturedFace = createAsyncThunk<
       );
 
       if (verifyFaceResult.data.isMatch) {
-        await processMatch(appDispatch, state().auth.role!, payload.profile);
+        const role = state().auth.role;
+        if (!role) throw new Error("User role is missing");
+
+        await processMatch(appDispatch, role, payload.profile);
       } else {
         await processNoMatch(
           appDispatch,
@@ -55,9 +59,12 @@ export const verifyCapturedFace = createAsyncThunk<
 
       if (error.response?.status === 404) {
         toast.warning(
-          "We will delete your profile data, because we don't find a face in one of your images",
+          "We will delete your profile data, because we couldn't find a face in one of your images",
         );
-        appDispatch(deleteCurrentUserAccount());
+
+        if (payload.navigate) {
+          appDispatch(deleteCurrentUserAccount({ navigate: payload.navigate }));
+        }
       }
 
       return rejectWithValue(error);
@@ -92,13 +99,13 @@ async function processNoMatch(
 
   if (falseCount === 3 || falseCount === 6) {
     dispatch(blockUserAccount({ id: profile.user.id, navigate }));
-    dispatch(deleteCurrentUserAccount());
+    dispatch(deleteCurrentUserAccount({ navigate }));
     toast.error(
       `Your account will be locked for 1h because you attempted verification ${falseCount} times`,
     );
-    navigate("/");
+    navigate(routesLinks.home);
   } else if (falseCount === 9) {
-    dispatch(deleteCurrentUserAccount());
+    dispatch(deleteCurrentUserAccount({ navigate }));
     dispatch(removeUserProfile(profile.id));
     dispatch(resetFalseCount());
     toast.error(
