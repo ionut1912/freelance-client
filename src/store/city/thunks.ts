@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { LoadCitiesPayload, LoadCitiesResult } from "../../models/ExternalApis";
-import axios, { AxiosError } from "axios";
+import type {
+  LoadCitiesPayload,
+  LoadCitiesResult,
+} from "../../models/ExternalApis";
+import type { AxiosError } from "axios";
+import axios from "axios";
 
 export const loadCities = createAsyncThunk<
   LoadCitiesResult,

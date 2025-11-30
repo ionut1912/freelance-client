@@ -8,9 +8,9 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../../store";
+import type { AppDispatch } from "../../store";
 import { loginUser } from "../../store/auth/thunks";
-import { LoginDto } from "../../models/Accounts";
+import type { LoginDto } from "../../models/Accounts";
 import { useForm } from "../../hooks/useForm";
 import PasswordInput from "./common/PasswordInput";
 import { loginValidationSchema } from "../../utils/schemaValidators";

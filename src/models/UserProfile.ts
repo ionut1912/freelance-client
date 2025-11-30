@@ -1,10 +1,10 @@
-import { UserProfileDto } from "./Accounts";
-import { TaskDto } from "./Tasks";
-import { ProjectDto } from "./Projects";
-import { ContractsDto } from "./Contracts";
-import { InvoicesDto } from "./Invoices";
-import { FreelancerDetailsData } from "./Ui";
-import { NavigateFunction } from "react-router-dom";
+import type { UserProfileDto } from "./Accounts";
+import type { TaskDto } from "./Tasks";
+import type { ProjectDto } from "./Projects";
+import type { ContractsDto } from "./Contracts";
+import type { InvoicesDto } from "./Invoices";
+import type { FreelancerDetailsData } from "./Ui";
+import type { NavigateFunction } from "react-router-dom";
 
 type UserRole = "Client" | "Freelancer";
 

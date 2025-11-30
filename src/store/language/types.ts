@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { Language } from "../../models/ExternalApis";
+import type { AxiosError } from "axios";
+import type { Language } from "../../models/ExternalApis";
 
 export interface LanguageState {
   languages: Language[];

@@ -1,9 +1,9 @@
-import { AxiosError } from "axios";
-import {
+import type { AxiosError } from "axios";
+import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
-import { PaginatedList } from "../../models/Ui";
+import type { PaginatedList } from "../../models/Ui";
 
 export interface UserProfileState {
   clientProfiles: ClientProfileDto[] | null;

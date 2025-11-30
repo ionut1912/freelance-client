@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import {
+import type {
   ClientProfileDto,
   FreelancerProfileDto,
   UserRole,
@@ -9,9 +9,9 @@ import {
   VerifyFaceResult,
 } from "../../models/UserProfile";
 
-import { NavigateFunction } from "react-router-dom";
+import type { NavigateFunction } from "react-router-dom";
 import { verifyUserProfile } from "../../services/userProfileService";
-import { AppDispatch, RootState } from "../../store";
+import type { AppDispatch, RootState } from "../../store";
 import { resetFalseCount, incrementFalseCount } from "./slice";
 import verifyFace from "../../services/faceVerificationService";
 import { blockUserAccount, deleteCurrentUserAccount } from "../auth/thunks";

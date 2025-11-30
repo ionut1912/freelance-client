@@ -1,6 +1,7 @@
-import axios, { AxiosError } from "axios";
+import type { AxiosError } from "axios";
+import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Country } from "../../models/ExternalApis";
+import type { Country } from "../../models/ExternalApis";
 
 export interface LoadCountriesResult {
   countries: string[];

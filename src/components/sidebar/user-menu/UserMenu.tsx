@@ -4,7 +4,7 @@ import { UserMenuContainer } from "./styled/UserMenuContainer";
 import { UserMenuIconButton } from "./styled/UserMenuIconButton";
 import UserAvatar from "../UserAvatar";
 import { UserMenuMenu } from "./styled/UserMenuMenu";
-import {
+import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../../models/UserProfile";
@@ -12,7 +12,7 @@ import { UserMenuInfo } from "./styled/UserMenuInfo";
 import { Typography } from "@mui/material";
 import { UserMenuMenuItem } from "./styled/UserMenuMenuItem";
 import { UserMenuMenuItemWithSeparator } from "./styled/UserMenuMenuItemWithSeparator";
-import { AppDispatch } from "../../../store";
+import type { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../store/auth/slice";
 
@@ -45,7 +45,7 @@ export default function UserMenu({ profile }: UserMenuProps) {
         }}
       >
         <UserMenuInfo>
-          <Typography fontSize={14} color={"text.secondary"}>
+          <Typography fontSize={14} color="text.secondary">
             {profile.user.email}
           </Typography>
         </UserMenuInfo>

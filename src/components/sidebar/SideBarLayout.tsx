@@ -1,5 +1,6 @@
-import React, { ReactNode } from "react";
-import { UserRole } from "../../models/UserProfile";
+import type { ReactNode } from "react";
+import React from "react";
+import type { UserRole } from "../../models/UserProfile";
 import {
   Box,
   Drawer,
@@ -34,9 +35,9 @@ export default function SideBarLayout({ children, role }: SideBarLayoutProps) {
         <Toolbar>
           <Stack
             justifyContent={isSidebarOpen ? "flex-end" : "space-between"}
-            direction={"row"}
+            direction="row"
             flex={1}
-            alignItems={"center"}
+            alignItems="center"
             sx={{ color: (theme) => theme.palette.text.primary }}
           >
             <IconButton
@@ -68,9 +69,9 @@ export default function SideBarLayout({ children, role }: SideBarLayoutProps) {
       >
         <DrawerHeader>
           <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"flex-start"}
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-start"
           >
             <Logo role={role} />
           </Stack>

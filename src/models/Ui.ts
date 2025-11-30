@@ -1,8 +1,8 @@
-import { AddressDto, UserRole } from "./UserProfile";
-import React from "react";
-import { SvgIconProps } from "@mui/material";
-import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import { UseSuspenseQueryResult } from "@tanstack/react-query";
+import type { AddressDto, UserRole } from "./UserProfile";
+import type React from "react";
+import type { SvgIconProps } from "@mui/material";
+import type { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import type { UseSuspenseQueryResult } from "@tanstack/react-query";
 
 type NavigationItemIconColor =
   | "primary"

@@ -15,14 +15,14 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import type { AccountGeneralForm } from "../../utils/schemaValidators";
 import {
   AccountGeneralFieldsNames,
-  AccountGeneralForm,
   accountGeneralFormSchema,
 } from "../../utils/schemaValidators";
-import { UpdateUserRequest } from "../../models/Ui";
+import type { UpdateUserRequest } from "../../models/Ui";
 import GenericModal from "../wrappers/GenericModal";
-import { AppDispatch, RootState } from "../../store";
+import type { AppDispatch, RootState } from "../../store";
 import { patchImage, patchUserData } from "../../store/user-profile/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { useCurrentUser } from "../../hooks/useCurerentUser";

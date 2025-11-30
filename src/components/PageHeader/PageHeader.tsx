@@ -22,26 +22,26 @@ export default function PageHeader({
 
   return (
     <Stack
-      direction={"row"}
-      alignItems={"center"}
-      justifyContent={"space-between"}
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
       marginBottom={2}
     >
       <Stack spacing={2} marginBottom={2}>
-        <PageHeaderTitle variant={"h1"}>{title}</PageHeaderTitle>
+        <PageHeaderTitle variant="h1">{title}</PageHeaderTitle>
         {breadcrumbs ? (
           <Breadcrumbs separator="•" aria-label="breadcrumb">
             <Typography
               key="3"
               color="text.primary"
               fontSize={14}
-              alignItems={"center"}
-              display={"flex"}
+              alignItems="center"
+              display="flex"
             >
               <Home
-                fontSize={"inherit"}
+                fontSize="inherit"
                 sx={{ marginRight: 0.5 }}
-                color={"inherit"}
+                color="inherit"
               />{" "}
               Freelancers Hub
             </Typography>

@@ -1,5 +1,6 @@
-import { Box, BoxProps, Paper } from "@mui/material";
-import { ReactNode } from "react";
+import type { BoxProps } from "@mui/material";
+import { Box, Paper } from "@mui/material";
+import type { ReactNode } from "react";
 import { WidgetContainer } from "./stylled/WidgetContainer";
 import { WidgetTitleContainer } from "./stylled/WidgetTitleContainer";
 import { WidgetTitle } from "./stylled/WidgetTitle";
@@ -23,7 +24,7 @@ export default function Widget({
         <WidgetTitle>{title}</WidgetTitle>
       </WidgetTitleContainer>
       <Box sx={{ flexGrow: 1, height: contentHeight }}>
-        <Box height={"100%"}>{children}</Box>
+        <Box height="100%">{children}</Box>
       </Box>
     </WidgetContainer>
   );

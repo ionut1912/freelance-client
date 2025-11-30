@@ -1,5 +1,6 @@
-import axios, { AxiosResponse } from "axios";
-import { Language } from "../models/ExternalApis";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
+import type { Language } from "../models/ExternalApis";
 
 export default function getLanguages(): Promise<AxiosResponse<Language[]>> {
   const apiUrl = "https://libretranslate.com/languages";

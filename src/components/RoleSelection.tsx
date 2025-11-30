@@ -12,10 +12,10 @@ import {
   Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { UserRole } from "../models/UserProfile";
+import type { UserRole } from "../models/UserProfile";
 import { setRole } from "../store/auth/slice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
+import type { AppDispatch } from "../store";
 import { routesLinks } from "../routes/index";
 export default function RoleSelection() {
   const [role, setRoleState] = useState<UserRole>("Client");

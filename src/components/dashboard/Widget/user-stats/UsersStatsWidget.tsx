@@ -8,7 +8,7 @@ export default function UsersStatsWidget() {
   const theme = useTheme();
 
   return (
-    <Widget title={"Users"} contentHeight={"350px"}>
+    <Widget title="Users" contentHeight="350px">
       <ResponsiveBar
         data={userStatsData}
         keys={["hot dog", "burger", "sandwich"]}

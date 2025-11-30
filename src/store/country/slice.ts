@@ -1,5 +1,5 @@
 import { loadCountries } from "./thunks";
-import { CountryState } from "./types";
+import type { CountryState } from "./types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: CountryState = {

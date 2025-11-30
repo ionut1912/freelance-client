@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { UserRole } from "../../../models/UserProfile";
+import type { UserRole } from "../../../models/UserProfile";
 import { routesLinks } from "../../../routes/index";
 import {
   AccountBoxOutlined,
@@ -11,7 +11,7 @@ import {
   CodeOutlined,
   BusinessOutlined,
 } from "@mui/icons-material";
-import { NavigationItemType } from "../../../models/Ui";
+import type { NavigationItemType } from "../../../models/Ui";
 import NavigationItem from "./NavigationItem";
 import { List } from "@mui/material";
 

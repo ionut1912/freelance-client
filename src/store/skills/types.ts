@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { SkillDto } from "../../models/UserProfile";
+import type { AxiosError } from "axios";
+import type { SkillDto } from "../../models/UserProfile";
 
 export interface SkillsState {
   skills: SkillDto[];

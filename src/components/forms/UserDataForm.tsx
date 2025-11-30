@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { useForm } from "../../hooks/useForm";
-import { UserData } from "../../models/UserProfile";
+import type { UserData } from "../../models/UserProfile";
 import CameraCapture from "../camera/CameraCapture";
 import { useEffect } from "react";
 import { userDataValidationSchema } from "../../utils/schemaValidators";

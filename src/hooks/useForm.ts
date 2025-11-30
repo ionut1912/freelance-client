@@ -1,5 +1,6 @@
-import * as Yup from "yup";
-import { useFormik, FormikProps, FormikValues } from "formik";
+import type * as Yup from "yup";
+import type { FormikProps, FormikValues } from "formik";
+import { useFormik } from "formik";
 
 export function useForm<T extends FormikValues>(
   initialValues: T,

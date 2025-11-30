@@ -10,10 +10,10 @@ import {
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import CheckboxWithForm from "./common/CheckboxWithForm";
-import { UserFormValues } from "../../models/Ui";
+import type { UserFormValues } from "../../models/Ui";
 import GenericModal from "../wrappers/GenericModal";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
+import type { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { deleteCurrentUserAccount } from "../../store/auth/thunks";
 
@@ -47,9 +47,9 @@ export default function AccountSettingsForm({ defaultValues }: Props) {
       <Card elevation={2} sx={{ padding: 2 }}>
         <CardContent>
           <Stack spacing={6}>
-            <Stack direction={"row"} spacing={2}>
+            <Stack direction="row" spacing={2}>
               <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight={"fontWeightMedium"}>
+                <Typography fontWeight="fontWeightMedium">
                   Notifications
                 </Typography>
               </Stack>
@@ -57,59 +57,59 @@ export default function AccountSettingsForm({ defaultValues }: Props) {
                 <FormGroup>
                   <CheckboxWithForm
                     control={control}
-                    name={"enableEmailNotifications"}
+                    name="enableEmailNotifications"
                     label="Enable email notifications"
                   />
                   <CheckboxWithForm
                     control={control}
-                    name={"enableSmsNotifications"}
+                    name="enableSmsNotifications"
                     label="Enable SMS notifications"
                   />
                 </FormGroup>
               </Stack>
             </Stack>
 
-            <Stack direction={"row"} spacing={2}>
+            <Stack direction="row" spacing={2}>
               <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight={"fontWeightMedium"}>Privacy</Typography>
+                <Typography fontWeight="fontWeightMedium">Privacy</Typography>
               </Stack>
               <Stack spacing={2}>
                 <FormGroup>
                   <CheckboxWithForm
                     control={control}
-                    name={"emailPublic"}
+                    name="emailPublic"
                     label="Email address is public"
                   />
                   <CheckboxWithForm
                     control={control}
-                    name={"profilePublic"}
+                    name="profilePublic"
                     label="Profile is public"
                   />
                 </FormGroup>
               </Stack>
             </Stack>
 
-            <Stack direction={"row"} spacing={2}>
+            <Stack direction="row" spacing={2}>
               <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight={"fontWeightMedium"}>
+                <Typography fontWeight="fontWeightMedium">
                   Description
                 </Typography>
               </Stack>
               <Stack spacing={2}>
-                <Typography variant={"body2"}>{defaultValues?.bio}</Typography>
+                <Typography variant="body2">{defaultValues?.bio}</Typography>
               </Stack>
             </Stack>
 
-            <Stack direction={"row"} spacing={2}>
+            <Stack direction="row" spacing={2}>
               <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight={"fontWeightMedium"}>
+                <Typography fontWeight="fontWeightMedium">
                   Delete account
                 </Typography>
               </Stack>
               <Stack spacing={2}>
                 <Button
-                  variant={"contained"}
-                  color={"error"}
+                  variant="contained"
+                  color="error"
                   onClick={() => setOpen(true)}
                 >
                   Delete account
@@ -126,7 +126,7 @@ export default function AccountSettingsForm({ defaultValues }: Props) {
           </Stack>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button type={"submit"} variant={"contained"}>
+          <Button type="submit" variant="contained">
             Save changes
           </Button>
         </CardActions>

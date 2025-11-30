@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../../lib/auth";
 import { useSelector } from "react-redux";
 
-import { RootState } from "../../store";
+import type { RootState } from "../../store";
 import { navigateByRole } from "../../utils/authUtils";
 import { routesLinks } from "../../routes/index";
 

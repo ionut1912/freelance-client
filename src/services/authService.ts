@@ -1,5 +1,5 @@
-import { AxiosResponse } from "axios";
-import { LoginDto, RegisterDto, UserDto } from "../models/Accounts";
+import type { AxiosResponse } from "axios";
+import type { LoginDto, RegisterDto, UserDto } from "../models/Accounts";
 import { api, API_URL } from "./utils";
 
 export function register(payload: RegisterDto): Promise<AxiosResponse<void>> {

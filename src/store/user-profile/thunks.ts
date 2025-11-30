@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import {
+import type {
   CreateClientProfileRequest,
   CreateFreelancerProfileRequest,
   PatchUserProfileAddressRequest,
@@ -9,9 +9,9 @@ import {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
-import { PaginatedDataRequest, UpdateUserRequest } from "../../models/Ui";
+import type { PaginatedDataRequest, UpdateUserRequest } from "../../models/Ui";
 import { extractErrorMessages } from "../../utils/httpError";
-import { AppDispatch, RootState } from "../../store";
+import type { AppDispatch, RootState } from "../../store";
 import {
   deleteUserProfile,
   getCurrentUserProfile,

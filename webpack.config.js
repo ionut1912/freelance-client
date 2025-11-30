@@ -1,9 +1,13 @@
 // webpack.config.js (ESM)
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import webpack from "webpack";
 import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -11,7 +15,7 @@ export default (env = {}) => ({
   mode: env.production ? "production" : "development",
   entry: "./src/main.tsx",
   output: {
-    path: path.resolve("dist"),
+    path: path.resolve(__dirname, "dist"),
     filename: env.production ? "static/[name].[contenthash].js" : "bundle.js",
     publicPath: "/",
     clean: true,
@@ -23,7 +27,7 @@ export default (env = {}) => ({
   devtool: env.production ? "source-map" : "eval-source-map",
 
   devServer: {
-    static: { directory: path.resolve("public") },
+    static: { directory: path.resolve(__dirname, "public") },
     historyApiFallback: true,
     hot: true,
     host: "0.0.0.0",
@@ -79,7 +83,6 @@ export default (env = {}) => ({
         : "[name].css",
     }),
 
-    // evită suprascrierea întregului process.env în bundle:
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(
         env.production ? "production" : "development",

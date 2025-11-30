@@ -1,5 +1,5 @@
 import React from "react";
-import { UserRole } from "../../models/UserProfile";
+import type { UserRole } from "../../models/UserProfile";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 import UserMenu from "./user-menu/UserMenu";
 import { Stack } from "@mui/material";
@@ -15,7 +15,7 @@ export default function ToolbarElements({ role }: ToolbarElementsProps) {
   const profile = role === "Freelancer" ? freelancerProfile : clientProfile;
 
   return (
-    <Stack direction={"row"} spacing={2}>
+    <Stack direction="row" spacing={2}>
       <UserMenu profile={profile!} />
     </Stack>
   );

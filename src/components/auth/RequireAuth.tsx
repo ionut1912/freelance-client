@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { isAuthenticated } from "../../lib/auth";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import type { RootState } from "../../store";
 import { routesLinks } from "../../routes/index";
 import SideBarLayout from "../sidebar/SideBarLayout";
 import Spinner from "../wrappers/Spinner";

@@ -9,7 +9,7 @@ export default function SalesWidget() {
   const theme = useTheme();
 
   return (
-    <Widget title={"Sales summary"} contentHeight={"350px"}>
+    <Widget title="Sales summary" contentHeight="350px">
       <ResponsiveChoropleth
         data={salesData}
         features={features.features}
@@ -26,7 +26,7 @@ export default function SalesWidget() {
         projectionScale={162}
         projectionTranslation={[0.5, 0.7]}
         projectionRotation={[0, 0, 0]}
-        enableGraticule={true}
+        enableGraticule
         graticuleLineColor="#dddddd"
         borderWidth={0.5}
         borderColor="#152538"

@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Container, Tab, TabProps, Tabs } from "@mui/material";
+import type { TabProps } from "@mui/material";
+import { Box, Container, Tab, Tabs } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../store";
+import type { RootState, AppDispatch } from "../../store";
 import Spinner from "../wrappers/Spinner";
 import PageHeader from "../pageHeader/PageHeader";
 import { Business, Person, Settings } from "@mui/icons-material";
@@ -10,7 +11,7 @@ import UserForm from "../forms/UserForm";
 import AccountSettingsForm from "../forms/AccountSettingsForm";
 import AddressForm from "../forms/AddressForm";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
-import { AddressData } from "../../models/UserProfile";
+import type { AddressData } from "../../models/UserProfile";
 import { patchUserProfileAddress } from "../../store/user-profile/thunks";
 
 export default function UserAccountPage() {

@@ -1,9 +1,10 @@
 import React from "react";
-import {
+import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
-import { Avatar, AvatarProps } from "@mui/material";
+import type { AvatarProps } from "@mui/material";
+import { Avatar } from "@mui/material";
 
 interface UserAvatarProps extends AvatarProps {
   profile: ClientProfileDto | FreelancerProfileDto;

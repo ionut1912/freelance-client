@@ -1,10 +1,12 @@
-import axios, {
+import type {
   AxiosInstance,
   AxiosError,
   InternalAxiosRequestConfig,
 } from "axios";
-import { NavigateFunction } from "react-router-dom";
-import { jwtDecode, JwtPayload as DefaultJwtPayload } from "jwt-decode";
+import axios from "axios";
+import type { NavigateFunction } from "react-router-dom";
+import type { JwtPayload as DefaultJwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { routesLinks } from "../routes/index";
 interface JwtPayload extends DefaultJwtPayload {
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"?: string;

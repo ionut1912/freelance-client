@@ -1,6 +1,7 @@
-import { Typography, TypographyProps } from "@mui/material";
+import type { TypographyProps } from "@mui/material";
+import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 export const LogoText = styled(Typography, {
   name: "FreelanceHubLogo",

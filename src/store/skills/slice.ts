@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SkillsState } from "./types";
+import type { SkillsState } from "./types";
 import { loadSkills } from "./thunks";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 const initialState: SkillsState = {
   skills: [],

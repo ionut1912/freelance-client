@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LanguageState } from "./types";
+import type { LanguageState } from "./types";
 import { loadLanguages } from "./thunks";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 const initialState: LanguageState = {
   languages: [],

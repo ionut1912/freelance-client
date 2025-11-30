@@ -1,4 +1,4 @@
-import { Language } from "../../models/ExternalApis";
+import type { Language } from "../../models/ExternalApis";
 import getLanguages from "../../services/languageService";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 

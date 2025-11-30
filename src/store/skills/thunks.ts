@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GetSkillsResult } from "../../models/UserProfile";
+import type { GetSkillsResult } from "../../models/UserProfile";
 import getSkills from "../../services/skillsService";
 
 export const loadSkills = createAsyncThunk<
