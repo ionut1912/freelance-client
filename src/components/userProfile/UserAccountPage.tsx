@@ -3,7 +3,7 @@ import { Box, Container, Tab, TabProps, Tabs } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../store";
 import Spinner from "../wrappers/Spinner";
-import PageHeader from "../pageHeader/PageHeader";
+import PageHeader from "../PageHeader/PageHeader";
 import { Business, Person, Settings } from "@mui/icons-material";
 import TabPanel from "./TabPanel";
 import UserForm from "../forms/UserForm";
