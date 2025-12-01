@@ -1,7 +1,8 @@
-import { ListItemButton, ListItemButtonProps } from "@mui/material";
+import type { ListItemButtonProps } from "@mui/material";
+import { ListItemButton } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
-import { PropsWithChildren } from "react";
-import { NavigationListItemButtonProps } from "../../../../models/Ui";
+import type { PropsWithChildren } from "react";
+import type { NavigationListItemButtonProps } from "../../../../models/Ui";
 
 export const NavigationListItemButton = styled(ListItemButton, {
   name: "FoxUiNavigationItem",

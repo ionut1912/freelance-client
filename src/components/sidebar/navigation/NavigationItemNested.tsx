@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import NavigationItemSimple from "./NavigationItemSimple";
-import { NavigationItemNestedType } from "../../../models/Ui";
+import type { NavigationItemNestedType } from "../../../models/Ui";
 import { NavigationListItemButton } from "./styled/NavigationListItemButton";
 import { NavigationListItemIcon } from "./styled/NavigationListItemIcon";
 import { Collapse, List, ListItemText, Stack, Typography } from "@mui/material";
@@ -43,7 +43,7 @@ export default function NavigationItemNested({ item }: Props) {
             sx={{ margin: 0 }}
           />
           {item?.description ? (
-            <Typography variant={"caption"}>{item.description}</Typography>
+            <Typography variant="caption">{item.description}</Typography>
           ) : null}
         </Stack>
         {isOpen ? <ExpandLess /> : <ExpandMore />}

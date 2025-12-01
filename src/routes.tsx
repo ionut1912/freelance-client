@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import type { RouteObject } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./root";
 import Spinner from "./components/wrappers/Spinner";
 import ErrorBoundary from "./components/errors/ErrorBoundary";

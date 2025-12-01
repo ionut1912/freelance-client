@@ -1,5 +1,5 @@
 import React from "react";
-import { NavigationItemType } from "../../../models/Ui";
+import type { NavigationItemType } from "../../../models/Ui";
 import NavigationItemHeader from "./NavigationItemHeader";
 
 import NavigationItemNested from "./NavigationItemNested";

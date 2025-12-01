@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { UserRole } from "../../../models/UserProfile";
+import type { UserRole } from "../../../models/UserProfile";
 import { LogoImgContainer } from "./styled/LogoImgContainer";
 import { LogoImg } from "./styled/LogoImg";
 import { LogoText } from "./styled/LogoText";
@@ -24,12 +24,12 @@ export const Logo = ({ invertImage, role }: Params) => {
         "&:hover": { opacity: 0.8 },
       }}
       onClick={() => navigateByRole(role, navigate)}
-      component={"a"}
+      component="a"
     >
       <LogoImgContainer invertImage={invertImage}>
         <LogoImg component="img" src="/assets/logo.png" alt="" />
       </LogoImgContainer>
-      <LogoText component={"h1"}>FreelanceHub</LogoText>
+      <LogoText component="h1">FreelanceHub</LogoText>
     </Box>
   );
 };

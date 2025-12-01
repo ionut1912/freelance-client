@@ -1,5 +1,6 @@
 import React from "react";
-import Widget, { WidgetProps } from "../Widget";
+import type { WidgetProps } from "../Widget";
+import Widget from "../Widget";
 import { Stack, Typography } from "@mui/material";
 
 interface StatWidgetProps extends WidgetProps {
@@ -15,19 +16,15 @@ export default function StatWidget({
   return (
     <Widget title={title} sx={{ minHeight: "120px" }}>
       <Stack
-        direction={"column"}
-        justifyContent={"space-between"}
-        alignItems={"flex-start"}
+        direction="column"
+        justifyContent="space-between"
+        alignItems="flex-start"
       >
-        <Typography
-          variant={"h4"}
-          component={"p"}
-          fontWeight={"fontWeightBold"}
-        >
+        <Typography variant="h4" component="p" fontWeight="fontWeightBold">
           {value}
         </Typography>
         {footerText ? (
-          <Typography variant={"body2"}>{footerText}</Typography>
+          <Typography variant="body2">{footerText}</Typography>
         ) : null}
       </Stack>
     </Widget>

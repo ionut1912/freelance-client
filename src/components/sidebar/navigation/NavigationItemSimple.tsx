@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import {
+import type {
   NavigationItemIconProps,
   NavigationItemSimpleType,
   NavigationItemSimpleTypeWithoutIcon,
@@ -51,17 +51,17 @@ export default function NavigationItemSimple({
       ) : (
         <NavigationListItemNestedIcon>
           <Zoom in={animateOn}>
-            <Circle color={"inherit"} fontSize={"inherit"} />
+            <Circle color="inherit" fontSize="inherit" />
           </Zoom>
         </NavigationListItemNestedIcon>
       )}
       <Stack
-        justifyContent={"flex-start"}
-        alignItems={"flex-start"}
-        textOverflow={"ellipsis"}
-        whiteSpace={"nowrap"}
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
         minWidth={0}
-        overflow={"hidden"}
+        overflow="hidden"
         flex={1}
       >
         <ListItemText
@@ -71,17 +71,17 @@ export default function NavigationItemSimple({
         />
         {item?.description ? (
           <Typography
-            variant={"caption"}
-            overflow={"hidden"}
-            textOverflow={"ellipsis"}
-            whiteSpace={"nowrap"}
-            maxWidth={"100%"}
+            variant="caption"
+            overflow="hidden"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            maxWidth="100%"
           >
             {item.description}
           </Typography>
         ) : null}
       </Stack>
-      <Stack direction={"row"} alignItems={"center"} spacing={1}>
+      <Stack direction="row" alignItems="center" spacing={1}>
         {shouldDisplayLaunchIcon ? <Launch /> : null}
         {shouldDisplayBadge ? (
           <NavigationItemBadge

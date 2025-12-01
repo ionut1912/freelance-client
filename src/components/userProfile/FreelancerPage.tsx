@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
+import type { AppDispatch, RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel, Button, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
-import {
+import type {
   AddressData,
   UserData,
   FreelancerData,

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { AppDispatch, RootState } from "../store";
+import type { AppDispatch, RootState } from "../store";
 import { loadCurrentUserProfile } from "../store/user-profile/thunks";
 
 export function useCurrentUser() {

@@ -1,9 +1,9 @@
-import {
+import type {
   CreateFreelancerProfileRequest,
   PatchFreelancerProfielRequest,
 } from "../models/UserProfile";
 import { api, API_URL } from "./utils";
-import { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 ``;
 export function createFreelancerProfile(
   payload: CreateFreelancerProfileRequest,

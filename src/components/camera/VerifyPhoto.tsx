@@ -8,9 +8,9 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../../store";
+import type { AppDispatch } from "../../store";
 import { verifyCapturedFace } from "../../store/face-verification/thunks";
-import {
+import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";

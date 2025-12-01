@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadCities } from "./thunks";
-import { CityState } from "./types";
+import type { CityState } from "./types";
 
 const initialState: CityState = {
   cities: [],

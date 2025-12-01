@@ -1,6 +1,6 @@
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { verifyCapturedFace } from "./thunks";
-import { FaceVerificationState } from "./types";
+import type { FaceVerificationState } from "./types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: FaceVerificationState = {

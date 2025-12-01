@@ -50,7 +50,7 @@ export default function CalendarPage() {
 
             return (
               <Box
-                className={"react-calendar__tile-content"}
+                className="react-calendar__tile-content"
                 data-id={event.id}
                 key={event.id}
                 sx={{
@@ -100,21 +100,21 @@ export default function CalendarPage() {
                 )}
                 <Typography
                   fontSize={12}
-                  textAlign={"left"}
+                  textAlign="left"
                   title={event.name}
-                  textOverflow={"ellipsis"}
-                  overflow={"hidden"}
-                  whiteSpace={"nowrap"}
+                  textOverflow="ellipsis"
+                  overflow="hidden"
+                  whiteSpace="nowrap"
                 >
                   {!isMultiDayEvent && (
-                    <Typography component={"span"} fontSize={"inherit"}>
+                    <Typography component="span" fontSize="inherit">
                       {eventTime}{" "}
                     </Typography>
                   )}
                   <Typography
-                    component={"span"}
-                    fontSize={"inherit"}
-                    fontWeight={"fontWeightMedium"}
+                    component="span"
+                    fontSize="inherit"
+                    fontWeight="fontWeightMedium"
                   >
                     {showEventName ? event.name : <>&nbsp;</>}
                   </Typography>

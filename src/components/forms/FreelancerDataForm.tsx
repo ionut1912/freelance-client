@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, TextField, Autocomplete, Button } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import { useForm } from "../../hooks/useForm";
-import { FreelancerData, SkillDto } from "../../models/UserProfile";
-import { AppDispatch, RootState } from "../../store";
+import type { FreelancerData, SkillDto } from "../../models/UserProfile";
+import type { AppDispatch, RootState } from "../../store";
 import { loadSkills } from "../../store/skills/thunks";
 import { loadLanguages } from "../../store/language/thunks";
-import { Language } from "../../models/ExternalApis";
+import type { Language } from "../../models/ExternalApis";
 import Spinner from "../wrappers/Spinner";
 import { freelnacerValidationSchema } from "../../utils/schemaValidators";
 

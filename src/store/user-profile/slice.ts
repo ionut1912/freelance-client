@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserProfileState } from "./types";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { UserProfileState } from "./types";
 import {
   loadCurrentUserProfile,
   saveClientProfile,

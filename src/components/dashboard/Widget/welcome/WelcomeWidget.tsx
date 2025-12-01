@@ -15,13 +15,13 @@ export default function WelcomeWidget({
   return (
     <WelcomeWidgetContainer>
       <WelcomeWidgetContent>
-        <Typography variant={"h3"} fontWeight={"fontWeightBold"}>
+        <Typography variant="h3" fontWeight="fontWeightBold">
           {title}
         </Typography>
-        <Typography variant={"body1"} mb={1}>
+        <Typography variant="body1" mb={1}>
           {description}
         </Typography>
-        <Button color={"primary"} variant={"outlined"} size={"small"}>
+        <Button color="primary" variant="outlined" size="small">
           Documentation
         </Button>
       </WelcomeWidgetContent>

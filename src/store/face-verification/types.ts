@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { VerifyFaceResult } from "../../models/UserProfile";
+import type { AxiosError } from "axios";
+import type { VerifyFaceResult } from "../../models/UserProfile";
 
 export interface FaceVerificationState {
   verifyFaceResult: VerifyFaceResult | null;

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { NavigateFunction } from "react-router-dom";
-import { RegisterDto, LoginDto, UserDto } from "../../models/Accounts";
+import type { NavigateFunction } from "react-router-dom";
+import type { RegisterDto, LoginDto, UserDto } from "../../models/Accounts";
 import { routesLinks } from "../../routes/index";
 import {
   register,
