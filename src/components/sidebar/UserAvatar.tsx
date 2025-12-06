@@ -3,14 +3,13 @@ import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
-import type { AvatarProps } from "@mui/material";
-import { Avatar } from "@mui/material";
+import { Avatar, type AvatarProps } from "@mui/material";
 
 interface UserAvatarProps extends AvatarProps {
   profile: ClientProfileDto | FreelancerProfileDto;
 }
 
-export default function UserAvatar({ profile, ...props }: UserAvatarProps) {
+const UserAvatar = ({ profile, ...props }: UserAvatarProps) => {
   return (
     <Avatar
       src={profile.image}
@@ -23,4 +22,6 @@ export default function UserAvatar({ profile, ...props }: UserAvatarProps) {
       }}
     />
   );
-}
+};
+
+export default UserAvatar;

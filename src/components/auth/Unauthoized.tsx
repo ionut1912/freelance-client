@@ -1,9 +1,12 @@
 import { Lock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { routesLinks } from "../../routes/index";
-export default function Unauthorized() {
-  const location = useLocation() as any;
-  const fromPath = location?.state?.from?.pathname ?? routesLinks.home;
+
+const Unauthorized = () => {
+  const location = useLocation();
+  const fromPath =
+    (location.state as { from?: { pathname?: string } } | null)?.from
+      ?.pathname ?? routesLinks.home;
 
   return (
     <main className="min-h-dvh grid place-items-center bg-gradient-to-b from-slate-50 to-white">
@@ -46,4 +49,6 @@ export default function Unauthorized() {
       </section>
     </main>
   );
-}
+};
+
+export default Unauthorized;

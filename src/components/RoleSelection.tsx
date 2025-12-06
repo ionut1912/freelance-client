@@ -17,7 +17,8 @@ import { setRole } from "../store/auth/slice";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../store";
 import { routesLinks } from "../routes/index";
-export default function RoleSelection() {
+
+const RoleSelection = () => {
   const [role, setRoleState] = useState<UserRole>("Client");
   const dispatch = useDispatch<AppDispatch>();
   const roles = [
@@ -104,4 +105,6 @@ export default function RoleSelection() {
       </Box>
     </Box>
   );
-}
+};
+
+export default RoleSelection;

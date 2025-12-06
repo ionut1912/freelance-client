@@ -22,7 +22,7 @@ export const registerUser = createAsyncThunk<
   try {
     await register(payload);
     toast.success("Register successful");
-    navigate(routesLinks.login);
+    await navigate(routesLinks.login);
   } catch (error) {
     const messages = extractErrorMessages(error);
     messages.forEach((m) => toast.error(m));
@@ -57,7 +57,7 @@ export const blockUserAccount = createAsyncThunk<
   try {
     await blockAccount(id);
     toast.error("Account blocked");
-    navigate(routesLinks.login);
+    await navigate(routesLinks.login);
   } catch (error) {
     const messages = extractErrorMessages(error);
     messages.forEach((m) => toast.error(m));
@@ -88,7 +88,7 @@ export const deleteCurrentUserAccount = createAsyncThunk<
   async ({ navigate }, { rejectWithValue }) => {
     try {
       await deleteCurrentAccount();
-      navigate(routesLinks.home);
+      await navigate(routesLinks.home);
     } catch (error) {
       const messages = extractErrorMessages(error);
       messages.forEach((m) => toast.error(m));

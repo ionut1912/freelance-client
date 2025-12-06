@@ -25,8 +25,7 @@ interface NavigationItemBaseType {
 }
 
 interface NavigationItemSimpleType
-  extends NavigationItemBaseType,
-    NavigationItemIcon {
+  extends NavigationItemBaseType, NavigationItemIcon {
   path: string;
   badgeText?: string | number;
   badgeColor?: NavigationItemIconColor;
@@ -39,8 +38,7 @@ type NavigationItemSimpleTypeWithoutIcon = Omit<
 >;
 
 interface NavigationItemNestedType
-  extends NavigationItemBaseType,
-    NavigationItemIcon {
+  extends NavigationItemBaseType, NavigationItemIcon {
   items: NavigationItemSimpleTypeWithoutIcon[];
 }
 

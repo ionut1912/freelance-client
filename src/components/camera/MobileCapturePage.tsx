@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { createHubConnection } from "../../lib/signalr";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "";
+const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
 const MAX_BASE64_CHARS = 40_000;
 const TARGET_W = 640;
@@ -22,9 +22,13 @@ async function getFrontCameraStream(): Promise<MediaStream> {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoInputs = devices.filter((d) => d.kind === "videoinput");
     const front =
-      videoInputs.find((d) => /front|facetime|user/i.test(d.label || "")) ||
-      videoInputs[0];
-    if (!front) throw new Error("Nu am găsit cameră video pe acest device.");
+      videoInputs.find((d) => /front|facetime|user/i.test(d.label || "")) ??
+      videoInputs.at(0);
+
+    if (!front) {
+      throw new Error("Nu am găsit cameră video pe acest device.");
+    }
+
     return await navigator.mediaDevices.getUserMedia({
       video: { deviceId: { exact: front.deviceId } },
       audio: false,
@@ -32,34 +36,34 @@ async function getFrontCameraStream(): Promise<MediaStream> {
   }
 }
 
-export default function MobileCapturePage() {
+const MobileCapturePage = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [ready, setReady] = useState(false);
   const [sending, setSending] = useState(false);
 
   const params = new URLSearchParams(window.location.search);
-  const sessionId = params.get("session") || "";
+  const sessionId = params.get("session") ?? "";
 
   useEffect(() => {
-    let active = true;
-    (async () => {
+    const videoElement = videoRef.current;
+    void (async () => {
       try {
         const stream = await getFrontCameraStream();
-        if (!active) return;
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
+        if (videoElement) {
+          videoElement.srcObject = stream;
           setReady(true);
+        } else {
+          stream.getTracks().forEach((t) => t.stop());
         }
       } catch (e) {
         alert((e as Error).message);
       }
     })();
     return () => {
-      active = false;
-      const s = videoRef.current?.srcObject as MediaStream | null;
+      const s = videoElement?.srcObject as MediaStream | null;
       s?.getTracks().forEach((t) => t.stop());
-      if (videoRef.current) videoRef.current.srcObject = null;
+      if (videoElement) videoElement.srcObject = null;
     };
   }, []);
 
@@ -121,10 +125,13 @@ export default function MobileCapturePage() {
       }
 
       const conn = createHubConnection(API_BASE);
-      await conn.start();
-      await conn.invoke("Join", sessionId);
-      await conn.invoke("SendPhotoDataUrl", sessionId, dataUrl);
-      await conn.stop();
+      try {
+        await conn.start();
+        await conn.invoke("Join", sessionId);
+        await conn.invoke("SendPhotoDataUrl", sessionId, dataUrl);
+      } finally {
+        await conn.stop();
+      }
 
       alert(`Foto trimisă (q=${q.toFixed(1)}). Revino pe desktop.`);
     } catch (e) {
@@ -154,4 +161,6 @@ export default function MobileCapturePage() {
       </Button>
     </Box>
   );
-}
+};
+
+export default MobileCapturePage;

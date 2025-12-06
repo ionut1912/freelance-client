@@ -5,9 +5,7 @@ interface NavigationItemHeaderProps {
   header: string;
 }
 
-export default function NavigationItemHeader({
-  header,
-}: NavigationItemHeaderProps) {
+const NavigationItemHeader = ({ header }: NavigationItemHeaderProps) => {
   return (
     <ListSubheader
       component="div"
@@ -26,4 +24,6 @@ export default function NavigationItemHeader({
       {header}
     </ListSubheader>
   );
-}
+};
+
+export default NavigationItemHeader;

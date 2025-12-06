@@ -8,7 +8,7 @@ interface Props {
   item: NavigationItemType;
 }
 
-export default function NavigationItem({ item }: Props) {
+const NavigationItem = ({ item }: Props) => {
   const isSimple = "path" in item;
   const isHeader = "header" in item;
 
@@ -21,4 +21,6 @@ export default function NavigationItem({ item }: Props) {
   ) : (
     <NavigationItemNested item={item} />
   );
-}
+};
+
+export default NavigationItem;

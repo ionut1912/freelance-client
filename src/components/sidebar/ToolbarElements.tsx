@@ -7,7 +7,8 @@ import Spinner from "../wrappers/Spinner";
 interface ToolbarElementsProps {
   role: UserRole;
 }
-export default function ToolbarElements({ role }: ToolbarElementsProps) {
+
+const ToolbarElements = ({ role }: ToolbarElementsProps) => {
   const { freelancerProfile, clientProfile, loading } = useCurrentUser();
   if (loading) {
     return <Spinner />;
@@ -16,7 +17,9 @@ export default function ToolbarElements({ role }: ToolbarElementsProps) {
 
   return (
     <Stack direction="row" spacing={2}>
-      <UserMenu profile={profile!} />
+      {profile !== undefined && <UserMenu profile={profile} />}
     </Stack>
   );
-}
+};
+
+export default ToolbarElements;

@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { SkillsState } from "./types";
 import { loadSkills } from "./thunks";
-import type { AxiosError } from "axios";
 
 const initialState: SkillsState = {
   skills: [],
@@ -20,7 +19,7 @@ const skillsSlice = createSlice({
         state.error = null;
       })
       .addCase(loadSkills.rejected, (state, action) => {
-        state.error = (action.error as AxiosError) ?? null;
+        state.error = action.error.message as string;
       });
   },
 });

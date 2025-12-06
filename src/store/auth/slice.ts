@@ -1,5 +1,4 @@
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState } from "./types";
 import {
   loginUser,
@@ -35,7 +34,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload?.user ?? null;
-        state.role = (action.payload?.role as UserRole) ?? null;
+        state.role = action.payload?.role as UserRole;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {

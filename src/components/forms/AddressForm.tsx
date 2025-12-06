@@ -21,10 +21,10 @@ const DEFAULT_ADDR: AddressData = {
   addressZip: "",
 };
 
-export default function AddressForm({
+const AddressForm = ({
   initialValues = DEFAULT_ADDR,
   onSubmit,
-}: AddressFormProps) {
+}: AddressFormProps) => {
   const frozenInitials = React.useRef(initialValues).current;
 
   const formik = useForm<AddressData>(
@@ -51,9 +51,9 @@ export default function AddressForm({
         options={countries}
         value={formik.values.addressCountry || null}
         onChange={(_, newValue) => {
-          formik.setFieldValue("addressCountry", newValue ?? "");
-          formik.setFieldValue("addressCity", "");
-          formik.setFieldTouched("addressCountry", true);
+          void formik.setFieldValue("addressCountry", newValue ?? "");
+          void formik.setFieldValue("addressCity", "");
+          void formik.setFieldTouched("addressCountry", true);
         }}
         loading={showCountriesLoading}
         renderInput={(params) => (
@@ -66,14 +66,16 @@ export default function AddressForm({
               !!(formik.touched.addressCountry && formik.errors.addressCountry)
             }
             helperText={
-              formik.touched.addressCountry && formik.errors.addressCountry
+              formik.touched.addressCountry
+                ? formik.errors.addressCountry
+                : null
             }
             InputProps={{
               ...params.InputProps,
               endAdornment: (
                 <>
                   {showCountriesLoading ? <Spinner /> : null}
-                  {params.InputProps?.endAdornment}
+                  {params.InputProps.endAdornment}
                 </>
               ),
             }}
@@ -85,8 +87,8 @@ export default function AddressForm({
         options={cities}
         value={formik.values.addressCity || null}
         onChange={(_, newValue) => {
-          formik.setFieldValue("addressCity", newValue ?? "");
-          formik.setFieldTouched("addressCity", true);
+          void formik.setFieldValue("addressCity", newValue ?? "");
+          void formik.setFieldTouched("addressCity", true);
         }}
         loading={showCitiesLoading}
         disabled={!formik.values.addressCountry}
@@ -97,13 +99,15 @@ export default function AddressForm({
             fullWidth
             margin="normal"
             error={!!(formik.touched.addressCity && formik.errors.addressCity)}
-            helperText={formik.touched.addressCity && formik.errors.addressCity}
+            helperText={
+              formik.touched.addressCity ? formik.errors.addressCity : null
+            }
             InputProps={{
               ...params.InputProps,
               endAdornment: (
                 <>
                   {showCitiesLoading ? <Spinner /> : null}
-                  {params.InputProps?.endAdornment}
+                  {params.InputProps.endAdornment}
                 </>
               ),
             }}
@@ -118,7 +122,9 @@ export default function AddressForm({
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={!!(formik.touched.addressStreet && formik.errors.addressStreet)}
-        helperText={formik.touched.addressStreet && formik.errors.addressStreet}
+        helperText={
+          formik.touched.addressStreet ? formik.errors.addressStreet : null
+        }
         fullWidth
         margin="normal"
       />
@@ -136,8 +142,9 @@ export default function AddressForm({
           )
         }
         helperText={
-          formik.touched.addressStreetNumber &&
-          formik.errors.addressStreetNumber
+          formik.touched.addressStreetNumber
+            ? formik.errors.addressStreetNumber
+            : null
         }
         fullWidth
         margin="normal"
@@ -150,7 +157,7 @@ export default function AddressForm({
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={!!(formik.touched.addressZip && formik.errors.addressZip)}
-        helperText={formik.touched.addressZip && formik.errors.addressZip}
+        helperText={formik.touched.addressZip ? formik.errors.addressZip : null}
         fullWidth
         margin="normal"
       />
@@ -166,4 +173,6 @@ export default function AddressForm({
       </Box>
     </Box>
   );
-}
+};
+
+export default AddressForm;

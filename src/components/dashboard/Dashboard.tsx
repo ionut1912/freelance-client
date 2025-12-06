@@ -6,7 +6,7 @@ import StatWidget from "./Widget/stat/StatWidget";
 import SalesWidget from "./Widget/sales/SalesWidget";
 import UsersStatsWidget from "./Widget/user-stats/UsersStatsWidget";
 
-export default function Dashboard() {
+const Dashboard = () => {
   return (
     <Container maxWidth={false}>
       <PageHeader title="Dashboard" />
@@ -64,4 +64,5 @@ export default function Dashboard() {
       </Grid>
     </Container>
   );
-}
+};
+export default Dashboard;

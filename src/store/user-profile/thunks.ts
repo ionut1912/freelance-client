@@ -39,7 +39,7 @@ export const loadCurrentUserProfile = createAsyncThunk<
   if (role === "Client") {
     const dto = response.data as ClientProfileDto;
     return {
-      clientProfiles: dto ? [dto] : [],
+      clientProfiles: [dto],
       freelancerProfiles: [],
     };
   }
@@ -47,7 +47,7 @@ export const loadCurrentUserProfile = createAsyncThunk<
     const dto = response.data as FreelancerProfileDto;
     return {
       clientProfiles: [],
-      freelancerProfiles: dto ? [dto] : [],
+      freelancerProfiles: [dto],
     };
   }
 
@@ -64,7 +64,7 @@ export const patchImage = createAsyncThunk<
     try {
       await updateImage(payload);
       toast.success("Image updated successfully");
-      dispatch(loadCurrentUserProfile());
+      void dispatch(loadCurrentUserProfile());
     } catch (error) {
       const messages = extractErrorMessages(error);
       messages.forEach((m) => toast.error(m));
@@ -83,7 +83,7 @@ export const saveClientProfile = createAsyncThunk<
     try {
       await createClientProfile(payload);
       toast.success("Client profile created successfully");
-      dispatch(loadCurrentUserProfile());
+      void dispatch(loadCurrentUserProfile());
     } catch (error) {
       const messages = extractErrorMessages(error);
       messages.forEach((m) => toast.error(m));
@@ -102,7 +102,7 @@ export const saveFreelancerProfile = createAsyncThunk<
     try {
       await createFreelancerProfile(payload);
       toast.success("Freelancer profile created successfully");
-      dispatch(loadCurrentUserProfile());
+      void dispatch(loadCurrentUserProfile());
     } catch (error) {
       const messages = extractErrorMessages(error);
       messages.forEach((m) => toast.error(m));
@@ -147,7 +147,7 @@ export const patchUserData = createAsyncThunk<
     try {
       await updateUserData(payload);
       toast.success("Profile updated successfully");
-      dispatch(loadCurrentUserProfile());
+      void dispatch(loadCurrentUserProfile());
     } catch (error) {
       const messages = extractErrorMessages(error);
       messages.forEach((m) => toast.error(m));
@@ -166,7 +166,7 @@ export const patchUserProfileAddress = createAsyncThunk<
     try {
       await updateUserProfileAddress(payload);
       toast.success("Address updated successfully");
-      dispatch(loadCurrentUserProfile());
+      void dispatch(loadCurrentUserProfile());
     } catch (error) {
       const messages = extractErrorMessages(error);
       messages.forEach((m) => toast.error(m));
@@ -185,7 +185,7 @@ export const patchFreelancerData = createAsyncThunk<
     try {
       await updateFreelancerProfileData(payload);
       toast.success("Freelancer details updated successfully");
-      dispatch(loadCurrentUserProfile());
+      void dispatch(loadCurrentUserProfile());
     } catch (error) {
       const messages = extractErrorMessages(error);
       messages.forEach((m) => toast.error(m));

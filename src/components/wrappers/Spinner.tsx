@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, CircularProgress } from "@mui/material";
 
-export default function Spinner() {
+const Spinner = () => {
   return (
     <Box
       sx={{
@@ -15,4 +15,6 @@ export default function Spinner() {
       <CircularProgress size={48} thickness={4} />
     </Box>
   );
-}
+};
+
+export default Spinner;

@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
-export default function RootLayout() {
+const RootLayout = () => {
   return (
     <div>
       <main>
@@ -11,4 +11,6 @@ export default function RootLayout() {
       </main>
     </div>
   );
-}
+};
+
+export default RootLayout;

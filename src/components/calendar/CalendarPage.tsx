@@ -4,13 +4,11 @@ import { Box, Container, Typography } from "@mui/material";
 import { CalendarStyles } from "./styles/styles";
 import Calendar from "react-calendar";
 
-export default function CalendarPage() {
+const CalendarPage = () => {
   const { data } = useCalendar();
   const [hoveredEvent, setHoveredEvent] = useState<string>("");
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
-    if (!data) return;
-
     if (view === "month") {
       const events = data.find((data) => {
         const newDate = new Date(data.date);
@@ -48,6 +46,19 @@ export default function CalendarPage() {
             const handleMouseOver = () => setHoveredEvent(event.id);
             const handleMouseLeave = () => setHoveredEvent("");
 
+            const getBorderRadius = () => {
+              if (isFirstDay) return "4px 0 0 4px";
+              if (isLastDay) return "0 4px 4px 0";
+              if (isMultiDayEvent) return "0";
+              return "4px";
+            };
+
+            const getBackgroundColor = () => {
+              if (isHover && isMultiDayEvent) return "primary.dark";
+              if (isHover) return "grey.200";
+              return undefined;
+            };
+
             return (
               <Box
                 className="react-calendar__tile-content"
@@ -63,40 +74,32 @@ export default function CalendarPage() {
                   color: isMultiDayEvent
                     ? "primary.contrastText"
                     : "text.primary",
-                  borderRadius: isFirstDay
-                    ? "4px 0 0 4px"
-                    : isLastDay
-                      ? "0 4px 4px 0"
-                      : isMultiDayEvent
-                        ? "0"
-                        : "4px",
+                  borderRadius: getBorderRadius(),
                   cursor: "pointer",
                   transition: "all 0.1s ease-in-out",
                   ...(isHover && {
-                    backgroundColor: isMultiDayEvent
-                      ? "primary.dark"
-                      : "grey.200",
+                    backgroundColor:
+                      getBackgroundColor() ??
+                      (isMultiDayEvent ? "primary.dark" : "grey.200"),
                   }),
                 }}
                 onMouseEnter={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
               >
                 {!isMultiDayEvent && (
-                  <>
-                    <Box
-                      sx={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        backgroundColor: "primary.main",
-                        position: "absolute",
-                        top: "50%",
-                        left: 8,
-                        content: '""',
-                        transform: "translate(-50%, -50%)",
-                      }}
-                    />
-                  </>
+                  <Box
+                    sx={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      backgroundColor: "primary.main",
+                      position: "absolute",
+                      top: "50%",
+                      left: 8,
+                      content: '""',
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  />
                 )}
                 <Typography
                   fontSize={12}
@@ -132,12 +135,10 @@ export default function CalendarPage() {
   return (
     <Container>
       <CalendarStyles>
-        <Calendar
-          tileContent={tileContent}
-          onChange={console.log}
-          value={new Date()}
-        />
+        <Calendar tileContent={tileContent} value={new Date()} />
       </CalendarStyles>
     </Container>
   );
-}
+};
+
+export default CalendarPage;

@@ -22,7 +22,7 @@ const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
   phoneNumber: "",
 };
 
-export default function RegisterForm() {
+const RegisterForm = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role);
@@ -32,7 +32,7 @@ export default function RegisterForm() {
     registerValidationSchema,
     (values) => {
       if (role) {
-        dispatch(registerUser({ payload: { ...values, role }, navigate }));
+        void dispatch(registerUser({ payload: { ...values, role }, navigate }));
       }
     },
     true,
@@ -104,4 +104,5 @@ export default function RegisterForm() {
       </Card>
     </Box>
   );
-}
+};
+export default RegisterForm;

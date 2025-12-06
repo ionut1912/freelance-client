@@ -3,8 +3,11 @@ import type {
   LoadCitiesPayload,
   LoadCitiesResult,
 } from "../../models/ExternalApis";
-import type { AxiosError } from "axios";
-import axios from "axios";
+import axios, { type AxiosError } from "axios";
+
+interface CitiesApiResponse {
+  data: string[];
+}
 
 export const loadCities = createAsyncThunk<
   LoadCitiesResult,
@@ -13,8 +16,8 @@ export const loadCities = createAsyncThunk<
 >("city/loadCities", async ({ country }, { rejectWithValue }) => {
   try {
     const apiUrl = `https://countriesnow.space/api/v0.1/countries/cities`;
-    const response = await axios.post(apiUrl, { country });
-    const cities: string[] = response.data.data || [];
+    const response = await axios.post<CitiesApiResponse>(apiUrl, { country });
+    const cities: string[] = response.data.data;
     return { cities };
   } catch (error) {
     const err = error as AxiosError;

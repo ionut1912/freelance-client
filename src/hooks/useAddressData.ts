@@ -6,18 +6,16 @@ import { loadCountries } from "../store/country/thunks";
 
 export const useAddressData = (country?: string) => {
   const dispatch = useDispatch<AppDispatch>();
-  const countries = useSelector(
-    (state: RootState) => state.country.countries || [],
-  );
-  const cities = useSelector((state: RootState) => state.city.cities || []);
+  const countries = useSelector((state: RootState) => state.country.countries);
+  const cities = useSelector((state: RootState) => state.city.cities);
 
   useEffect(() => {
-    dispatch(loadCountries());
+    void dispatch(loadCountries());
   }, [dispatch]);
 
   useEffect(() => {
     if (country) {
-      dispatch(loadCities({ country }));
+      void dispatch(loadCities({ country }));
     }
   }, [country, dispatch]);
 

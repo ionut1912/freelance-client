@@ -1,16 +1,23 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
 import React from "react";
-import { Controller } from "react-hook-form";
+import {
+  Controller,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
 
-export default function CheckboxWithForm({
+interface CheckboxWithFormProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>;
+  label: string;
+}
+
+const CheckboxWithForm = <T extends FieldValues>({
   control,
   name,
   label,
-}: {
-  control: any;
-  name: string;
-  label: string;
-}) {
+}: CheckboxWithFormProps<T>) => {
   return (
     <Controller
       control={control}
@@ -21,7 +28,7 @@ export default function CheckboxWithForm({
             <Checkbox
               onBlur={onBlur}
               onChange={onChange}
-              checked={value}
+              checked={value as boolean}
               inputRef={ref}
             />
           }
@@ -30,4 +37,6 @@ export default function CheckboxWithForm({
       )}
     />
   );
-}
+};
+
+export default CheckboxWithForm;

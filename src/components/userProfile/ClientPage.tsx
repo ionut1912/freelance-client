@@ -20,7 +20,7 @@ import Spinner from "../wrappers/Spinner";
 import { routesLinks } from "../../routes/index";
 import Dashboard from "../dashboard/Dashboard";
 
-export default function ClientPage() {
+const ClientPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ export default function ClientPage() {
   const [userData, setUserData] = useState<UserData>({ bio: "", image: "" });
 
   useEffect(() => {
-    dispatch(loadCurrentUserProfile());
+    void dispatch(loadCurrentUserProfile());
   }, [dispatch]);
 
   if (loading) return <Spinner />;
@@ -77,7 +77,7 @@ export default function ClientPage() {
               user: vals,
             } as CreateClientProfileRequest),
           );
-          navigate(routesLinks.client);
+          void navigate(routesLinks.client);
         }}
       />
     );
@@ -107,4 +107,5 @@ export default function ClientPage() {
       </Box>
     </Box>
   );
-}
+};
+export default ClientPage;

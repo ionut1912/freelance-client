@@ -22,7 +22,7 @@ import UserDataForm from "../forms/UserDataForm";
 import Spinner from "../wrappers/Spinner";
 import Dashboard from "../dashboard/Dashboard";
 
-export default function FreelancerPage() {
+const FreelancerPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ export default function FreelancerPage() {
   });
 
   useEffect(() => {
-    dispatch(loadCurrentUserProfile());
+    void dispatch(loadCurrentUserProfile());
   }, [dispatch]);
 
   if (loading) return <Spinner />;
@@ -99,7 +99,7 @@ export default function FreelancerPage() {
               freelancer: vals,
             } as CreateFreelancerProfileRequest),
           );
-          navigate(routesLinks.freelancer);
+          void navigate(routesLinks.freelancer);
         }}
       />
     );
@@ -129,4 +129,6 @@ export default function FreelancerPage() {
       </Box>
     </Box>
   );
-}
+};
+
+export default FreelancerPage;

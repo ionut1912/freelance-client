@@ -1,9 +1,11 @@
 import Unauthorized from "../components/auth/Unauthoized";
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <Unauthorized />
     </section>
   );
-}
+};
+
+export default Home;

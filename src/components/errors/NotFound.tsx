@@ -7,14 +7,14 @@ import type { RootState } from "../../store";
 import { navigateByRole } from "../../utils/authUtils";
 import { routesLinks } from "../../routes/index";
 
-export default function NotFound() {
+const NotFound = () => {
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role);
   const handleReturnHome = () => {
-    if (!isAuthenticated) {
-      navigate(routesLinks.home);
+    if (!isAuthenticated()) {
+      void navigate(routesLinks.home);
     } else {
-      navigateByRole(role!, navigate);
+      navigateByRole(role, navigate);
     }
   };
   return (
@@ -39,4 +39,6 @@ export default function NotFound() {
       </div>
     </Container>
   );
-}
+};
+
+export default NotFound;

@@ -10,7 +10,8 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 interface Props {
   item: NavigationItemNestedType;
 }
-export default function NavigationItemNested({ item }: Props) {
+
+const NavigationItemNested = ({ item }: Props) => {
   const { getIsOpen, toggleNavigationId } = useAppNavigation();
   const isOpen = getIsOpen(item.label);
 
@@ -42,7 +43,7 @@ export default function NavigationItemNested({ item }: Props) {
             primaryTypographyProps={listItemPrimaryTypographyProps}
             sx={{ margin: 0 }}
           />
-          {item?.description ? (
+          {item.description ? (
             <Typography variant="caption">{item.description}</Typography>
           ) : null}
         </Stack>
@@ -53,4 +54,6 @@ export default function NavigationItemNested({ item }: Props) {
       </Collapse>
     </>
   );
-}
+};
+
+export default NavigationItemNested;

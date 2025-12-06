@@ -9,11 +9,7 @@ interface PageHeaderProps {
   renderRight?: React.ReactNode;
 }
 
-export default function PageHeader({
-  title,
-  breadcrumbs,
-  renderRight,
-}: PageHeaderProps) {
+const PageHeader = ({ title, breadcrumbs, renderRight }: PageHeaderProps) => {
   const breadcrumbsList = breadcrumbs?.map((breadcrumb) => (
     <Typography key={breadcrumb} color="text.primary" fontSize={14}>
       {breadcrumb}
@@ -52,4 +48,6 @@ export default function PageHeader({
       {renderRight ? <div>{renderRight}</div> : null}
     </Stack>
   );
-}
+};
+
+export default PageHeader;

@@ -1,9 +1,11 @@
 import NotFound from "../components/errors/NotFound";
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <NotFound />
     </section>
   );
-}
+};
+
+export default Home;

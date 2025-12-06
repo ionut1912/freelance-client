@@ -9,7 +9,17 @@
     "type-check": "tsc --noEmit",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write ."
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -70,16 +80,18 @@
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
-    "eslint": "^9.34.0",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-unused-imports": "^4.2.0",
     "html-webpack-plugin": "^5.6.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
     "postcss-loader": "^8.1.1",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.4",
     "style-loader": "^4.0.0",
     "typescript": "^5.9.2",
     "webpack": "^5.100.1",

@@ -15,14 +15,14 @@ import { useForm } from "../../hooks/useForm";
 import PasswordInput from "./common/PasswordInput";
 import { loginValidationSchema } from "../../utils/schemaValidators";
 
-export default function LoginForm() {
+const LoginForm = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const formik = useForm<LoginDto>(
     { username: "", password: "" },
     loginValidationSchema,
-    (values) => dispatch(loginUser({ payload: values, navigate })),
+    (values) => void dispatch(loginUser({ payload: values, navigate })),
     true,
   );
 
@@ -49,7 +49,9 @@ export default function LoginForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={!!(formik.touched.username && formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
+              helperText={
+                formik.touched.username ? formik.errors.username : null
+              }
             />
             <PasswordInput
               label="Password"
@@ -57,7 +59,9 @@ export default function LoginForm() {
               onChange={(value) => formik.setFieldValue("password", value)}
               onBlur={() => formik.setFieldTouched("password", true)}
               error={!!(formik.touched.password && formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              helperText={
+                formik.touched.password ? formik.errors.password : null
+              }
             />
             <Box display="flex" justifyContent="flex-end" mt={4}>
               <Button
@@ -73,4 +77,6 @@ export default function LoginForm() {
       </Card>
     </Box>
   );
-}
+};
+
+export default LoginForm;

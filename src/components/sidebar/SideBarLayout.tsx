@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import React from "react";
 import type { UserRole } from "../../models/UserProfile";
 import {
   Box,
@@ -25,7 +24,8 @@ interface SideBarLayoutProps {
   children: ReactNode;
   role: UserRole;
 }
-export default function SideBarLayout({ children, role }: SideBarLayoutProps) {
+
+const SideBarLayout: React.FC<SideBarLayoutProps> = ({ children, role }) => {
   const theme = useTheme();
   const { isSidebarOpen, toggleSidebar } = useAppNavigation();
 
@@ -88,4 +88,6 @@ export default function SideBarLayout({ children, role }: SideBarLayoutProps) {
       <Main open={isSidebarOpen}>{children}</Main>
     </Box>
   );
-}
+};
+
+export default SideBarLayout;

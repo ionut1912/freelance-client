@@ -1,9 +1,11 @@
 import RoleSelection from "../components/RoleSelection"; // 👈 adjust the path if you move folders
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <RoleSelection />
     </section>
   );
-}
+};
+
+export default Home;

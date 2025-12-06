@@ -1,5 +1,4 @@
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { UserProfileState } from "./types";
 import {
   loadCurrentUserProfile,
@@ -22,18 +21,22 @@ const userProfileSlice = createSlice({
   initialState,
   reducers: {
     verifyClientProfile: (state, action: PayloadAction<number>) => {
-      state.clientProfiles = state.clientProfiles!.map((profile) =>
-        profile.id === action.payload
-          ? { ...profile, isVerified: true }
-          : profile,
-      );
+      if (state.clientProfiles) {
+        state.clientProfiles = state.clientProfiles.map((profile) =>
+          profile.id === action.payload
+            ? { ...profile, isVerified: true }
+            : profile,
+        );
+      }
     },
     verifreelancerProfile: (state, action: PayloadAction<number>) => {
-      state.freelancerProfiles = state.freelancerProfiles!.map((profile) =>
-        profile.id === action.payload
-          ? { ...profile, isVerified: true }
-          : profile,
-      );
+      if (state.freelancerProfiles) {
+        state.freelancerProfiles = state.freelancerProfiles.map((profile) =>
+          profile.id === action.payload
+            ? { ...profile, isVerified: true }
+            : profile,
+        );
+      }
     },
   },
   extraReducers: (builder) => {

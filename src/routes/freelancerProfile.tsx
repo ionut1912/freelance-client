@@ -1,9 +1,11 @@
 import FreelancerPage from "../components/userProfile/FreelancerPage";
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <FreelancerPage />
     </section>
   );
-}
+};
+
+export default Home;

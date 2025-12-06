@@ -1,5 +1,4 @@
-import type { BoxProps } from "@mui/material";
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, type BoxProps } from "@mui/material";
 import type { ReactNode } from "react";
 import { WidgetContainer } from "./stylled/WidgetContainer";
 import { WidgetTitleContainer } from "./stylled/WidgetTitleContainer";
@@ -12,12 +11,7 @@ export interface WidgetProps {
   contentHeight?: string;
 }
 
-export default function Widget({
-  title,
-  children,
-  sx,
-  contentHeight,
-}: WidgetProps) {
+const Widget = ({ title, children, sx, contentHeight }: WidgetProps) => {
   return (
     <WidgetContainer sx={sx} as={Paper}>
       <WidgetTitleContainer>
@@ -28,4 +22,6 @@ export default function Widget({
       </Box>
     </WidgetContainer>
   );
-}
+};
+
+export default Widget;

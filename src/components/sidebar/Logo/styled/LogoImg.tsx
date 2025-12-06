@@ -1,5 +1,4 @@
-import type { BoxProps } from "@mui/material";
-import { Box } from "@mui/material";
+import { Box, type BoxProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const LogoImg = styled(Box, { name: "FreelanceHubLogo", slot: "img" })<

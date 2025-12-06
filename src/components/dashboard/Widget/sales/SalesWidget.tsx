@@ -5,7 +5,7 @@ import { ResponsiveChoropleth } from "@nivo/geo";
 import { salesData } from "./salesData";
 import features from "./world.json";
 
-export default function SalesWidget() {
+const SalesWidget = () => {
   const theme = useTheme();
 
   return (
@@ -58,4 +58,5 @@ export default function SalesWidget() {
       />
     </Widget>
   );
-}
+};
+export default SalesWidget;

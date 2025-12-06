@@ -4,7 +4,7 @@ import { alpha, useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { userStatsData } from "./chartData";
 
-export default function UsersStatsWidget() {
+const UsersStatsWidget = () => {
   const theme = useTheme();
 
   return (
@@ -76,9 +76,10 @@ export default function UsersStatsWidget() {
         role="application"
         ariaLabel="Nivo bar chart demo"
         barAriaLabel={(e) =>
-          e.id + ": " + e.formattedValue + " in country: " + e.indexValue
+          `${e.id}: ${e.formattedValue} in country: ${e.indexValue}`
         }
       />
     </Widget>
   );
-}
+};
+export default UsersStatsWidget;

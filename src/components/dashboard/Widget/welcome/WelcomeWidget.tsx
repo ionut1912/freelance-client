@@ -8,10 +8,7 @@ interface WelcomeWidgetProps {
   description: string;
 }
 
-export default function WelcomeWidget({
-  title,
-  description,
-}: WelcomeWidgetProps) {
+const WelcomeWidget = ({ title, description }: WelcomeWidgetProps) => {
   return (
     <WelcomeWidgetContainer>
       <WelcomeWidgetContent>
@@ -27,4 +24,6 @@ export default function WelcomeWidget({
       </WelcomeWidgetContent>
     </WelcomeWidgetContainer>
   );
-}
+};
+
+export default WelcomeWidget;

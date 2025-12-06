@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { LanguageState } from "./types";
 import { loadLanguages } from "./thunks";
-import type { AxiosError } from "axios";
 
 const initialState: LanguageState = {
   languages: [],
@@ -21,7 +20,7 @@ const languageSlice = createSlice({
         state.error = null;
       })
       .addCase(loadLanguages.rejected, (state, action) => {
-        state.error = (action.error as AxiosError) ?? null;
+        state.error = action.error.message as string;
       });
   },
 });

@@ -1,6 +1,5 @@
 import React from "react";
-import type { TabProps } from "@mui/material";
-import { Box, Container, Tab, Tabs } from "@mui/material";
+import { Box, Container, Tab, Tabs, type TabProps } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../store";
 import Spinner from "../wrappers/Spinner";
@@ -14,7 +13,7 @@ import { useCurrentUser } from "../../hooks/useCurerentUser";
 import type { AddressData } from "../../models/UserProfile";
 import { patchUserProfileAddress } from "../../store/user-profile/thunks";
 
-export default function UserAccountPage() {
+const UserAccountPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const role = useSelector((state: RootState) => state.auth.role);
   const [value, setValue] = React.useState(0);
@@ -33,9 +32,9 @@ export default function UserAccountPage() {
 
   const defaultValues = user
     ? {
-        username: user.user?.username || "",
-        email: user.user?.email || "",
-        phone: user.user?.phoneNumber || "",
+        username: user.user.username || "",
+        email: user.user.email || "",
+        phone: user.user.phoneNumber || "",
         bio: user.bio || "",
         image: user.image || "",
       }
@@ -47,7 +46,7 @@ export default function UserAccountPage() {
     const patchRequest = {
       profileId: user.id,
       address: {
-        id: user.address?.id || 0,
+        id: user.address.id || 0,
         country: addressValues.addressCountry,
         city: addressValues.addressCity,
         street: addressValues.addressStreet,
@@ -76,13 +75,13 @@ export default function UserAccountPage() {
         <TabPanel value={value} index={1}>
           <AddressForm
             initialValues={{
-              addressCountry: user.address?.country || "",
-              addressCity: user.address?.city || "",
-              addressStreet: user.address?.street || "",
-              addressStreetNumber: user.address?.streetNumber || "",
-              addressZip: user.address?.zipCode || "",
+              addressCountry: user.address.country,
+              addressCity: user.address.city,
+              addressStreet: user.address.street,
+              addressStreetNumber: user.address.streetNumber,
+              addressZip: user.address.zipCode,
             }}
-            onSubmit={handleAddressSubmit}
+            onSubmit={(values) => void handleAddressSubmit(values)}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
@@ -91,4 +90,6 @@ export default function UserAccountPage() {
       </Box>
     </Container>
   );
-}
+};
+
+export default UserAccountPage;

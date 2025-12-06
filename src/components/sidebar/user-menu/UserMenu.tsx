@@ -19,7 +19,8 @@ import { logout } from "../../../store/auth/slice";
 interface UserMenuProps {
   profile: ClientProfileDto | FreelancerProfileDto;
 }
-export default function UserMenu({ profile }: UserMenuProps) {
+
+const UserMenu = ({ profile }: UserMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch<AppDispatch>();
@@ -57,4 +58,6 @@ export default function UserMenu({ profile }: UserMenuProps) {
       </UserMenuMenu>
     </UserMenuContainer>
   );
-}
+};
+
+export default UserMenu;

@@ -7,9 +7,9 @@ import SideBarLayout from "../sidebar/SideBarLayout";
 import Spinner from "../wrappers/Spinner";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 
-export default function RequireAuth() {
+const RequireAuth = () => {
   const location = useLocation();
-  const role = useSelector((state: RootState) => state.auth.role!);
+  const role = useSelector((state: RootState) => state.auth.role) ?? "";
   const { freelancerProfile, clientProfile, loading } = useCurrentUser();
   const user = role === "Client" ? clientProfile : freelancerProfile;
 
@@ -32,4 +32,6 @@ export default function RequireAuth() {
   ) : (
     <Outlet />
   );
-}
+};
+
+export default RequireAuth;

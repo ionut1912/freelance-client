@@ -1,9 +1,11 @@
 import CalendarPage from "../components/calendar/CalendarPage";
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <CalendarPage />
     </section>
   );
-}
+};
+
+export default Home;

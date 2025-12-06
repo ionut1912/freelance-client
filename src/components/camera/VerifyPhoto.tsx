@@ -26,7 +26,7 @@ interface VerifyPhotoProps {
 
 type PhotoSource = "local" | "remote" | null;
 
-export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
+const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
   const [snackOpen, setSnackOpen] = useState(false);
 
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
-  const sessionId = params.get("session") || "";
+  const sessionId = params.get("session") ?? "";
 
   const onPhotoCb = useCallback((dataUrl: string) => {
     if (typeof dataUrl === "string" && dataUrl.startsWith("data:image")) {
@@ -74,7 +74,7 @@ export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
 
   const handleVerify = () => {
     if (!photoBase64) return;
-    dispatch(
+    void dispatch(
       verifyCapturedFace({
         faceVerificationRequest: { faceBase64Image: photoBase64 },
         profile,
@@ -87,7 +87,7 @@ export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
     setPhotoBase64(null);
     setPhotoSource(null);
     if (hasCamera && !streaming) {
-      startCamera();
+      void startCamera();
     }
   };
 
@@ -161,7 +161,7 @@ export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
             </div>
           )}
 
-          {photoBase64 && (
+          {photoBase64 ? (
             <div className="w-full mt-6 flex flex-col items-center">
               <Typography
                 variant="subtitle1"
@@ -188,7 +188,7 @@ export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
                 </Button>
               </div>
             </div>
-          )}
+          ) : null}
         </CardContent>
       </Card>
 
@@ -205,4 +205,6 @@ export default function VerifyPhoto({ profile }: VerifyPhotoProps) {
       />
     </div>
   );
-}
+};
+
+export default VerifyPhoto;

@@ -11,10 +11,7 @@ interface CameraCaptureProps {
   onChange: (field: keyof UserData, value: string | null) => void;
 }
 
-export default function CameraCapture({
-  userData,
-  onChange,
-}: CameraCaptureProps) {
+const CameraCapture = ({ userData, onChange }: CameraCaptureProps) => {
   const {
     videoRef,
     canvasRef,
@@ -33,7 +30,7 @@ export default function CameraCapture({
   );
 
   const params = new URLSearchParams(window.location.search);
-  const sessionId = params.get("session") || "";
+  const sessionId = params.get("session") ?? "";
   useRemotePhotoReceiver(sessionId, onPhotoCb);
 
   const handleCapture = () => {
@@ -79,13 +76,15 @@ export default function CameraCapture({
       ) : (
         <RemoteCaptureFallback onPhoto={(photo) => onPhotoCb(String(photo))} />
       )}
-      {userData.image && (
+      {userData.image ? (
         <img
           src={userData.image}
           alt="Captured"
           style={{ marginTop: 8, maxWidth: 300, borderRadius: 8 }}
         />
-      )}
+      ) : null}
     </Box>
   );
-}
+};
+
+export default CameraCapture;

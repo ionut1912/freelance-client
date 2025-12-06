@@ -1,4 +1,3 @@
-import type { AxiosError } from "axios";
 import { verifyCapturedFace } from "./thunks";
 import type { FaceVerificationState } from "./types";
 import { createSlice } from "@reduxjs/toolkit";
@@ -27,7 +26,7 @@ const faceVerificationSlice = createSlice({
         state.error = null;
       })
       .addCase(verifyCapturedFace.rejected, (state, action) => {
-        state.error = (action.error as AxiosError) ?? null;
+        state.error = action.error.message as string;
       });
   },
 });

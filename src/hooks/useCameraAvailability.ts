@@ -5,23 +5,17 @@ export function useCameraAvailability() {
   const [hasCamera, setHasCamera] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
+    void (async () => {
       try {
-        if (!navigator.mediaDevices?.enumerateDevices) {
-          setHasCamera(false);
-          return;
-        }
         const devices = await navigator.mediaDevices.enumerateDevices();
         const cams = devices.filter((d) => d.kind === "videoinput");
-        if (!cancelled) setHasCamera(cams.length > 0);
+        setHasCamera(cams.length > 0);
+      } catch {
+        setHasCamera(false);
       } finally {
-        if (!cancelled) setChecking(false);
+        setChecking(false);
       }
     })();
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   return { checking, hasCamera };

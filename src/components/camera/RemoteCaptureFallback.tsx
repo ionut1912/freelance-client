@@ -1,33 +1,36 @@
 import { useEffect, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import type { HubConnection } from "@microsoft/signalr";
 import QRCode from "react-qr-code";
 import { createHubConnection } from "../../lib/signalr";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "";
+const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
-export default function RemoteCaptureFallback({
+interface SessionData {
+  sessionId: string;
+  deepLink: string;
+}
+
+const RemoteCaptureFallback = ({
   onPhoto,
 }: {
   onPhoto: (dataUrl: string) => void;
-}) {
-  const [session, setSession] = useState<{
-    sessionId: string;
-    deepLink: string;
-  } | null>(null);
+}) => {
+  const [session, setSession] = useState<SessionData | null>(null);
 
   useEffect(() => {
-    let conn: import("@microsoft/signalr").HubConnection | null = null;
+    let conn: HubConnection | null = null;
 
-    (async () => {
-      const res = await fetch(`${API_BASE}/api/capture/sessions`, {
-        method: "POST",
-        credentials: "include",
-      });
-      const data = await res.json();
-      setSession(data);
-
-      conn = createHubConnection(API_BASE);
+    void (async () => {
       try {
+        const res = await fetch(`${API_BASE}/api/capture/sessions`, {
+          method: "POST",
+          credentials: "include",
+        });
+        const data = (await res.json()) as SessionData;
+        setSession(data);
+
+        conn = createHubConnection(API_BASE);
         await conn.start();
         await conn.invoke("Join", data.sessionId);
         conn.on("PhotoReceived", (p: { dataUrl: string }) =>
@@ -39,9 +42,9 @@ export default function RemoteCaptureFallback({
     })();
 
     return () => {
-      conn?.stop().catch(() => {});
+      void conn?.stop().catch(() => {});
     };
-  }, []);
+  }, [onPhoto]);
 
   if (!session) return null;
 
@@ -69,4 +72,6 @@ export default function RemoteCaptureFallback({
       </Typography>
     </Box>
   );
-}
+};
+
+export default RemoteCaptureFallback;

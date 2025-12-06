@@ -20,24 +20,20 @@ interface Props {
   animateOn?: boolean;
 }
 
-export default function NavigationItemSimple({
-  item,
-  nested = false,
-  animateOn,
-}: Props) {
+const NavigationItemSimple = ({ item, nested = false, animateOn }: Props) => {
   const location = window.location.pathname;
   const navigate = useNavigate();
   const isActive = location === item.path;
   const handleClick = useCallback(() => {
-    navigate(item.path);
+    void navigate(item.path);
   }, [item.path, navigate]);
 
   const iconProps: NavigationItemIconProps = {
     fontSize: nested ? "small" : "medium",
   };
 
-  const shouldDisplayBadge = Boolean(item?.badgeText) && !item?.external;
-  const shouldDisplayLaunchIcon = item?.external && !shouldDisplayBadge;
+  const shouldDisplayBadge = Boolean(item.badgeText) && !item.external;
+  const shouldDisplayLaunchIcon = item.external && !shouldDisplayBadge;
 
   return (
     <NavigationListItemButton
@@ -69,7 +65,7 @@ export default function NavigationItemSimple({
           primaryTypographyProps={listItemPrimaryTypographyProps}
           sx={{ margin: 0, minWidth: 0, maxWidth: "100%" }}
         />
-        {item?.description ? (
+        {item.description ? (
           <Typography
             variant="caption"
             overflow="hidden"
@@ -87,10 +83,12 @@ export default function NavigationItemSimple({
           <NavigationItemBadge
             badgeContent={item.badgeText}
             sx={{ display: "flex" }}
-            color={item?.badgeColor ? item.badgeColor : "default"}
+            color={item.badgeColor ?? "default"}
           />
         ) : null}
       </Stack>
     </NavigationListItemButton>
   );
-}
+};
+
+export default NavigationItemSimple;

@@ -8,13 +8,8 @@ interface Props {
   onYes: () => void;
   onNo: () => void;
 }
-export default function GenericModal({
-  open,
-  handleClose,
-  text,
-  onYes,
-  onNo,
-}: Props) {
+
+const GenericModal = ({ open, handleClose, text, onYes, onNo }: Props) => {
   return (
     <Modal
       open={open}
@@ -46,4 +41,6 @@ export default function GenericModal({
       </Box>
     </Modal>
   );
-}
+};
+
+export default GenericModal;

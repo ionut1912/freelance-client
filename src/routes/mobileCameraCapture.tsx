@@ -1,9 +1,11 @@
 import MobileCapturePage from "../components/camera/MobileCapturePage";
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <MobileCapturePage />
     </section>
   );
-}
+};
+
+export default Home;

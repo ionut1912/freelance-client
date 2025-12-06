@@ -1,6 +1,6 @@
 import "./index.css"; // Tailwind import lives here
 
-export default function App() {
+const App = () => {
   return (
     <main className="grid min-h-screen place-items-center bg-gray-50 p-6 dark:bg-gray-900">
       <section className="w-full max-w-md space-y-6 rounded-2xl bg-white p-8 shadow-lg dark:bg-gray-800">
@@ -10,4 +10,6 @@ export default function App() {
       </section>
     </main>
   );
-}
+};
+
+export default App;

@@ -15,10 +15,9 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import type { AccountGeneralForm } from "../../utils/schemaValidators";
 import {
-  AccountGeneralFieldsNames,
   accountGeneralFormSchema,
+  type AccountGeneralForm,
 } from "../../utils/schemaValidators";
 import type { UpdateUserRequest } from "../../models/Ui";
 import GenericModal from "../wrappers/GenericModal";
@@ -27,11 +26,22 @@ import { patchImage, patchUserData } from "../../store/user-profile/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 
+const AccountGeneralFieldsNames: Record<
+  keyof AccountGeneralForm,
+  keyof AccountGeneralForm
+> = {
+  username: "username",
+  email: "email",
+  phone: "phone",
+  bio: "bio",
+  image: "image",
+};
+
 interface Props {
   submitButtonText?: string;
 }
 
-export default function UserForm({ submitButtonText = "Save changes" }: Props) {
+const UserForm = ({ submitButtonText = "Save changes" }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { freelancerProfile, clientProfile, loading } = useCurrentUser();
   const role = useSelector((state: RootState) => state.auth.role);
@@ -62,9 +72,9 @@ export default function UserForm({ submitButtonText = "Save changes" }: Props) {
   useEffect(() => {
     if (user) {
       const values = {
-        username: user.user?.username || "",
-        email: user.user?.email || "",
-        phone: user.user?.phoneNumber || "",
+        username: user.user.username || "",
+        email: user.user.email || "",
+        phone: user.user.phoneNumber || "",
         bio: user.bio || "",
         image: user.image || "",
       };
@@ -80,7 +90,7 @@ export default function UserForm({ submitButtonText = "Save changes" }: Props) {
           username: data.username,
           email: data.email,
           phoneNumber: data.phone,
-          bio: data.bio!,
+          bio: data.bio || "",
         };
         await dispatch(patchUserData(updateUser));
       } finally {
@@ -219,26 +229,32 @@ export default function UserForm({ submitButtonText = "Save changes" }: Props) {
                     label="Username"
                     size="medium"
                     {...register(AccountGeneralFieldsNames.username)}
-                    error={!!errors[AccountGeneralFieldsNames.username]}
+                    error={!!errors.username}
                   />
-                  {errors[AccountGeneralFieldsNames.username] && (
+                  {errors.username ? (
                     <FormHelperText error>
-                      {errors[AccountGeneralFieldsNames.username]?.message}
+                      {typeof errors.username === "object" &&
+                      "message" in errors.username
+                        ? errors.username.message
+                        : "Invalid field"}
                     </FormHelperText>
-                  )}
+                  ) : null}
                 </FormControl>
                 <FormControl fullWidth>
                   <TextField
                     label="Email"
                     size="medium"
                     {...register(AccountGeneralFieldsNames.email)}
-                    error={!!errors[AccountGeneralFieldsNames.email]}
+                    error={!!errors.email}
                   />
-                  {errors[AccountGeneralFieldsNames.email] && (
+                  {errors.email ? (
                     <FormHelperText error>
-                      {errors[AccountGeneralFieldsNames.email]?.message}
+                      {typeof errors.email === "object" &&
+                      "message" in errors.email
+                        ? errors.email.message
+                        : "Invalid field"}
                     </FormHelperText>
-                  )}
+                  ) : null}
                 </FormControl>
               </Stack>
               <Stack direction="row" spacing={4}>
@@ -247,26 +263,31 @@ export default function UserForm({ submitButtonText = "Save changes" }: Props) {
                     label="Phone Number"
                     size="medium"
                     {...register(AccountGeneralFieldsNames.phone)}
-                    error={!!errors[AccountGeneralFieldsNames.phone]}
+                    error={!!errors.phone}
                   />
-                  {errors[AccountGeneralFieldsNames.phone] && (
+                  {errors.phone ? (
                     <FormHelperText error>
-                      {errors[AccountGeneralFieldsNames.phone]?.message}
+                      {typeof errors.phone === "object" &&
+                      "message" in errors.phone
+                        ? errors.phone.message
+                        : "Invalid field"}
                     </FormHelperText>
-                  )}
+                  ) : null}
                 </FormControl>
                 <FormControl fullWidth>
                   <TextField
                     label="Bio"
                     size="medium"
                     {...register(AccountGeneralFieldsNames.bio)}
-                    error={!!errors[AccountGeneralFieldsNames.bio]}
+                    error={!!errors.bio}
                   />
-                  {errors[AccountGeneralFieldsNames.bio] && (
+                  {errors.bio ? (
                     <FormHelperText error>
-                      {errors[AccountGeneralFieldsNames.bio]?.message}
+                      {typeof errors.bio === "object" && "message" in errors.bio
+                        ? errors.bio.message
+                        : "Invalid field"}
                     </FormHelperText>
-                  )}
+                  ) : null}
                 </FormControl>
               </Stack>
             </Stack>
@@ -280,4 +301,6 @@ export default function UserForm({ submitButtonText = "Save changes" }: Props) {
       </Grid>
     </form>
   );
-}
+};
+
+export default UserForm;

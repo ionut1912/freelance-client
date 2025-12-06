@@ -34,22 +34,21 @@ const languageFilter = createFilterOptions<string>({
   limit: 200,
 });
 
-export default function FreelancerDataForm({
+const FreelancerDataForm = ({
   initialValues = DEFAULT_FREELANCER,
   onSubmit,
-}: FreelancerDataFormProps) {
+}: FreelancerDataFormProps) => {
   const frozenInitials = React.useRef(initialValues).current;
 
   const dispatch = useDispatch<AppDispatch>();
-  const skills = useSelector((s: RootState) => s.skill.skills) ?? [];
-  const languagesRaw =
-    useSelector((s: RootState) => s.language.languages) ?? [];
+  const skills = useSelector((s: RootState) => s.skill.skills);
+  const languagesRaw = useSelector((s: RootState) => s.language.languages);
   const loadingSkills = useSelector((s: RootState) => s.skill.loading);
   const loadingLanguages = useSelector((s: RootState) => s.language.loading);
 
   useEffect(() => {
-    dispatch(loadSkills());
-    dispatch(loadLanguages());
+    void dispatch(loadSkills());
+    void dispatch(loadLanguages());
   }, [dispatch]);
 
   const programmingLanguageOptions = useMemo(
@@ -57,7 +56,7 @@ export default function FreelancerDataForm({
       Array.from(
         new Set(
           skills
-            .map((s: SkillDto) => s?.programmingLanguage)
+            .map((s: SkillDto) => s.programmingLanguage)
             .filter((v): v is string => !!v),
         ),
       ).sort(),
@@ -92,10 +91,10 @@ export default function FreelancerDataForm({
         disableCloseOnSelect
         filterSelectedOptions
         options={programmingLanguageOptions}
-        value={formik.values.programmingLanguages || []}
+        value={formik.values.programmingLanguages}
         onChange={(_, v) => {
-          formik.setFieldValue("programmingLanguages", v);
-          formik.setFieldTouched("programmingLanguages", true);
+          void formik.setFieldValue("programmingLanguages", v);
+          void formik.setFieldTouched("programmingLanguages", true);
         }}
         loading={loadingSkills}
         loadingText="Se încarcă limbajele..."
@@ -115,15 +114,16 @@ export default function FreelancerDataForm({
               )
             }
             helperText={
-              formik.touched.programmingLanguages &&
-              formik.errors.programmingLanguages
+              formik.touched.programmingLanguages
+                ? formik.errors.programmingLanguages
+                : null
             }
             InputProps={{
               ...params.InputProps,
               endAdornment: (
                 <>
                   {loadingSkills ? <Spinner /> : null}
-                  {params.InputProps?.endAdornment}
+                  {params.InputProps.endAdornment}
                 </>
               ),
             }}
@@ -138,10 +138,10 @@ export default function FreelancerDataForm({
         filterSelectedOptions
         options={languageOptions}
         filterOptions={languageFilter}
-        value={formik.values.foreignLanguages || []}
+        value={formik.values.foreignLanguages}
         onChange={(_, v) => {
-          formik.setFieldValue("foreignLanguages", v as string[]);
-          formik.setFieldTouched("foreignLanguages", true);
+          void formik.setFieldValue("foreignLanguages", v as string[]);
+          void formik.setFieldTouched("foreignLanguages", true);
         }}
         loading={loadingLanguages}
         loadingText="Se încarcă limbile străine..."
@@ -161,14 +161,16 @@ export default function FreelancerDataForm({
               )
             }
             helperText={
-              formik.touched.foreignLanguages && formik.errors.foreignLanguages
+              formik.touched.foreignLanguages
+                ? formik.errors.foreignLanguages
+                : null
             }
             InputProps={{
               ...params.InputProps,
               endAdornment: (
                 <>
                   {loadingLanguages ? <Spinner /> : null}
-                  {params.InputProps?.endAdornment}
+                  {params.InputProps.endAdornment}
                 </>
               ),
             }}
@@ -183,7 +185,7 @@ export default function FreelancerDataForm({
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={!!(formik.touched.experience && formik.errors.experience)}
-        helperText={formik.touched.experience && formik.errors.experience}
+        helperText={formik.touched.experience ? formik.errors.experience : null}
         fullWidth
         margin="normal"
         placeholder="ex: 5+ ani în dezvoltare backend"
@@ -193,14 +195,14 @@ export default function FreelancerDataForm({
         label="Rate"
         type="number"
         inputProps={{ step: "0.01", min: "0" }}
-        value={formik.values.rate ?? ""}
+        value={formik.values.rate}
         onChange={(e) => {
           const raw = e.target.value;
-          formik.setFieldValue("rate", raw === "" ? 0 : Number(raw));
+          void formik.setFieldValue("rate", raw === "" ? 0 : Number(raw));
         }}
         onBlur={() => formik.setFieldTouched("rate", true)}
         error={!!(formik.touched.rate && formik.errors.rate)}
-        helperText={formik.touched.rate && formik.errors.rate}
+        helperText={formik.touched.rate ? formik.errors.rate : null}
         fullWidth
         margin="normal"
         placeholder="ex: 50"
@@ -215,7 +217,7 @@ export default function FreelancerDataForm({
         }
         onBlur={formik.handleBlur}
         error={!!(formik.touched.currency && formik.errors.currency)}
-        helperText={formik.touched.currency && formik.errors.currency}
+        helperText={formik.touched.currency ? formik.errors.currency : null}
         fullWidth
         margin="normal"
         placeholder="ex: EUR, USD, RON"
@@ -229,7 +231,9 @@ export default function FreelancerDataForm({
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={!!(formik.touched.portfolioUrl && formik.errors.portfolioUrl)}
-        helperText={formik.touched.portfolioUrl && formik.errors.portfolioUrl}
+        helperText={
+          formik.touched.portfolioUrl ? formik.errors.portfolioUrl : null
+        }
         fullWidth
         margin="normal"
         placeholder="https://example.com"
@@ -246,4 +250,6 @@ export default function FreelancerDataForm({
       </Box>
     </Box>
   );
-}
+};
+
+export default FreelancerDataForm;

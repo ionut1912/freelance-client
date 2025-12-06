@@ -13,10 +13,10 @@ interface UserDataFormProps {
 
 const DEFAULT_USER: UserData = { bio: "", image: "" };
 
-export default function UserDataForm({
+const UserDataForm = ({
   initialValues = DEFAULT_USER,
   onSubmit,
-}: UserDataFormProps) {
+}: UserDataFormProps) => {
   const frozenInitials = React.useRef(initialValues).current;
 
   const formik = useForm<UserData>(
@@ -28,9 +28,9 @@ export default function UserDataForm({
 
   useEffect(() => {
     if (formik.values.image) {
-      formik.validateField("image");
+      void formik.validateField("image");
     }
-  }, [formik.values.image]);
+  }, [formik, formik.values.image]);
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 2 }}>
@@ -41,7 +41,7 @@ export default function UserDataForm({
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={!!(formik.touched.bio && formik.errors.bio)}
-        helperText={formik.touched.bio && formik.errors.bio}
+        helperText={formik.touched.bio ? formik.errors.bio : null}
         fullWidth
         margin="normal"
         multiline
@@ -51,8 +51,8 @@ export default function UserDataForm({
         userData={formik.values}
         onChange={(field, value) => {
           const strValue = value ? String(value) : "";
-          formik.setFieldValue(field, strValue);
-          formik.setFieldTouched(field, true, false);
+          void formik.setFieldValue(field, strValue);
+          void formik.setFieldTouched(field, true, false);
         }}
       />
       <Box display="flex" justifyContent="flex-end" mt={3}>
@@ -62,4 +62,6 @@ export default function UserDataForm({
       </Box>
     </Box>
   );
-}
+};
+
+export default UserDataForm;

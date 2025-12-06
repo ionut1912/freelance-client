@@ -1,9 +1,10 @@
 import UserAccountPage from "../components/userProfile/UserAccountPage";
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <UserAccountPage />
     </section>
   );
-}
+};
+export default Home;

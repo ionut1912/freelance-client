@@ -1,6 +1,5 @@
 import type { NavigationState } from "./types";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: NavigationState = {
   isSidebarOpen: true,

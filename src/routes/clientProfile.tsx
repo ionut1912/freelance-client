@@ -1,9 +1,13 @@
 import ClientPage from "../components/userProfile/ClientPage";
 
-export default function Home() {
-  return (
-    <section>
-      <ClientPage />
-    </section>
-  );
-}
+const Home = () => {
+  {
+    return (
+      <section>
+        <ClientPage />
+      </section>
+    );
+  }
+};
+
+export default Home;

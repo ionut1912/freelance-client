@@ -1,5 +1,4 @@
-import type { ListItemButtonProps } from "@mui/material";
-import { ListItemButton } from "@mui/material";
+import { ListItemButton, type ListItemButtonProps } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import type { PropsWithChildren } from "react";
 import type { NavigationListItemButtonProps } from "../../../../models/Ui";

@@ -20,7 +20,8 @@ import { deleteCurrentUserAccount } from "../../store/auth/thunks";
 interface Props {
   defaultValues?: UserFormValues;
 }
-export default function AccountSettingsForm({ defaultValues }: Props) {
+
+const AccountSettingsForm = ({ defaultValues }: Props) => {
   const leftColumnSx = { maxWidth: "200px", width: "100%" };
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -33,8 +34,8 @@ export default function AccountSettingsForm({ defaultValues }: Props) {
     },
   });
   const [open, setOpen] = useState(false);
-  const handleSave = useCallback((data: unknown) => {
-    console.log(data);
+  const handleSave = useCallback((_data: unknown) => {
+    // Handle save logic here
   }, []);
   const handleYes = async () => {
     await dispatch(deleteCurrentUserAccount({ navigate }));
@@ -133,4 +134,6 @@ export default function AccountSettingsForm({ defaultValues }: Props) {
       </Card>
     </form>
   );
-}
+};
+
+export default AccountSettingsForm;

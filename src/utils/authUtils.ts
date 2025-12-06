@@ -1,18 +1,17 @@
-import type {
-  AxiosInstance,
-  AxiosError,
-  InternalAxiosRequestConfig,
+import axios, {
+  type AxiosInstance,
+  type AxiosError,
+  type InternalAxiosRequestConfig,
 } from "axios";
-import axios from "axios";
 import type { NavigateFunction } from "react-router-dom";
-import type { JwtPayload as DefaultJwtPayload } from "jwt-decode";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, type JwtPayload as DefaultJwtPayload } from "jwt-decode";
 import { routesLinks } from "../routes/index";
+
 interface JwtPayload extends DefaultJwtPayload {
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"?: string;
 }
 
-export function getRoleFromToken(token: string): string | null {
+export const getRoleFromToken = (token: string): string | null => {
   try {
     const payload = jwtDecode<JwtPayload>(token);
     return (
@@ -23,46 +22,57 @@ export function getRoleFromToken(token: string): string | null {
     console.error("Invalid token", err);
     return null;
   }
-}
-export function createAuthAxios(baseURL: string): AxiosInstance {
+};
+
+export const createAuthAxios = (baseURL: string): AxiosInstance => {
   const api = axios.create({ baseURL });
 
   api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-    if (config.headers && "requires-auth" in config.headers) {
+    if ("requires-auth" in config.headers) {
       delete (config.headers as Record<string, unknown>)["requires-auth"];
       const token = localStorage.getItem("jwt");
       if (token) {
-        (config.headers as Record<string, string>)["Authorization"] =
-          `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
       }
     }
     return config;
   });
 
   return api;
-}
+};
 
-export function navigateByRole(
+export const navigateByRole = (
   role: string | null,
   navigate: NavigateFunction,
-): void {
+): void => {
   switch (role) {
     case "Freelancer":
-      navigate(routesLinks.freelancer);
+      void navigate(routesLinks.freelancer);
       break;
     case "Client":
-      navigate(routesLinks.client);
+      void navigate(routesLinks.client);
       break;
     default:
-      navigate(routesLinks.home);
+      void navigate(routesLinks.home);
   }
+};
+
+interface ErrorResponse {
+  message?: string;
 }
 
-export function handleHttpError(error: unknown): string {
-  if (axios.isAxiosError(error) && error.response) {
-    const data = error.response.data as { message?: string };
-    return data?.message ?? (error as AxiosError).message;
+export const handleHttpError = (error: unknown): string => {
+  if (axios.isAxiosError(error)) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+
+    if (axiosError.response?.data.message) {
+      return axiosError.response.data.message;
+    }
+
+    if (axiosError.message) {
+      return axiosError.message;
+    }
   }
 
   return "An unexpected error occurred.";
-}
+};

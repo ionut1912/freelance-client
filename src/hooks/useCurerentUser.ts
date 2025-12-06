@@ -7,15 +7,15 @@ export function useCurrentUser() {
   const dispatch = useDispatch<AppDispatch>();
 
   const freelancerProfile = useSelector(
-    (state: RootState) => state.userProfile?.freelancerProfiles?.[0] || null,
+    (state: RootState) => state.userProfile.freelancerProfiles?.[0],
   );
   const loading = useSelector((state: RootState) => state.userProfile.loading);
   const clientProfile = useSelector(
-    (state: RootState) => state.userProfile?.clientProfiles?.[0] || null,
+    (state: RootState) => state.userProfile.clientProfiles?.[0],
   );
 
   useEffect(() => {
-    dispatch(loadCurrentUserProfile());
+    void dispatch(loadCurrentUserProfile());
   }, [dispatch]);
 
   return { freelancerProfile, clientProfile, loading };

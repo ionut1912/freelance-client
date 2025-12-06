@@ -62,9 +62,9 @@ export const verifyCapturedFace = createAsyncThunk<
           "We will delete your profile data, because we couldn't find a face in one of your images",
         );
 
-        if (payload.navigate) {
-          appDispatch(deleteCurrentUserAccount({ navigate: payload.navigate }));
-        }
+        await appDispatch(
+          deleteCurrentUserAccount({ navigate: payload.navigate }),
+        );
       }
 
       return rejectWithValue(error);
@@ -98,20 +98,20 @@ async function processNoMatch(
   const { falseCount } = getState().faceVerification;
 
   if (falseCount === 3 || falseCount === 6) {
-    dispatch(blockUserAccount({ id: profile.user.id, navigate }));
-    dispatch(deleteCurrentUserAccount({ navigate }));
+    await dispatch(blockUserAccount({ id: profile.user.id, navigate }));
+    await dispatch(deleteCurrentUserAccount({ navigate }));
     toast.error(
       `Your account will be locked for 1h because you attempted verification ${falseCount} times`,
     );
-    navigate(routesLinks.home);
+    await navigate(routesLinks.home);
   } else if (falseCount === 9) {
-    dispatch(deleteCurrentUserAccount({ navigate }));
-    dispatch(removeUserProfile(profile.id));
+    await dispatch(deleteCurrentUserAccount({ navigate }));
+    await dispatch(removeUserProfile(profile.id));
     dispatch(resetFalseCount());
     toast.error(
       "Your account will be deleted because you attempted verification too many times",
     );
-    navigate("/");
+    await navigate("/");
   }
 
   toast.warning(`Verification failed count: ${falseCount}`);

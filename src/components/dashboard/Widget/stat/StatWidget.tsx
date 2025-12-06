@@ -1,18 +1,13 @@
 import React from "react";
-import type { WidgetProps } from "../Widget";
-import Widget from "../Widget";
 import { Stack, Typography } from "@mui/material";
+import Widget, { type WidgetProps } from "../Widget";
 
 interface StatWidgetProps extends WidgetProps {
   value: string;
   footerText?: string;
 }
 
-export default function StatWidget({
-  title,
-  value,
-  footerText,
-}: StatWidgetProps) {
+const StatWidget = ({ title, value, footerText }: StatWidgetProps) => {
   return (
     <Widget title={title} sx={{ minHeight: "120px" }}>
       <Stack
@@ -29,4 +24,5 @@ export default function StatWidget({
       </Stack>
     </Widget>
   );
-}
+};
+export default StatWidget;

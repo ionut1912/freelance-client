@@ -1,9 +1,11 @@
 import LoginForm from "../components/forms/LoginForm";
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <LoginForm />
     </section>
   );
-}
+};
+
+export default Home;

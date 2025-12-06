@@ -1,10 +1,14 @@
-import type { AxiosError } from "axios";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { Country } from "../../models/ExternalApis";
 
 export interface LoadCountriesResult {
   countries: string[];
+}
+
+interface CountryApiResponse {
+  name: {
+    common: string;
+  };
 }
 
 export const loadCountries = createAsyncThunk<
@@ -15,13 +19,16 @@ export const loadCountries = createAsyncThunk<
   const apiUrl = "https://restcountries.com/v3.1/all?fields=name";
 
   try {
-    const response = await axios.get(apiUrl);
+    const response: AxiosResponse<CountryApiResponse[]> =
+      await axios.get<CountryApiResponse[]>(apiUrl);
     const countries: string[] = response.data.map(
-      (c: Country) => c.name.common,
+      (c: CountryApiResponse) => c.name.common,
     );
     return { countries };
   } catch (error) {
-    const err = error as AxiosError;
-    return rejectWithValue(err.message);
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(error.message || "An error occurred");
+    }
+    return rejectWithValue("An unexpected error occurred");
   }
 });

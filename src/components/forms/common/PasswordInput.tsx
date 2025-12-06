@@ -1,5 +1,4 @@
-import { useState, useCallback } from "react";
-import type { ReactNode } from "react";
+import { useState, useCallback, type ReactNode } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -12,14 +11,14 @@ interface PasswordInputProps {
   helperText?: ReactNode;
 }
 
-export default function PasswordInput({
+const PasswordInput = ({
   label,
   value,
   onChange,
   onBlur,
   error,
   helperText,
-}: PasswordInputProps) {
+}: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePassword = useCallback(() => setShowPassword((p) => !p), []);
 
@@ -53,4 +52,6 @@ export default function PasswordInput({
       }}
     />
   );
-}
+};
+
+export default PasswordInput;
