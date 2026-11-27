@@ -18,5 +18,6 @@ it("returns a visitor to the home page", () => {
 
 it("returns a signed-in client to their page", () => {
   store.dispatch(setRole("Client"));
+  localStorage.setItem("jwt", "abc");
   expect(returnHome()).toBe("/client");
 });

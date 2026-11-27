@@ -9,7 +9,7 @@ module.exports = {
   testEnvironmentOptions: { customExportConditions: [""] },
   // Some MSW dependencies ship only as ES modules.
   transformIgnorePatterns: [
-    "/node_modules/(?!(msw|@mswjs|@open-draft|until-async|rettime|outvariant|strict-event-emitter|headers-polyfill)/)",
+    "/node_modules/(?!(msw|@mswjs|@open-draft|until-async|rettime|outvariant|strict-event-emitter|headers-polyfill|react-calendar|@wojtekmaj|get-user-locale|memoize|mimic-function|warning)/)",
   ],
   setupFiles: ["<rootDir>/jest.polyfills.cjs"],
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],

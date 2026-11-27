@@ -1,18 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import RequireAuth from "../../components/auth/RequireAuth";
 import { store } from "../../store";
 import { logout, setRole } from "../../store/auth/slice";
-import { fakeApi, profile } from "../../testUtils";
-
-jest.mock(
-  "../../components/sidebar/SideBarLayout",
-  () =>
-    ({ children }: { children: React.ReactNode }) => (
-      <div data-testid="sidebar">{children}</div>
-    ),
-);
+import { buildProfile } from "../../testUtils/factories";
+import { offline, reply } from "../../testUtils/handlers";
+import RequireAuth from "./RequireAuth";
 
 // RequireAuth asks the real app store whether a role is set.
 const renderGuard = () =>
@@ -25,7 +18,7 @@ const renderGuard = () =>
               element: <RequireAuth />,
               children: [{ path: "/private", element: <p>secret</p> }],
             },
-            { path: "/login", element: <p>login page</p> },
+            { path: "/login", element: <h1>login page</h1> },
           ],
           { initialEntries: ["/private"] },
         )}
@@ -37,29 +30,50 @@ afterEach(() => {
   store.dispatch(logout());
 });
 
-// Runs first, while the store still has its initial loading state.
-it("redirects a logged-out visitor without waiting for a profile", async () => {
-  fakeApi({ "GET current": [401] });
-  renderGuard();
-  expect(await screen.findByText("login page")).toBeInTheDocument();
-});
+describe("<RequireAuth />", () => {
+  // Runs first, while the store still has its initial loading state.
+  it("redirects a visitor without waiting for a profile", async () => {
+    reply("get", "current/userProfiles", {}, 401);
 
-it("shows the page, not an endless spinner, if the profile fails", async () => {
-  fakeApi({ "GET current": [500] });
-  store.dispatch(setRole("Client"));
-  renderGuard();
-  expect(await screen.findByText("secret")).toBeInTheDocument();
-});
+    renderGuard();
 
-it("wraps the page in the sidebar for a signed-in user", async () => {
-  fakeApi({ "GET current": [200, profile()] });
-  store.dispatch(setRole("Client"));
-  renderGuard();
-  expect(await screen.findByTestId("sidebar")).toHaveTextContent("secret");
-});
+    expect(
+      await screen.findByRole("heading", { name: "login page" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("secret")).toBeNull();
+  });
 
-it("redirects a logged-out visitor once loading is done", async () => {
-  fakeApi({ "GET current": [200, profile()] });
-  renderGuard();
-  expect(await screen.findByText("login page")).toBeInTheDocument();
+  it("shows the page inside the sidebar to a signed-in user", async () => {
+    reply("get", "current/userProfiles", buildProfile());
+    store.dispatch(setRole("Client"));
+    localStorage.setItem("jwt", "abc");
+
+    renderGuard();
+
+    expect(await screen.findByRole("banner")).toBeInTheDocument();
+    expect(screen.getByRole("main")).toHaveTextContent("secret");
+  });
+
+  it.each([404, 500])(
+    "shows the page, not an endless spinner, on %i",
+    async (status) => {
+      reply("get", "current/userProfiles", {}, status);
+      store.dispatch(setRole("Client"));
+      localStorage.setItem("jwt", "abc");
+
+      renderGuard();
+
+      expect(await screen.findByText("secret")).toBeInTheDocument();
+    },
+  );
+
+  it("shows the page when offline", async () => {
+    offline("get", "current/userProfiles");
+    store.dispatch(setRole("Freelancer"));
+    localStorage.setItem("jwt", "abc");
+
+    renderGuard();
+
+    expect(await screen.findByText("secret")).toBeInTheDocument();
+  });
 });

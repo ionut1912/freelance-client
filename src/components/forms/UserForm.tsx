@@ -128,12 +128,14 @@ const UserForm = ({ submitButtonText = "Save changes" }: Props) => {
   };
 
   const handleYes = async () => {
-    await dispatch(patchImage(""));
+    const result = await dispatch(patchImage(""));
     setOpen(false);
-    reset({
-      ...getValues(),
-      image: "",
-    });
+    if (patchImage.fulfilled.match(result)) {
+      reset({
+        ...getValues(),
+        image: "",
+      });
+    }
   };
 
   const handleNo = () => setOpen(false);

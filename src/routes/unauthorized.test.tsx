@@ -1,9 +1,14 @@
-import { render, screen } from "@testing-library/react";
-import Route from "../routes/unauthorized";
+import { screen } from "@testing-library/react";
+import { renderWithProviders } from "../testUtils/render";
 
-jest.mock("../components/auth/Unauthoized", () => () => <p>page content</p>);
+import Page from "./unauthorized";
 
-it("renders its page", () => {
-  render(<Route />);
-  expect(screen.getByText("page content")).toBeInTheDocument();
+describe("unauthorized route", () => {
+  it("renders its page", async () => {
+    renderWithProviders(<Page />);
+
+    expect(
+      await screen.findByRole("heading", { name: "Access denied" }),
+    ).toBeInTheDocument();
+  });
 });

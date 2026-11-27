@@ -4,7 +4,7 @@ import type {
   NavigationItemSimpleType,
   NavigationItemSimpleTypeWithoutIcon,
 } from "../../../models/Ui";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NavigationListItemButton } from "./styled/NavigationListItemButton";
 import { NavigationListItemIcon } from "./styled/NavigationListItemIcon";
 import { NavigationListItemNestedIcon } from "./styled/NavigationListItemNestedIcon";
@@ -21,9 +21,9 @@ interface Props {
 }
 
 const NavigationItemSimple = ({ item, nested = false, animateOn }: Props) => {
-  const location = window.location.pathname;
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-  const isActive = location === item.path;
+  const isActive = pathname === item.path;
   const handleClick = useCallback(() => {
     void navigate(item.path);
   }, [item.path, navigate]);

@@ -60,3 +60,53 @@ it("stops loading when the profile cannot be loaded", () => {
   expect(state.loading).toBe(false);
   expect(state.clientProfiles).toBeNull();
 });
+
+describe("profile lifecycle", () => {
+  const loaded = () =>
+    reducer(undefined, {
+      type: "userProfile/loadCurrentUserProfile/fulfilled",
+      payload: { clientProfiles: [{ id: 1 }, { id: 2 }] },
+    });
+
+  it.each(["auth/logout", "auth/deleteCurrentUserAccount/fulfilled"])(
+    "forgets the profile on %s",
+    (type) => {
+      expect(reducer(loaded(), { type })).toEqual(
+        reducer(undefined, { type: "unknown" }),
+      );
+    },
+  );
+
+  it("removes only the deleted profile", () => {
+    const state = reducer(loaded(), {
+      type: "userProfile/deleteClientProfileSuccess",
+      payload: 1,
+    });
+
+    expect(state.clientProfiles).toEqual([{ id: 2 }]);
+  });
+
+  it("stores a page of profiles", () => {
+    const page = { items: [], totalCount: 0 };
+
+    const state = reducer(undefined, {
+      type: "userProfile/getUserProfilesSuccess",
+      payload: page,
+    });
+
+    expect(state.paginatedUserProfiles).toEqual(page);
+  });
+
+  it.each([
+    [undefined, true],
+    [500, true],
+    [404, false],
+  ])("marks a load failing with %p as failed: %p", (payload, failed) => {
+    const state = reducer(undefined, {
+      type: "userProfile/loadCurrentUserProfile/rejected",
+      payload,
+    });
+
+    expect(state.loadFailed).toBe(failed);
+  });
+});

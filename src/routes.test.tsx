@@ -1,31 +1,79 @@
-import routes, { router } from "./routes";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import routes from "./routes";
+import { store } from "./store";
+import { logout } from "./store/auth/slice";
+import { buildProfile, buildToken } from "./testUtils/factories";
+import { reply, replyLookups } from "./testUtils/handlers";
 
-jest.mock("react-calendar", () => () => null);
+// Charts need real layout, which jsdom does not have.
 jest.mock("@nivo/geo", () => ({ ResponsiveChoropleth: () => null }));
 jest.mock("@nivo/bar", () => ({ ResponsiveBar: () => null }));
 
-const lazyRoutes = routes.flatMap((route) => route.children ?? []);
+const visit = (path: string) => {
+  const router = createMemoryRouter(routes, { initialEntries: [path] });
+  render(
+    <Provider store={store}>
+      <QueryClientProvider client={new QueryClient()}>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </QueryClientProvider>
+    </Provider>,
+  );
+  return { router, user: userEvent.setup() };
+};
 
-it("registers every page", () => {
-  expect(lazyRoutes.map((route) => route.path ?? "/")).toEqual([
-    "/",
-    "/register",
-    "/login",
-    "/remote-capture",
-    "*",
-    "/unauthorized",
-    "/client",
-    "/freelancer",
-    "/calendar",
-    "/user-profile",
-  ]);
-  expect(router.routes).toHaveLength(2);
+afterEach(() => {
+  store.dispatch(logout());
 });
 
-it.each(lazyRoutes.map((route) => [route.path ?? "/", route] as const))(
-  "lazy-loads the component for %s",
-  async (_path, route) => {
-    const load = route.lazy as () => Promise<{ Component: unknown }>;
-    await expect(load()).resolves.toHaveProperty("Component");
-  },
-);
+describe("routing", () => {
+  it.each([
+    ["/", "link", "Join as Client"],
+    ["/login", "button", "Log In"],
+    ["/register", "button", "Create Account"],
+    ["/unauthorized", "heading", "Access denied"],
+    ["/nowhere", "button", "Return Home"],
+  ])("serves %s to anyone", async (path, role, name) => {
+    visit(path);
+
+    expect(await screen.findByRole(role, { name })).toBeInTheDocument();
+  });
+
+  it.each(["/client", "/freelancer", "/calendar", "/user-profile"])(
+    "redirects a visitor from %s to login",
+    async (path) => {
+      reply("get", "current/userProfiles", {}, 401);
+
+      const { router } = visit(path);
+
+      expect(
+        await screen.findByRole("button", { name: "Log In" }),
+      ).toBeInTheDocument();
+      expect(router.state.location.pathname).toBe("/login");
+    },
+  );
+
+  it("signs a client in and reaches the dashboard", async () => {
+    reply("post", "auth/login", { token: buildToken("Client") });
+    reply("get", "current/userProfiles", buildProfile());
+    replyLookups();
+    const { router, user } = visit("/login");
+
+    await user.type(
+      await screen.findByRole("textbox", { name: "Username" }),
+      "ana",
+    );
+    await user.type(screen.getByLabelText("Password"), "secret1");
+    await user.click(screen.getByRole("button", { name: "Log In" }));
+
+    expect(
+      await screen.findByRole("heading", { name: "Dashboard" }),
+    ).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe("/client");
+  });
+});

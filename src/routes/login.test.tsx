@@ -1,9 +1,14 @@
-import { render, screen } from "@testing-library/react";
-import Route from "../routes/login";
+import { screen } from "@testing-library/react";
+import { renderWithProviders } from "../testUtils/render";
 
-jest.mock("../components/forms/LoginForm", () => () => <p>page content</p>);
+import Page from "./login";
 
-it("renders its page", () => {
-  render(<Route />);
-  expect(screen.getByText("page content")).toBeInTheDocument();
+describe("login route", () => {
+  it("renders its page", async () => {
+    renderWithProviders(<Page />);
+
+    expect(
+      await screen.findByRole("button", { name: "Log In" }),
+    ).toBeInTheDocument();
+  });
 });

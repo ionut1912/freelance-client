@@ -1,7 +1,8 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 import NavigationItemSimple from "../../../components/sidebar/navigation/NavigationItemSimple";
 import { renderApp } from "../../../testUtils";
+import { renderWithProviders } from "../../../testUtils/render";
 
 const base = { path: "/x", label: "Item", icon: () => <i>icon</i> };
 
@@ -31,4 +32,15 @@ it("shows a description and badge", () => {
 it("shows a launch icon for external links", () => {
   renderApp(<NavigationItemSimple item={{ ...base, external: true }} />);
   expect(screen.getByTestId("LaunchIcon")).toBeInTheDocument();
+});
+
+it("moves the highlight when the route changes", async () => {
+  const item = { path: "/target", label: "Target", icon: () => null };
+  const { user } = renderWithProviders(<NavigationItemSimple item={item} />);
+  const button = screen.getByRole("button", { name: "Target" });
+  const before = button.className;
+
+  await user.click(button);
+
+  await waitFor(() => expect(button.className).not.toBe(before));
 });

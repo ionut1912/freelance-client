@@ -1,11 +1,22 @@
-import { render, screen } from "@testing-library/react";
-import Route from "../routes/calendar";
+import { screen } from "@testing-library/react";
+import { Suspense } from "react";
+import { renderWithProviders } from "../testUtils/render";
+import Page from "./calendar";
 
-jest.mock("../components/calendar/CalendarPage", () => () => (
-  <p>page content</p>
-));
+describe("calendar route", () => {
+  it("renders the current month", async () => {
+    renderWithProviders(
+      <Suspense>
+        <Page />
+      </Suspense>,
+    );
 
-it("renders its page", () => {
-  render(<Route />);
-  expect(screen.getByText("page content")).toBeInTheDocument();
+    const month = new Date().toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
+    expect(
+      await screen.findByRole("button", { name: month }),
+    ).toBeInTheDocument();
+  });
 });

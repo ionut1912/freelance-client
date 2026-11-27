@@ -38,6 +38,7 @@ export const loginUser = createAsyncThunk<
   try {
     const response = await login(payload);
     const token = response.data.token;
+    if (!token) throw new Error("Login response has no token");
     localStorage.setItem("jwt", token);
     const role = getRoleFromToken(token);
     navigateByRole(role, navigate);

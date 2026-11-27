@@ -114,9 +114,7 @@ describe("<LoginForm />", () => {
     await waitFor(() => expect(store.getState().auth.role).toBeFalsy());
   });
 
-  // Suspected bug: the button stays enabled while the request is in flight, so
-  // a double click logs in twice.
-  it.skip("sends one request for a double click", async () => {
+  it("sends one request for a double click", async () => {
     const release = held("post", "auth/login", {
       token: buildToken("Client"),
     });

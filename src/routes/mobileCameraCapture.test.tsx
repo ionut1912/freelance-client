@@ -1,11 +1,17 @@
-import { render, screen } from "@testing-library/react";
-import Route from "../routes/mobileCameraCapture";
+import { screen, waitFor } from "@testing-library/react";
+import { fakeCamera } from "../testUtils";
+import { renderWithProviders } from "../testUtils/render";
+import Page from "./mobileCameraCapture";
 
-jest.mock("../components/camera/MobileCapturePage", () => () => (
-  <p>page content</p>
-));
+describe("mobileCameraCapture route", () => {
+  it("renders its page", async () => {
+    fakeCamera();
 
-it("renders its page", () => {
-  render(<Route />);
-  expect(screen.getByText("page content")).toBeInTheDocument();
+    renderWithProviders(<Page />);
+
+    expect(
+      await screen.findByRole("button", { name: "Capture & Trimite" }),
+    ).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole("button")).toBeEnabled());
+  });
 });

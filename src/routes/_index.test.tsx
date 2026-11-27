@@ -1,9 +1,14 @@
-import { render, screen } from "@testing-library/react";
-import Route from "../routes/_index";
+import { screen } from "@testing-library/react";
+import { renderWithProviders } from "../testUtils/render";
 
-jest.mock("../components/RoleSelection", () => () => <p>page content</p>);
+import Page from "./_index";
 
-it("renders its page", () => {
-  render(<Route />);
-  expect(screen.getByText("page content")).toBeInTheDocument();
+describe("_index route", () => {
+  it("renders its page", async () => {
+    renderWithProviders(<Page />);
+
+    expect(
+      await screen.findByRole("link", { name: "Join as Client" }),
+    ).toBeInTheDocument();
+  });
 });

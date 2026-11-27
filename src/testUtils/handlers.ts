@@ -72,3 +72,15 @@ export const recordRequests = () => {
   });
   return sent;
 };
+
+export const COUNTRIES = "https://restcountries.com/v3.1/all";
+export const CITIES = "https://countriesnow.space/api/v0.1/countries/cities";
+export const LANGUAGES = "https://libretranslate.com/languages";
+
+/** Answers for the lookups that address and freelancer forms load. */
+export const replyLookups = () => {
+  reply("get", COUNTRIES, [{ name: { common: "Romania" } }]);
+  reply("post", CITIES, { data: ["Cluj"] });
+  reply("get", "skills", [{ programmingLanguage: "Go", area: "Backend" }]);
+  reply("get", LANGUAGES, [{ code: "ro", name: "Romanian" }]);
+};

@@ -88,6 +88,7 @@ export const profileState = (overrides: object = {}) => ({
   paginatedUserProfiles: null,
   error: null,
   loading: false,
+  loadFailed: false,
   ...overrides,
 });
 
