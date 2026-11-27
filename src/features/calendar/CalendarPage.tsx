@@ -1,7 +1,9 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import { useState } from "react";
 import ReactCalendar from "react-calendar";
 
+import CalendarEventTile from "./CalendarEventTile";
+import { compareEvents, isSameDay } from "./eventUtils";
 import { CalendarStyles } from "./styles/styles";
 import { useCalendar } from "./useCalendar";
 
@@ -12,132 +14,21 @@ const CalendarPage = () => {
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
-      const events = data.find((data) => {
-        const newDate = new Date(data.date);
-        return (
-          date.getFullYear() === newDate.getFullYear() &&
-          date.getMonth() === newDate.getMonth() &&
-          date.getDate() === newDate.getDate()
-        );
-      });
+      const events = data.find((data) => isSameDay(date, new Date(data.date)));
 
       if (events?.events) {
-        const eventsList = events.events
-          .sort((a, b) => {
-            return new Date(a.startDate).getTime() -
-              new Date(a.endDate).getTime() >
-              new Date(b.startDate).getTime() - new Date(b.endDate).getTime()
-              ? 1
-              : -1;
-          })
-          .map((event) => {
-            const dateFromStart = new Date(event.startDate);
-            const dateFromEnd = new Date(event.endDate);
-            const isMultiDayEvent =
-              dateFromEnd.getTime() - dateFromStart.getTime() >= 86400000;
-            const isFirstDay =
-              dateFromStart.getDate() === date.getDate() && isMultiDayEvent;
-            const isLastDay =
-              dateFromEnd.getDate() === date.getDate() && isMultiDayEvent;
-            const showEventName = isFirstDay || !isMultiDayEvent;
-            const eventTime = dateFromStart.toLocaleTimeString("en-US", {
-              hour: "2-digit",
-            });
-
-            const isHover = hoveredEvent === event.id;
-            const handleMouseOver = () => setHoveredEvent(event.id);
-            const handleMouseLeave = () => setHoveredEvent("");
-
-            const getBorderRadius = () => {
-              if (isFirstDay) {
-                return "4px 0 0 4px";
-              }
-              if (isLastDay) {
-                return "0 4px 4px 0";
-              }
-              if (isMultiDayEvent) {
-                return "0";
-              }
-              return "4px";
-            };
-
-            const getBackgroundColor = () => {
-              if (isHover && isMultiDayEvent) {
-                return "primary.dark";
-              }
-              if (isHover) {
-                return "grey.200";
-              }
-              return undefined;
-            };
-
-            return (
-              <Box
-                className="react-calendar__tile-content"
-                data-id={event.id}
-                key={event.id}
-                sx={{
-                  position: "relative",
-                  mb: 0.5,
-                  pl: !isMultiDayEvent ? 2 : 0.5,
-                  backgroundColor: isMultiDayEvent
-                    ? "primary.main"
-                    : "transparent",
-                  color: isMultiDayEvent
-                    ? "primary.contrastText"
-                    : "text.primary",
-                  borderRadius: getBorderRadius(),
-                  cursor: "pointer",
-                  transition: "all 0.1s ease-in-out",
-                  ...(isHover && {
-                    backgroundColor:
-                      getBackgroundColor() ??
-                      (isMultiDayEvent ? "primary.dark" : "grey.200"),
-                  }),
-                }}
-                onMouseEnter={handleMouseOver}
-                onMouseLeave={handleMouseLeave}
-              >
-                {!isMultiDayEvent && (
-                  <Box
-                    sx={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: "50%",
-                      backgroundColor: "primary.main",
-                      position: "absolute",
-                      top: "50%",
-                      left: 8,
-                      content: '""',
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  />
-                )}
-                <Typography
-                  fontSize={12}
-                  textAlign="left"
-                  title={event.name}
-                  textOverflow="ellipsis"
-                  overflow="hidden"
-                  whiteSpace="nowrap"
-                >
-                  {!isMultiDayEvent && (
-                    <Typography component="span" fontSize="inherit">
-                      {eventTime}{" "}
-                    </Typography>
-                  )}
-                  <Typography
-                    component="span"
-                    fontSize="inherit"
-                    fontWeight="fontWeightMedium"
-                  >
-                    {showEventName ? event.name : <>&nbsp;</>}
-                  </Typography>
-                </Typography>
-              </Box>
-            );
-          });
-        return eventsList;
+        return events.events
+          .sort(compareEvents)
+          .map((event) => (
+            <CalendarEventTile
+              key={event.id}
+              event={event}
+              date={date}
+              isHover={hoveredEvent === event.id}
+              onMouseEnter={() => setHoveredEvent(event.id)}
+              onMouseLeave={() => setHoveredEvent("")}
+            />
+          ));
       }
     }
 
