@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
 
-import SideBarLayout from "../../components/sidebar/SideBarLayout";
 import Spinner from "../../components/ui/Spinner";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { isAuthenticated } from "../../lib/auth";
 import { routesLinks } from "../../routes/index";
 import type { RootState } from "../../store";
+import SideBarLayout from "../navigation/SideBarLayout";
 
 const RequireAuth = () => {
   const location = useLocation();
