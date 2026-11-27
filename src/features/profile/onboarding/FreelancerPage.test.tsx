@@ -165,4 +165,39 @@ describe("<FreelancerPage />", () => {
       freelancer: { currency: "EUR", rate: 50 },
     });
   });
+
+  it("stays where it is when saving fails", async () => {
+    fakeCamera();
+    reply("get", "current/userProfiles", null);
+    reply("post", "freelancerProfiles", { detail: "Refused" }, 500);
+    const { user } = setup();
+
+    await fillAddress(user);
+    await user.type(box("Bio"), "A long enough biography");
+    await click(user, "Start Camera");
+    await click(user, "Capture");
+    const save = screen.getByRole("button", { name: "Save User Details" });
+    await waitFor(() => expect(save).toBeEnabled());
+    await user.click(save);
+
+    await user.click(
+      await screen.findByRole("combobox", { name: "Programming Languages" }),
+    );
+    await user.click(await screen.findByRole("option", { name: "Go" }));
+    await user.click(
+      screen.getByRole("combobox", { name: "Foreign Languages" }),
+    );
+    await user.click(await screen.findByRole("option", { name: "Romanian" }));
+    await user.type(box("Experience"), "5 years");
+    await user.clear(screen.getByRole("spinbutton", { name: "Rate" }));
+    await user.type(screen.getByRole("spinbutton", { name: "Rate" }), "50");
+    await user.type(box("Currency"), "eur");
+    await user.type(box("Portfolio URL"), "https://example.com");
+    await click(user, "Save Freelancer Details");
+
+    expect(await screen.findByText("Refused")).toBeInTheDocument();
+    // Give a wrongly triggered navigation time to render.
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    expect(screen.getByLabelText("current path")).toHaveTextContent("/start");
+  });
 });

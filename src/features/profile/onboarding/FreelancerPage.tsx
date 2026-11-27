@@ -96,14 +96,16 @@ const FreelancerPage = () => {
         initialValues={freelancerData}
         onSubmit={async (vals) => {
           setFreelancerData(vals);
-          await dispatch(
+          const result = await dispatch(
             saveFreelancerProfile({
               address: addressData,
               user: userData,
               freelancer: vals,
             }),
           );
-          void navigate(routesLinks.freelancer);
+          if (saveFreelancerProfile.fulfilled.match(result)) {
+            void navigate(routesLinks.freelancer);
+          }
         }}
       />
     );

@@ -149,4 +149,24 @@ describe("<ClientPage />", () => {
       user: { bio: "A long enough biography" },
     });
   });
+
+  it("stays where it is when saving fails", async () => {
+    fakeCamera();
+    reply("get", "current/userProfiles", null);
+    reply("post", "clientProfiles", { detail: "Refused" }, 500);
+    const { user } = setup();
+
+    await fillAddress(user);
+    await user.type(box("Bio"), "A long enough biography");
+    await click(user, "Start Camera");
+    await click(user, "Capture");
+    const save = screen.getByRole("button", { name: "Save User Details" });
+    await waitFor(() => expect(save).toBeEnabled());
+    await user.click(save);
+
+    expect(await screen.findByText("Refused")).toBeInTheDocument();
+    // Give a wrongly triggered navigation time to render.
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    expect(screen.getByLabelText("current path")).toHaveTextContent("/start");
+  });
 });

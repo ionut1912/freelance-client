@@ -72,13 +72,15 @@ const ClientPage = () => {
         initialValues={userData}
         onSubmit={async (vals) => {
           setUserData(vals);
-          await dispatch(
+          const result = await dispatch(
             saveClientProfile({
               address: addressData,
               user: vals,
             }),
           );
-          void navigate(routesLinks.client);
+          if (saveClientProfile.fulfilled.match(result)) {
+            void navigate(routesLinks.client);
+          }
         }}
       />
     );
