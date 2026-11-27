@@ -1,5 +1,4 @@
 import { alpha, useTheme } from "@mui/material";
-import React from "react";
 import Widget from "../Widget";
 import { ResponsiveChoropleth } from "@nivo/geo";
 import { salesData } from "./salesData";

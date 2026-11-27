@@ -1,4 +1,3 @@
-import React from "react";
 import { WelcomeWidgetContainer } from "./styled/WelcomeWidgetContainer";
 import { WelcomeWidgetContent } from "./styled/WelcomeWidgetContent";
 import { Button, Typography } from "@mui/material";

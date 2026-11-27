@@ -1,4 +1,3 @@
-import React from "react";
 import Widget from "../Widget";
 import { alpha, useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";

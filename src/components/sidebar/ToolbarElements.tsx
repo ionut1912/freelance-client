@@ -1,4 +1,3 @@
-import React from "react";
 import type { UserRole } from "../../models/UserProfile";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 import UserMenu from "./user-menu/UserMenu";

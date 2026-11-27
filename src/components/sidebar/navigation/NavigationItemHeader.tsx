@@ -1,5 +1,4 @@
 import { ListSubheader } from "@mui/material";
-import React from "react";
 
 interface NavigationItemHeaderProps {
   header: string;

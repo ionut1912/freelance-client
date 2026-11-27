@@ -1,5 +1,5 @@
 import { Breadcrumbs, Stack, Typography } from "@mui/material";
-import React from "react";
+import type React from "react";
 import { Home } from "@mui/icons-material";
 import { PageHeaderTitle } from "./styled/PageHeaderTitle";
 

@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import CheckboxWithForm from "./common/CheckboxWithForm";
 import type { UserFormValues } from "../../models/Ui";

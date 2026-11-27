@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useCalendar } from "../../hooks/useCalendar";
 import { Box, Container, Typography } from "@mui/material";
 import { CalendarStyles } from "./styles/styles";

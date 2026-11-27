@@ -16,7 +16,7 @@ import type {
 } from "../../models/UserProfile";
 import { useCamera } from "../../hooks/useCamera";
 import { useCameraAvailability } from "../../hooks/useCameraAvailability";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import RemoteCaptureFallback from "./RemoteCaptureFallback";
 import { useRemotePhotoReceiver } from "../../hooks/useRemotePhotoReceiver";
 

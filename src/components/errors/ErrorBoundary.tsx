@@ -1,4 +1,3 @@
-import React from "react";
 import { Alert, Button, Container, Typography } from "@mui/material";
 import {
   useRouteError,

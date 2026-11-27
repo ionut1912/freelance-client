@@ -1,4 +1,3 @@
-import React from "react";
 import type { NavigationItemType } from "../../../models/Ui";
 import NavigationItemHeader from "./NavigationItemHeader";
 

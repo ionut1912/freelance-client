@@ -1,6 +1,5 @@
 import { Container, Grid } from "@mui/material";
-import React from "react";
-import PageHeader from "../pageHeader/PageHeader";
+import PageHeader from "../PageHeader/PageHeader";
 import WelcomeWidget from "./Widget/welcome/WelcomeWidget";
 import StatWidget from "./Widget/stat/StatWidget";
 import SalesWidget from "./Widget/sales/SalesWidget";

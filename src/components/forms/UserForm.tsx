@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import {
   accountGeneralFormSchema,
+  AccountGeneralFieldsNames,
   type AccountGeneralForm,
 } from "../../utils/schemaValidators";
 import type { UpdateUserRequest } from "../../models/Ui";
@@ -25,17 +26,6 @@ import type { AppDispatch, RootState } from "../../store";
 import { patchImage, patchUserData } from "../../store/user-profile/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { useCurrentUser } from "../../hooks/useCurerentUser";
-
-const AccountGeneralFieldsNames: Record<
-  keyof AccountGeneralForm,
-  keyof AccountGeneralForm
-> = {
-  username: "username",
-  email: "email",
-  phone: "phone",
-  bio: "bio",
-  image: "image",
-};
 
 interface Props {
   submitButtonText?: string;
@@ -108,7 +98,7 @@ const UserForm = ({ submitButtonText = "Save changes" }: Props) => {
       reader.onerror = (error) => reject(error);
     });
 
-  const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
     const validTypes = ["image/jpeg", "image/jpg", "image/png"];

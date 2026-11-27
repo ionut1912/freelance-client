@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import NavigationItemSimple from "./NavigationItemSimple";
 import type { NavigationItemNestedType } from "../../../models/Ui";

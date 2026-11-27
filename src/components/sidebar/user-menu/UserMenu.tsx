@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, type MouseEvent } from "react";
 
 import { UserMenuContainer } from "./styled/UserMenuContainer";
 import { UserMenuIconButton } from "./styled/UserMenuIconButton";
@@ -25,7 +25,7 @@ const UserMenu = ({ profile }: UserMenuProps) => {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch<AppDispatch>();
   const handleClose = () => setAnchorEl(null);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleLogout = () => {
