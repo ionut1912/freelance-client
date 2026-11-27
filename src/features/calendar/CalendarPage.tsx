@@ -17,7 +17,8 @@ const CalendarPage = () => {
       const events = data.find((data) => isSameDay(date, new Date(data.date)));
 
       if (events?.events) {
-        return events.events
+        // Sort a copy: the array belongs to the query cache.
+        return [...events.events]
           .sort(compareEvents)
           .map((event) => (
             <CalendarEventTile

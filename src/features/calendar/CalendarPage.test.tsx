@@ -62,3 +62,13 @@ it("survives hovering every event", () => {
   fireEvent.mouseEnter(tiles()[1]);
   expect(tiles()).toHaveLength(total);
 });
+
+it("does not reorder the data it was given", () => {
+  const { events } = mockData[0];
+  events.reverse();
+
+  render(<CalendarPage />);
+
+  expect(events.map((event) => event.id)).toEqual(["short", "long"]);
+  events.reverse();
+});
