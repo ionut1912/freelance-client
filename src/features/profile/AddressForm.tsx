@@ -1,13 +1,14 @@
-import { Box, TextField, Autocomplete, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
 
-import Spinner from "../../components/ui/Spinner";
 import { useForm } from "../../hooks/useForm";
 import type { AddressData } from "../../models/UserProfile";
 import type { RootState } from "../../store";
 import { addressValidationSchema } from "../../utils/schemaValidators";
 
+import FormikTextField from "./FormikTextField";
+import LocationAutocomplete from "./LocationAutocomplete";
 import { useAddressData } from "./useAddressData";
 
 interface AddressFormProps {
@@ -49,10 +50,14 @@ const AddressForm = ({
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 2 }}>
-      <Autocomplete<string>
+      <LocationAutocomplete
+        label="Country"
         options={countries}
         value={formik.values.addressCountry || null}
-        onChange={(_, newValue) => {
+        loading={showCountriesLoading}
+        touched={formik.touched.addressCountry}
+        error={formik.errors.addressCountry}
+        onChange={(newValue) => {
           void formik.setFieldTouched("addressCountry", true, false);
           // One update, so validation sees both new values.
           void formik.setValues({
@@ -61,116 +66,29 @@ const AddressForm = ({
             addressCity: "",
           });
         }}
-        loading={showCountriesLoading}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Country"
-            fullWidth
-            margin="normal"
-            error={
-              !!(formik.touched.addressCountry && formik.errors.addressCountry)
-            }
-            helperText={
-              formik.touched.addressCountry
-                ? formik.errors.addressCountry
-                : null
-            }
-            slotProps={{
-              input: {
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {showCountriesLoading ? <Spinner /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              },
-            }}
-          />
-        )}
       />
 
-      <Autocomplete<string>
+      <LocationAutocomplete
+        label="City"
         options={cities}
         value={formik.values.addressCity || null}
-        onChange={(_, newValue) => {
+        loading={showCitiesLoading}
+        disabled={!formik.values.addressCountry}
+        touched={formik.touched.addressCity}
+        error={formik.errors.addressCity}
+        onChange={(newValue) => {
           void formik.setFieldValue("addressCity", newValue ?? "");
           void formik.setFieldTouched("addressCity", true, false);
         }}
-        loading={showCitiesLoading}
-        disabled={!formik.values.addressCountry}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="City"
-            fullWidth
-            margin="normal"
-            error={!!(formik.touched.addressCity && formik.errors.addressCity)}
-            helperText={
-              formik.touched.addressCity ? formik.errors.addressCity : null
-            }
-            slotProps={{
-              input: {
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {showCitiesLoading ? <Spinner /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              },
-            }}
-          />
-        )}
       />
 
-      <TextField
-        label="Street"
-        name="addressStreet"
-        value={formik.values.addressStreet}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={!!(formik.touched.addressStreet && formik.errors.addressStreet)}
-        helperText={
-          formik.touched.addressStreet ? formik.errors.addressStreet : null
-        }
-        fullWidth
-        margin="normal"
-      />
-
-      <TextField
-        label="Street Number"
+      <FormikTextField formik={formik} name="addressStreet" label="Street" />
+      <FormikTextField
+        formik={formik}
         name="addressStreetNumber"
-        value={formik.values.addressStreetNumber}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={
-          !!(
-            formik.touched.addressStreetNumber &&
-            formik.errors.addressStreetNumber
-          )
-        }
-        helperText={
-          formik.touched.addressStreetNumber
-            ? formik.errors.addressStreetNumber
-            : null
-        }
-        fullWidth
-        margin="normal"
+        label="Street Number"
       />
-
-      <TextField
-        label="Zip"
-        name="addressZip"
-        value={formik.values.addressZip}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={!!(formik.touched.addressZip && formik.errors.addressZip)}
-        helperText={formik.touched.addressZip ? formik.errors.addressZip : null}
-        fullWidth
-        margin="normal"
-      />
+      <FormikTextField formik={formik} name="addressZip" label="Zip" />
 
       <Box display="flex" justifyContent="flex-end" mt={4}>
         <Button

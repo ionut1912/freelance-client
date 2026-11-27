@@ -1,17 +1,13 @@
-import { Box, TextField, Autocomplete, Button } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import * as React from "react";
-import { useMemo, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
-import Spinner from "../../../components/ui/Spinner";
 import { useForm } from "../../../hooks/useForm";
-import type { Language } from "../../../models/ExternalApis";
-import type { FreelancerData, SkillDto } from "../../../models/UserProfile";
-import type { AppDispatch, RootState } from "../../../store";
-import { loadLanguages } from "../../../store/language/thunks";
-import { loadSkills } from "../../../store/skills/thunks";
+import type { FreelancerData } from "../../../models/UserProfile";
 import { freelancerValidationSchema } from "../../../utils/schemaValidators";
+
+import MultiSelectField from "./MultiSelectField";
+import { useFreelancerOptions } from "./useFreelancerOptions";
 
 interface FreelancerDataFormProps {
   initialValues?: FreelancerData;
@@ -41,40 +37,12 @@ const FreelancerDataForm = ({
 }: FreelancerDataFormProps) => {
   const [frozenInitials] = React.useState(initialValues);
 
-  const dispatch = useDispatch<AppDispatch>();
-  const skills = useSelector((s: RootState) => s.skill.skills);
-  const languagesRaw = useSelector((s: RootState) => s.language.languages);
-  const loadingSkills = useSelector((s: RootState) => s.skill.loading);
-  const loadingLanguages = useSelector((s: RootState) => s.language.loading);
-
-  useEffect(() => {
-    void dispatch(loadSkills());
-    void dispatch(loadLanguages());
-  }, [dispatch]);
-
-  const programmingLanguageOptions = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          skills
-            .map((s: SkillDto) => s.programmingLanguage)
-            .filter((v): v is string => !!v),
-        ),
-      ).sort(),
-    [skills],
-  );
-
-  const languageOptions = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          languagesRaw
-            .map((l: Language) => ("name" in l ? l.name : (l as string)))
-            .filter((v): v is string => !!v),
-        ),
-      ).sort(),
-    [languagesRaw],
-  );
+  const {
+    programmingLanguageOptions,
+    languageOptions,
+    loadingSkills,
+    loadingLanguages,
+  } = useFreelancerOptions();
 
   const formik = useForm<FreelancerData>(
     frozenInitials,
@@ -85,100 +53,34 @@ const FreelancerDataForm = ({
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 2 }}>
-      <Autocomplete<string, true>
-        multiple
-        disableCloseOnSelect
-        filterSelectedOptions
+      <MultiSelectField
+        label="Programming Languages"
         options={programmingLanguageOptions}
         value={formik.values.programmingLanguages}
-        onChange={(_, v) => {
+        loading={loadingSkills}
+        loadingText="Se încarcă limbajele..."
+        touched={!!formik.touched.programmingLanguages}
+        error={formik.errors.programmingLanguages}
+        onChange={(v) => {
           void formik.setFieldValue("programmingLanguages", v);
           void formik.setFieldTouched("programmingLanguages", true, false);
         }}
-        loading={loadingSkills}
-        loadingText="Se încarcă limbajele..."
-        noOptionsText={loadingSkills ? "Se încarcă..." : "Fără opțiuni"}
-        isOptionEqualToValue={(o, v) => o === v}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Programming Languages"
-            fullWidth
-            margin="normal"
-            aria-busy={loadingSkills}
-            error={
-              !!(
-                formik.touched.programmingLanguages &&
-                formik.errors.programmingLanguages
-              )
-            }
-            helperText={
-              formik.touched.programmingLanguages
-                ? formik.errors.programmingLanguages
-                : null
-            }
-            slotProps={{
-              input: {
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {loadingSkills ? <Spinner /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              },
-            }}
-          />
-        )}
       />
 
-      <Autocomplete<string, true, false, true>
-        multiple
+      <MultiSelectField
+        label="Foreign Languages"
         freeSolo
-        disableCloseOnSelect
-        filterSelectedOptions
         options={languageOptions}
         filterOptions={languageFilter}
         value={formik.values.foreignLanguages}
-        onChange={(_, v) => {
+        loading={loadingLanguages}
+        loadingText="Se încarcă limbile străine..."
+        touched={!!formik.touched.foreignLanguages}
+        error={formik.errors.foreignLanguages}
+        onChange={(v) => {
           void formik.setFieldValue("foreignLanguages", v);
           void formik.setFieldTouched("foreignLanguages", true, false);
         }}
-        loading={loadingLanguages}
-        loadingText="Se încarcă limbile străine..."
-        noOptionsText={loadingLanguages ? "Se încarcă..." : "Fără opțiuni"}
-        isOptionEqualToValue={(o, v) => o === v}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Foreign Languages"
-            fullWidth
-            margin="normal"
-            aria-busy={loadingLanguages}
-            error={
-              !!(
-                formik.touched.foreignLanguages &&
-                formik.errors.foreignLanguages
-              )
-            }
-            helperText={
-              formik.touched.foreignLanguages
-                ? formik.errors.foreignLanguages
-                : null
-            }
-            slotProps={{
-              input: {
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {loadingLanguages ? <Spinner /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              },
-            }}
-          />
-        )}
       />
 
       <TextField

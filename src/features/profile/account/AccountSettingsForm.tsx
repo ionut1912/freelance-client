@@ -18,13 +18,13 @@ import type { AppDispatch } from "../../../store";
 import { deleteCurrentUserAccount } from "../../../store/auth/thunks";
 
 import CheckboxWithForm from "./CheckboxWithForm";
+import SettingsSection from "./SettingsSection";
 
 interface Props {
   defaultValues?: UserFormValues;
 }
 
 const AccountSettingsForm = ({ defaultValues }: Props) => {
-  const leftColumnSx = { maxWidth: "200px", width: "100%" };
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { control, handleSubmit } = useForm({
@@ -50,82 +50,56 @@ const AccountSettingsForm = ({ defaultValues }: Props) => {
       <Card elevation={2} sx={{ padding: 2 }}>
         <CardContent>
           <Stack spacing={6}>
-            <Stack direction="row" spacing={2}>
-              <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight="fontWeightMedium">
-                  Notifications
-                </Typography>
-              </Stack>
-              <Stack spacing={2}>
-                <FormGroup>
-                  <CheckboxWithForm
-                    control={control}
-                    name="enableEmailNotifications"
-                    label="Enable email notifications"
-                  />
-                  <CheckboxWithForm
-                    control={control}
-                    name="enableSmsNotifications"
-                    label="Enable SMS notifications"
-                  />
-                </FormGroup>
-              </Stack>
-            </Stack>
-
-            <Stack direction="row" spacing={2}>
-              <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight="fontWeightMedium">Privacy</Typography>
-              </Stack>
-              <Stack spacing={2}>
-                <FormGroup>
-                  <CheckboxWithForm
-                    control={control}
-                    name="emailPublic"
-                    label="Email address is public"
-                  />
-                  <CheckboxWithForm
-                    control={control}
-                    name="profilePublic"
-                    label="Profile is public"
-                  />
-                </FormGroup>
-              </Stack>
-            </Stack>
-
-            <Stack direction="row" spacing={2}>
-              <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight="fontWeightMedium">
-                  Description
-                </Typography>
-              </Stack>
-              <Stack spacing={2}>
-                <Typography variant="body2">{defaultValues?.bio}</Typography>
-              </Stack>
-            </Stack>
-
-            <Stack direction="row" spacing={2}>
-              <Stack spacing={2} paddingY={1} sx={leftColumnSx}>
-                <Typography fontWeight="fontWeightMedium">
-                  Delete account
-                </Typography>
-              </Stack>
-              <Stack spacing={2}>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => setOpen(true)}
-                >
-                  Delete account
-                </Button>
-                <GenericModal
-                  open={open}
-                  handleClose={() => setOpen(false)}
-                  text="Are you sure you want to delete your account?"
-                  onYes={handleYes}
-                  onNo={handleNo}
+            <SettingsSection title="Notifications">
+              <FormGroup>
+                <CheckboxWithForm
+                  control={control}
+                  name="enableEmailNotifications"
+                  label="Enable email notifications"
                 />
-              </Stack>
-            </Stack>
+                <CheckboxWithForm
+                  control={control}
+                  name="enableSmsNotifications"
+                  label="Enable SMS notifications"
+                />
+              </FormGroup>
+            </SettingsSection>
+
+            <SettingsSection title="Privacy">
+              <FormGroup>
+                <CheckboxWithForm
+                  control={control}
+                  name="emailPublic"
+                  label="Email address is public"
+                />
+                <CheckboxWithForm
+                  control={control}
+                  name="profilePublic"
+                  label="Profile is public"
+                />
+              </FormGroup>
+            </SettingsSection>
+
+            <SettingsSection title="Description">
+              <Typography variant="body2">{defaultValues?.bio}</Typography>
+            </SettingsSection>
+
+            <SettingsSection title="Delete account">
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => setOpen(true)}
+              >
+                Delete account
+              </Button>
+              <GenericModal
+                open={open}
+                handleClose={() => setOpen(false)}
+                text="Are you sure you want to delete your account?"
+                onYes={handleYes}
+                onNo={handleNo}
+              />
+            </SettingsSection>
           </Stack>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
