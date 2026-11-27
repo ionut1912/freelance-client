@@ -10,7 +10,7 @@ import type { FreelancerData, SkillDto } from "../../models/UserProfile";
 import type { AppDispatch, RootState } from "../../store";
 import { loadLanguages } from "../../store/language/thunks";
 import { loadSkills } from "../../store/skills/thunks";
-import { freelnacerValidationSchema } from "../../utils/schemaValidators";
+import { freelancerValidationSchema } from "../../utils/schemaValidators";
 import Spinner from "../wrappers/Spinner";
 
 interface FreelancerDataFormProps {
@@ -78,7 +78,7 @@ const FreelancerDataForm = ({
 
   const formik = useForm<FreelancerData>(
     frozenInitials,
-    freelnacerValidationSchema,
+    freelancerValidationSchema,
     onSubmit,
     true,
   );

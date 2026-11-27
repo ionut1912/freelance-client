@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 
-import { useCurrentUser } from "../../hooks/useCurerentUser";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 import type { UserRole } from "../../models/UserProfile";
 import Spinner from "../wrappers/Spinner";
 

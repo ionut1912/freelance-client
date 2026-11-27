@@ -1,6 +1,6 @@
 import RoleSelection from "../components/RoleSelection"; // 👈 adjust the path if you move folders
 
-const Home = () => {
+const HomeRoute = () => {
   return (
     <section>
       <RoleSelection />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeRoute;

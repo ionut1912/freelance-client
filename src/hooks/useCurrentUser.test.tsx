@@ -2,7 +2,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { Provider } from "react-redux";
 
-import { useCurrentUser } from "../hooks/useCurerentUser";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import { fakeApi, makeStore, profile } from "../testUtils";
 
 it("loads the profile of the signed-in role", async () => {

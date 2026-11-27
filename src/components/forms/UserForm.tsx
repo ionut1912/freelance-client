@@ -17,7 +17,7 @@ import { useCallback, useState, useEffect, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useCurrentUser } from "../../hooks/useCurerentUser";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 import type { UpdateUserRequest } from "../../models/Ui";
 import type { AppDispatch, RootState } from "../../store";
 import { patchImage, patchUserData } from "../../store/user-profile/thunks";

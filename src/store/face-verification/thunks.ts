@@ -17,7 +17,7 @@ import type { AppDispatch, RootState } from "../../store";
 import { logout } from "../auth/slice";
 import { blockUserAccount, deleteCurrentUserAccount } from "../auth/thunks";
 import {
-  verifreelancerProfile,
+  verifyFreelancerProfile,
   verifyClientProfile,
 } from "../user-profile/slice";
 import { removeUserProfile } from "../user-profile/thunks";
@@ -83,7 +83,7 @@ async function processMatch(
 ) {
   if (role === "Freelancer") {
     await verifyUserProfile(profile.id);
-    dispatch(verifreelancerProfile(profile.id));
+    dispatch(verifyFreelancerProfile(profile.id));
   } else {
     await verifyUserProfile(profile.id);
     dispatch(verifyClientProfile(profile.id));

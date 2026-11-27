@@ -1,6 +1,6 @@
 import CalendarPage from "../components/calendar/CalendarPage";
 
-const Home = () => {
+const CalendarRoute = () => {
   return (
     <section>
       <CalendarPage />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default CalendarRoute;

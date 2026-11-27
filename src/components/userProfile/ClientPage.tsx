@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { useCurrentUser } from "../../hooks/useCurerentUser";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 import type { AddressData, UserData } from "../../models/UserProfile";
 import { routesLinks } from "../../routes/index";
 import type { AppDispatch, RootState } from "../../store";

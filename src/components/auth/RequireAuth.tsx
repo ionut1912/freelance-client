@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
 
-import { useCurrentUser } from "../../hooks/useCurerentUser";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { isAuthenticated } from "../../lib/auth";
 import { routesLinks } from "../../routes/index";
 import type { RootState } from "../../store";

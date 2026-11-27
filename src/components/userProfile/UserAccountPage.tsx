@@ -3,7 +3,7 @@ import { Box, Container, Tab, Tabs, type TabProps } from "@mui/material";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useCurrentUser } from "../../hooks/useCurerentUser";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 import type { AddressData } from "../../models/UserProfile";
 import type { RootState, AppDispatch } from "../../store";
 import { patchUserProfileAddress } from "../../store/user-profile/thunks";

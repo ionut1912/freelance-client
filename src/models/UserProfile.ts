@@ -101,7 +101,7 @@ interface PatchUserProfileAddressRequest {
   address: AddressDto;
 }
 
-interface PatchFreelancerProfielRequest {
+interface PatchFreelancerProfileRequest {
   profileId: number;
   freelancerData: FreelancerDetailsData;
 }
@@ -154,7 +154,7 @@ export type {
   VerifyFacePayload,
   FaceVerificationRequest,
   AddressDto,
-  PatchFreelancerProfielRequest,
+  PatchFreelancerProfileRequest,
   PatchUserProfileAddressRequest,
   GetSkillsResult,
   UserRole,

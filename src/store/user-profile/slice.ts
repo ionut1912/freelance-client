@@ -50,7 +50,7 @@ const userProfileSlice = createSlice({
         );
       }
     },
-    verifreelancerProfile: (state, action: PayloadAction<number>) => {
+    verifyFreelancerProfile: (state, action: PayloadAction<number>) => {
       if (state.freelancerProfiles) {
         state.freelancerProfiles = state.freelancerProfiles.map((profile) =>
           profile.id === action.payload
@@ -90,6 +90,6 @@ const userProfileSlice = createSlice({
       });
   },
 });
-export const { verifyClientProfile, verifreelancerProfile } =
+export const { verifyClientProfile, verifyFreelancerProfile } =
   userProfileSlice.actions;
 export default userProfileSlice.reducer;

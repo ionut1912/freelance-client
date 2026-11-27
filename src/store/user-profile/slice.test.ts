@@ -1,5 +1,5 @@
 import reducer, {
-  verifreelancerProfile,
+  verifyFreelancerProfile,
   verifyClientProfile,
 } from "../../store/user-profile/slice";
 import * as thunks from "../../store/user-profile/thunks";
@@ -30,7 +30,7 @@ it("marks only the matching profile as verified", () => {
     reducer(state, verifyClientProfile(7)).clientProfiles?.[0]?.isVerified,
   ).toBe(true);
   expect(
-    reducer(state, verifreelancerProfile(7)).freelancerProfiles?.[0]
+    reducer(state, verifyFreelancerProfile(7)).freelancerProfiles?.[0]
       ?.isVerified,
   ).toBe(true);
 });
@@ -38,7 +38,7 @@ it("marks only the matching profile as verified", () => {
 it("ignores verification before profiles are loaded", () => {
   const initial = reducer(undefined, { type: "@@init" });
   expect(reducer(initial, verifyClientProfile(7))).toBe(initial);
-  expect(reducer(initial, verifreelancerProfile(7))).toBe(initial);
+  expect(reducer(initial, verifyFreelancerProfile(7))).toBe(initial);
 });
 
 it.each([

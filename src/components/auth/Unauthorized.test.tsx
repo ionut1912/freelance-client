@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router";
 
-import Unauthorized from "./Unauthoized";
+import Unauthorized from "./Unauthorized";
 
 const setup = (state?: unknown) => {
   render(

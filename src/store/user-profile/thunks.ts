@@ -7,7 +7,7 @@ import type {
   CreateClientProfileRequest,
   CreateFreelancerProfileRequest,
   PatchUserProfileAddressRequest,
-  PatchFreelancerProfielRequest,
+  PatchFreelancerProfileRequest,
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
@@ -186,7 +186,7 @@ export const patchUserProfileAddress = createAsyncThunk<
 
 export const patchFreelancerData = createAsyncThunk<
   undefined,
-  PatchFreelancerProfielRequest,
+  PatchFreelancerProfileRequest,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
   "userProfile/patchFreelancerData",

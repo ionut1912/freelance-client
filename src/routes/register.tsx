@@ -1,6 +1,6 @@
 import RegisterForm from "../components/forms/RegisterForm";
 
-const Home = () => {
+const RegisterRoute = () => {
   return (
     <section>
       <RegisterForm />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default RegisterRoute;
