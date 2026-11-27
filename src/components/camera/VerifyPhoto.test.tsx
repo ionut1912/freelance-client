@@ -1,5 +1,5 @@
 import { act, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import VerifyPhoto from "../../components/camera/VerifyPhoto";
 import { createHubConnection } from "../../lib/signalr";
 import {

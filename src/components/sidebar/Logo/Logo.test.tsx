@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import { Logo } from "../../../components/sidebar/Logo/Logo";
 import { renderApp } from "../../../testUtils";
 

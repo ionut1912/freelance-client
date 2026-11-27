@@ -1,5 +1,5 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import FreelancerDataForm from "../../components/forms/FreelancerDataForm";
 import { fakeApi, renderApp } from "../../testUtils";
 

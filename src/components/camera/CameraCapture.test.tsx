@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import CameraCapture from "../../components/camera/CameraCapture";
 import { createHubConnection } from "../../lib/signalr";
 import { fakeCamera, fakeHub } from "../../testUtils";

@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import NotFound from "../../components/errors/NotFound";
 import { store } from "../../store";
 import { setRole } from "../../store/auth/slice";

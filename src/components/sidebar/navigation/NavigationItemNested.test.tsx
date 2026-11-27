@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import NavigationItemNested from "../../../components/sidebar/navigation/NavigationItemNested";
 import { renderApp } from "../../../testUtils";
 

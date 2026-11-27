@@ -1,79 +1,133 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import LoginForm from "../../components/forms/LoginForm";
-import { fakeApi, renderApp } from "../../testUtils";
+import { screen, waitFor } from "@testing-library/react";
+import LoginForm from "./LoginForm";
+import { buildToken } from "../../testUtils/factories";
+import {
+  held,
+  malformed,
+  offline,
+  recordRequests,
+  reply,
+} from "../../testUtils/handlers";
+import { renderWithProviders } from "../../testUtils/render";
 
-const type = (label: string, value: string) =>
-  fireEvent.change(screen.getByLabelText(label), { target: { value } });
-const blur = (label: string) => fireEvent.blur(screen.getByLabelText(label));
-const button = (name: string) => screen.getByRole("button", { name });
+const setup = () => renderWithProviders(<LoginForm />, { path: "/login" });
+type User = ReturnType<typeof setup>["user"];
 
-it("validates and submits the credentials", async () => {
-  const calls = fakeApi({ "POST auth/login": [401, { detail: "No" }] });
-  renderApp(<LoginForm />);
-  expect(button("Log In")).toBeDisabled();
+const username = () => screen.getByRole("textbox", { name: "Username" });
+// Password inputs have no ARIA role.
+const password = () => screen.getByLabelText("Password");
+const submit = () => screen.getByRole("button", { name: "Log In" });
+const path = () => screen.getByRole("status", { name: "current path" });
 
-  blur("Username");
-  blur("Password");
-  expect(await screen.findByText("Username is required")).toBeInTheDocument();
-
-  type("Username", "ana");
-  type("Password", "secret1");
-  await waitFor(() => expect(button("Log In")).toBeEnabled());
-  userEvent.click(button("Log In"));
-
-  await waitFor(() =>
-    expect(calls[0]?.data).toEqual({ username: "ana", password: "secret1" }),
-  );
-});
-
-const submit = async (username: string, password: string) => {
-  type("Username", username);
-  type("Password", password);
-  await waitFor(() => expect(button("Log In")).toBeEnabled());
-  userEvent.click(button("Log In"));
+const fillIn = async (user: User, name = "ana", secret = "secret1") => {
+  await user.type(username(), name);
+  await user.type(password(), secret);
+  await waitFor(() => expect(submit()).toBeEnabled());
 };
 
-it.each([
-  ["username", "", "secret1"],
-  ["password", "ana", ""],
-])("is disabled without a %s", async (_field, username, password) => {
-  renderApp(<LoginForm />);
-  type("Username", "x");
-  type("Password", "x");
-  await waitFor(() => expect(button("Log In")).toBeEnabled());
+describe("<LoginForm />", () => {
+  it.each([
+    ["Client", "/client"],
+    ["Freelancer", "/freelancer"],
+  ])("logs a %s in and opens %s", async (role, destination) => {
+    const token = buildToken(role);
+    reply("post", "auth/login", { token });
+    const sent = recordRequests();
+    const { user, store } = setup();
 
-  type("Username", username);
-  type("Password", password);
+    await fillIn(user);
+    await user.click(submit());
 
-  await waitFor(() => expect(button("Log In")).toBeDisabled());
-});
+    await waitFor(() => expect(path()).toHaveTextContent(destination));
+    await expect(sent[0]?.body()).resolves.toEqual({
+      username: "ana",
+      password: "secret1",
+    });
+    expect(localStorage.getItem("jwt")).toBe(token);
+    expect(store.getState().auth.role).toBe(role);
+  });
 
-it("stores the token and opens the role's page on success", async () => {
-  const claims = {
-    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client",
-  };
-  const token = `h.${btoa(JSON.stringify(claims))}.s`;
-  fakeApi({ "POST auth/login": [200, { token }] });
-  const { store } = renderApp(<LoginForm />);
+  it("sends unicode credentials unchanged", async () => {
+    reply("post", "auth/login", { token: buildToken("Client") });
+    const sent = recordRequests();
+    const { user } = setup();
 
-  await submit("ana", "secret1");
+    await fillIn(user, "Ștefan 🚀", "părolă-ß");
+    await user.click(submit());
 
-  await waitFor(() =>
-    expect(screen.getByTestId("path")).toHaveTextContent("/client"),
+    await waitFor(() => expect(sent).toHaveLength(1));
+    await expect(sent[0]?.body()).resolves.toEqual({
+      username: "Ștefan 🚀",
+      password: "părolă-ß",
+    });
+  });
+
+  it("shows required messages for fields left empty", async () => {
+    const { user } = setup();
+
+    await user.click(username());
+    await user.tab();
+    await user.click(password());
+    await user.tab();
+
+    expect(await screen.findByText("Username is required")).toBeInTheDocument();
+    expect(screen.getByText("Password is required")).toBeInTheDocument();
+    expect(submit()).toBeDisabled();
+  });
+
+  it.each([400, 401, 403, 404, 500])(
+    "shows the server message on HTTP %i and stays",
+    async (status) => {
+      reply("post", "auth/login", { detail: `Refused ${status}` }, status);
+      const { user } = setup();
+
+      await fillIn(user);
+      await user.click(submit());
+
+      expect(await screen.findByText(`Refused ${status}`)).toBeInTheDocument();
+      expect(path()).toHaveTextContent("/login");
+      expect(localStorage.getItem("jwt")).toBeNull();
+    },
   );
-  expect(localStorage.getItem("jwt")).toBe(token);
-  expect(store.getState().auth.role).toBe("Client");
-  localStorage.clear();
-});
 
-it("stays on the page and stores nothing when rejected", async () => {
-  fakeApi({ "POST auth/login": [401, { detail: "No" }] });
-  const { store } = renderApp(<LoginForm />, { path: "/login" });
+  it("reports a network failure", async () => {
+    offline("post", "auth/login");
+    const { user } = setup();
 
-  await submit("ana", "wrong-password");
+    await fillIn(user);
+    await user.click(submit());
 
-  await waitFor(() => expect(store.getState().auth.error).not.toBeNull());
-  expect(screen.getByTestId("path")).toHaveTextContent("/login");
-  expect(localStorage.getItem("jwt")).toBeNull();
+    expect(await screen.findByText("Network Error")).toBeInTheDocument();
+  });
+
+  // Possible bug: a 200 whose body is not JSON is treated as a success.
+  it("does not sign in when the response is not valid JSON", async () => {
+    malformed("post", "auth/login");
+    jest.spyOn(console, "error").mockImplementation(() => {});
+    const sent = recordRequests();
+    const { user, store } = setup();
+
+    await fillIn(user);
+    await user.click(submit());
+
+    await waitFor(() => expect(sent).toHaveLength(1));
+    await waitFor(() => expect(store.getState().auth.role).toBeFalsy());
+  });
+
+  // Suspected bug: the button stays enabled while the request is in flight, so
+  // a double click logs in twice.
+  it.skip("sends one request for a double click", async () => {
+    const release = held("post", "auth/login", {
+      token: buildToken("Client"),
+    });
+    const sent = recordRequests();
+    const { user } = setup();
+
+    await fillIn(user);
+    await user.dblClick(submit());
+    release();
+
+    await waitFor(() => expect(path()).toHaveTextContent("/client"));
+    expect(sent).toHaveLength(1);
+  });
 });

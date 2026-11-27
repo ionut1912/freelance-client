@@ -1,4 +1,4 @@
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Unauthorized from "../../components/auth/Unauthoized";

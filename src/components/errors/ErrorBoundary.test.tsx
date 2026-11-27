@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import ErrorBoundary from "../../components/errors/ErrorBoundary";
 

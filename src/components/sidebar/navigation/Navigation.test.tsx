@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import Navigation from "../../../components/sidebar/navigation/Navigation";
 import { renderApp } from "../../../testUtils";
 

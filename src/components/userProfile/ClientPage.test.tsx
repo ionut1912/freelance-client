@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import ClientPage from "../../components/userProfile/ClientPage";
 import {
   fakeApi,

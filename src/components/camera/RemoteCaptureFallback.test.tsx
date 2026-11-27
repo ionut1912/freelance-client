@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent from "user-event-13";
 import RemoteCaptureFallback from "../../components/camera/RemoteCaptureFallback";
 import { createHubConnection } from "../../lib/signalr";
 import { fakeHub } from "../../testUtils";
