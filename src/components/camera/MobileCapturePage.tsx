@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { createHubConnection } from "../../lib/signalr";
 
-const API_BASE = process.env.REACT_APP_API_BASE ?? "";
+import { API_URL as API_BASE } from "../../services/utils";
 
 const MAX_BASE64_CHARS = 40_000;
 const TARGET_W = 640;

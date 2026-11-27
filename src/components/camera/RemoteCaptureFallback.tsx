@@ -4,7 +4,7 @@ import type { HubConnection } from "@microsoft/signalr";
 import QRCode from "react-qr-code";
 import { createHubConnection } from "../../lib/signalr";
 
-const API_BASE = process.env.REACT_APP_API_BASE ?? "";
+import { API_URL as API_BASE } from "../../services/utils";
 
 interface SessionData {
   sessionId: string;
@@ -23,7 +23,7 @@ const RemoteCaptureFallback = ({
 
     void (async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/capture/sessions`, {
+        const res = await fetch(`${API_BASE}/capture/sessions`, {
           method: "POST",
           credentials: "include",
         });

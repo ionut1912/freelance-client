@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "webpack serve --config webpack.config.js --env development --host 0.0.0.0 --port 3000 --allowed-hosts all",
     "build": "webpack --config webpack.config.js --env production",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit && tsc --noEmit -p e2e",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:coverage": "jest --coverage",
+    "test:e2e": "playwright test"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -65,6 +67,7 @@
     "@babel/preset-react": "^7.24.5",
     "@babel/preset-typescript": "^7.24.5",
     "@eslint/js": "^9.34.0",
+    "@playwright/test": "^1.65.1",
     "@types/jest": "^30.0.0",
     "@types/jwt-decode": "^2.2.1",
     "@types/node": "^22.16.5",
@@ -77,6 +80,7 @@
     "@typescript-eslint/eslint-plugin": "^8.41.0",
     "@typescript-eslint/parser": "^8.41.0",
     "autoprefixer": "^10.4.21",
+    "babel-jest": "^30.5.2",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
@@ -88,6 +92,8 @@
     "eslint-plugin-unused-imports": "^4.2.0",
     "html-webpack-plugin": "^5.6.3",
     "husky": "^9.1.7",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
     "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
     "postcss-loader": "^8.1.1",
@@ -97,5 +103,11 @@
     "webpack": "^5.100.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^6.1.0"
+  },
+  "overrides": {
+    "glob": "^14.0.6",
+    "test-exclude": {
+      "minimatch": "^11.0.9"
+    }
   }
 }
