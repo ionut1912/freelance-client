@@ -1,4 +1,4 @@
-import { userStatsData } from "../../../../components/dashboard/Widget/user-stats/chartData";
+import { userStatsData } from "./chartData";
 
 it("has every series for every country", () => {
   expect(userStatsData.length).toBeGreaterThan(0);

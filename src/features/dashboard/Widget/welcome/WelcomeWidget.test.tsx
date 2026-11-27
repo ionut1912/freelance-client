@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import WelcomeWidget from "../../../../components/dashboard/Widget/welcome/WelcomeWidget";
+import WelcomeWidget from "./WelcomeWidget";
 
 it("shows the greeting and a documentation button", () => {
   render(<WelcomeWidget title="Hi" description="There" />);

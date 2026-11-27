@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import Dashboard from "../../../components/dashboard/Dashboard";
 import Spinner from "../../../components/ui/Spinner";
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
 import type {
@@ -18,6 +17,7 @@ import {
   saveFreelancerProfile,
 } from "../../../store/user-profile/thunks";
 import VerifyPhoto from "../../camera/VerifyPhoto";
+import Dashboard from "../../dashboard/Dashboard";
 import AddressForm from "../AddressForm";
 
 import FreelancerDataForm from "./FreelancerDataForm";

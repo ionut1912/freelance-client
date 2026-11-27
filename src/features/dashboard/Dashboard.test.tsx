@@ -1,14 +1,11 @@
 import { render, screen } from "@testing-library/react";
 
-import Dashboard from "../../components/dashboard/Dashboard";
+import Dashboard from "./Dashboard";
 
-jest.mock("../../components/dashboard/Widget/sales/SalesWidget", () => () => (
-  <p>sales widget</p>
+jest.mock("./Widget/sales/SalesWidget", () => () => <p>sales widget</p>);
+jest.mock("./Widget/user-stats/UsersStatsWidget", () => () => (
+  <p>users widget</p>
 ));
-jest.mock(
-  "../../components/dashboard/Widget/user-stats/UsersStatsWidget",
-  () => () => <p>users widget</p>,
-);
 
 it("lays out every widget", () => {
   render(<Dashboard />);

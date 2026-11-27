@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { WidgetContainer } from "../../../../components/dashboard/Widget/stylled/WidgetContainer";
+import { WidgetContainer } from "./WidgetContainer";
 
 it("renders its children with its styles", () => {
   render(<WidgetContainer data-testid="el">content</WidgetContainer>);

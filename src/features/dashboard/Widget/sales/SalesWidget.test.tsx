@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import SalesWidget from "../../../../components/dashboard/Widget/sales/SalesWidget";
+import SalesWidget from "./SalesWidget";
 
 jest.mock("@nivo/geo", () => ({
   ResponsiveChoropleth: ({ data }: { data: unknown[] }) => (

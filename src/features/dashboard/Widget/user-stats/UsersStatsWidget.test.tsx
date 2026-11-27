@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import UsersStatsWidget from "../../../../components/dashboard/Widget/user-stats/UsersStatsWidget";
+import UsersStatsWidget from "./UsersStatsWidget";
 
 jest.mock("@nivo/bar", () => ({
   ResponsiveBar: ({

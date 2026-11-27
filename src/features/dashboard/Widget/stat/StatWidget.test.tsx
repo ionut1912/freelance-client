@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import StatWidget from "../../../../components/dashboard/Widget/stat/StatWidget";
+import StatWidget from "./StatWidget";
 
 it("shows the value and an optional footer", () => {
   const { rerender } = render(

@@ -1,4 +1,4 @@
-import { salesData } from "../../../../components/dashboard/Widget/sales/salesData";
+import { salesData } from "./salesData";
 
 it("has one numeric value per country code", () => {
   const ids = salesData.map((entry) => entry.id);
