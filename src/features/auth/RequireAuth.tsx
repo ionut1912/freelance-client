@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
 
 import Spinner from "../../components/ui/Spinner";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useCurrentProfile } from "../../hooks/useCurrentProfile";
 import { isAuthenticated } from "../../lib/auth";
 import { routesLinks } from "../../routes/index";
 import type { RootState } from "../../store";
@@ -11,8 +11,7 @@ import SideBarLayout from "../navigation/SideBarLayout";
 const RequireAuth = () => {
   const location = useLocation();
   const role = useSelector((state: RootState) => state.auth.role) ?? "";
-  const { freelancerProfile, clientProfile, loading } = useCurrentUser();
-  const user = role === "Client" ? clientProfile : freelancerProfile;
+  const { profile: user, loading } = useCurrentProfile();
 
   if (!isAuthenticated()) {
     return (

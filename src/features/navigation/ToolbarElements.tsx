@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 
 import Spinner from "../../components/ui/Spinner";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useCurrentProfile } from "../../hooks/useCurrentProfile";
 import type { UserRole } from "../../models/UserProfile";
 
 import UserMenu from "./user-menu/UserMenu";
@@ -10,11 +10,10 @@ interface ToolbarElementsProps {
 }
 
 const ToolbarElements = ({ role }: ToolbarElementsProps) => {
-  const { freelancerProfile, clientProfile, loading } = useCurrentUser();
+  const { profile, loading } = useCurrentProfile(role);
   if (loading) {
     return <Spinner />;
   }
-  const profile = role === "Freelancer" ? freelancerProfile : clientProfile;
 
   return (
     <Stack direction="row" spacing={2}>

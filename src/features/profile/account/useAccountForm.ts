@@ -3,7 +3,7 @@ import { useCallback, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
-import type { useCurrentUser } from "../../../hooks/useCurrentUser";
+import type { useCurrentProfile } from "../../../hooks/useCurrentProfile";
 import type { UpdateUserRequest } from "../../../models/Ui";
 import type { AppDispatch } from "../../../store";
 import { patchUserData } from "../../../store/user-profile/thunks";
@@ -12,11 +12,9 @@ import {
   type AccountGeneralForm,
 } from "../../../utils/schemaValidators";
 
-type CurrentUser = ReturnType<typeof useCurrentUser>;
-
 /** The account form, filled from the profile and saved back to it. */
 export function useAccountForm(
-  user: CurrentUser["clientProfile"] | CurrentUser["freelancerProfile"],
+  user: ReturnType<typeof useCurrentProfile>["profile"],
 ) {
   const dispatch = useDispatch<AppDispatch>();
   const [saving, setSaving] = useState(false);

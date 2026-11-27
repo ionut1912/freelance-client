@@ -1,8 +1,6 @@
 import { Typography, Grid } from "@mui/material";
-import { useSelector } from "react-redux";
 
-import { useCurrentUser } from "../../../hooks/useCurrentUser";
-import type { RootState } from "../../../store";
+import { useCurrentProfile } from "../../../hooks/useCurrentProfile";
 
 import AccountFieldsCard from "./AccountFieldsCard";
 import AvatarCard from "./AvatarCard";
@@ -14,9 +12,7 @@ interface Props {
 }
 
 const UserForm = ({ submitButtonText = "Save changes" }: Props) => {
-  const { freelancerProfile, clientProfile, loading } = useCurrentUser();
-  const role = useSelector((state: RootState) => state.auth.role);
-  const user = role === "Client" ? clientProfile : freelancerProfile;
+  const { profile: user, loading } = useCurrentProfile();
 
   const { register, errors, getValues, reset, saving, onSubmit } =
     useAccountForm(user);

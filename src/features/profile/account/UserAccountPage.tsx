@@ -1,13 +1,13 @@
 import { Business, Person, Settings } from "@mui/icons-material";
 import { Box, Container, Tab, Tabs, type TabProps } from "@mui/material";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import PageHeader from "../../../components/ui/PageHeader/PageHeader";
 import Spinner from "../../../components/ui/Spinner";
-import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { useCurrentProfile } from "../../../hooks/useCurrentProfile";
 import type { AddressData } from "../../../models/UserProfile";
-import type { RootState, AppDispatch } from "../../../store";
+import type { AppDispatch } from "../../../store";
 import { patchUserProfileAddress } from "../../../store/user-profile/thunks";
 import AddressForm from "../AddressForm";
 
@@ -17,9 +17,8 @@ import UserForm from "./UserForm";
 
 const UserAccountPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const role = useSelector((state: RootState) => state.auth.role);
   const [value, setValue] = React.useState(0);
-  const { freelancerProfile, clientProfile, loading } = useCurrentUser();
+  const { profile: user, loading } = useCurrentProfile();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -29,8 +28,6 @@ const UserAccountPage = () => {
     sx: { minHeight: 42, textTransform: "capitalize" },
     iconPosition: "start",
   };
-
-  const user = role === "Client" ? clientProfile : freelancerProfile;
 
   const defaultValues = user
     ? {
