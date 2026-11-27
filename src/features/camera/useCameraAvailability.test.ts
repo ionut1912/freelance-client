@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 
 import { fakeCamera } from "../../testUtils";
 
@@ -23,3 +23,26 @@ it("reports no camera when devices cannot be listed", async () => {
   await waitFor(() => expect(result.current.checking).toBe(false));
   expect(result.current.hasCamera).toBe(false);
 });
+
+it.each(["resolve", "reject"] as const)(
+  "ignores a device list that arrives after unmount (%s)",
+  async (outcome) => {
+    const { mediaDevices } = fakeCamera();
+    let settle = () => {};
+    mediaDevices.enumerateDevices.mockReturnValue(
+      new Promise((resolve, reject) => {
+        settle = () =>
+          outcome === "resolve" ? resolve([]) : reject(new Error("denied"));
+      }),
+    );
+    const { result, unmount } = renderHook(() => useCameraAvailability());
+
+    unmount();
+    await act(() => {
+      settle();
+      return Promise.resolve();
+    });
+
+    expect(result.current.checking).toBe(true);
+  },
+);

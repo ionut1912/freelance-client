@@ -1,5 +1,5 @@
 import { Stepper, Step, StepLabel, Button, Box } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -8,10 +8,7 @@ import { useCurrentUser } from "../../../hooks/useCurrentUser";
 import type { AddressData, UserData } from "../../../models/UserProfile";
 import { routesLinks } from "../../../routes/index";
 import type { AppDispatch, RootState } from "../../../store";
-import {
-  loadCurrentUserProfile,
-  saveClientProfile,
-} from "../../../store/user-profile/thunks";
+import { saveClientProfile } from "../../../store/user-profile/thunks";
 import VerifyPhoto from "../../camera/VerifyPhoto";
 import Dashboard from "../../dashboard/Dashboard";
 import AddressForm from "../AddressForm";
@@ -35,10 +32,6 @@ const ClientPage = () => {
     addressZip: "",
   });
   const [userData, setUserData] = useState<UserData>({ bio: "", image: "" });
-
-  useEffect(() => {
-    void dispatch(loadCurrentUserProfile());
-  }, [dispatch]);
 
   const loadFailed = useSelector(
     (state: RootState) => state.userProfile.loadFailed,

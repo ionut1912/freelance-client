@@ -1,5 +1,5 @@
 import { Stepper, Step, StepLabel, Button, Box } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -12,10 +12,7 @@ import type {
 } from "../../../models/UserProfile";
 import { routesLinks } from "../../../routes/index";
 import type { AppDispatch, RootState } from "../../../store";
-import {
-  loadCurrentUserProfile,
-  saveFreelancerProfile,
-} from "../../../store/user-profile/thunks";
+import { saveFreelancerProfile } from "../../../store/user-profile/thunks";
 import VerifyPhoto from "../../camera/VerifyPhoto";
 import Dashboard from "../../dashboard/Dashboard";
 import AddressForm from "../AddressForm";
@@ -48,10 +45,6 @@ const FreelancerPage = () => {
     currency: "",
     portfolioUrl: "",
   });
-
-  useEffect(() => {
-    void dispatch(loadCurrentUserProfile());
-  }, [dispatch]);
 
   const loadFailed = useSelector(
     (state: RootState) => state.userProfile.loadFailed,
