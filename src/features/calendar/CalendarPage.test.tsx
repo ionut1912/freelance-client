@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 
-import CalendarPage from "../../components/calendar/CalendarPage";
+import CalendarPage from "./CalendarPage";
 
 const day = (n: number, hour = 10) => new Date(2030, 0, n, hour);
 const mockData = [1, 2, 3].map((n) => ({
@@ -11,7 +11,7 @@ const mockData = [1, 2, 3].map((n) => ({
     { id: "short", name: "Standup", startDate: day(n), endDate: day(n, 11) },
   ],
 }));
-jest.mock("../../hooks/useCalendar", () => ({
+jest.mock("./useCalendar", () => ({
   useCalendar: () => ({ data: mockData }),
 }));
 

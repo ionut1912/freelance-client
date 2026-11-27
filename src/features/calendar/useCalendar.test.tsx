@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { Suspense, type PropsWithChildren } from "react";
 
-import calendar from "../components/calendar/calendar.json";
-import { useCalendar } from "../hooks/useCalendar";
+import calendar from "./calendar.json";
+import { useCalendar } from "./useCalendar";
 
 it("parses the calendar dates", async () => {
   const client = new QueryClient();

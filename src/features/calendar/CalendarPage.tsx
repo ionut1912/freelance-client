@@ -2,9 +2,8 @@ import { Box, Container, Typography } from "@mui/material";
 import { useState } from "react";
 import ReactCalendar from "react-calendar";
 
-import { useCalendar } from "../../hooks/useCalendar";
-
 import { CalendarStyles } from "./styles/styles";
+import { useCalendar } from "./useCalendar";
 
 const CalendarPage = () => {
   const { data } = useCalendar();
