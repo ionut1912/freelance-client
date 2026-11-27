@@ -2,11 +2,10 @@ import {
   Card,
   CardContent,
   Typography,
-  Button,
   CircularProgress,
   Snackbar,
 } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -17,16 +16,16 @@ import type {
 import type { AppDispatch } from "../../store";
 import { verifyCapturedFace } from "../../store/face-verification/thunks";
 
+import CameraViewfinder from "./CameraViewfinder";
+import PhotoPreview from "./PhotoPreview";
 import RemoteCaptureFallback from "./RemoteCaptureFallback";
 import { useCamera } from "./useCamera";
 import { useCameraAvailability } from "./useCameraAvailability";
-import { useRemotePhotoReceiver } from "./useRemotePhotoReceiver";
+import { useVerificationPhoto } from "./useVerificationPhoto";
 
 interface VerifyPhotoProps {
   profile: ClientProfileDto | FreelancerProfileDto;
 }
-
-type PhotoSource = "local" | "remote" | null;
 
 const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,45 +41,32 @@ const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
   } = useCamera();
   const { checking, hasCamera } = useCameraAvailability();
 
-  const [photoBase64, setPhotoBase64] = useState<string | null>(null);
-  const [photoSource, setPhotoSource] = useState<PhotoSource>(null);
-  const [snackOpen, setSnackOpen] = useState(false);
-
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
   const sessionId = params.get("session") ?? "";
 
-  const onPhotoCb = useCallback((dataUrl: string) => {
-    if (typeof dataUrl === "string" && dataUrl.startsWith("data:image")) {
-      setPhotoBase64(dataUrl);
-      setPhotoSource("remote");
-      setSnackOpen(true);
-    }
-  }, []);
-
-  useRemotePhotoReceiver(sessionId, onPhotoCb);
+  const { photo, source, snackOpen, accept, acceptRemote, clear, closeSnack } =
+    useVerificationPhoto(sessionId);
 
   const handleCapture = () => {
-    const photo = capturePhoto();
-    if (photo) {
-      setPhotoBase64(photo);
-      setPhotoSource("local");
-      setSnackOpen(true);
+    const captured = capturePhoto();
+    if (captured) {
+      accept(captured, "local");
     }
   };
 
   useEffect(() => {
-    if (photoBase64 && streaming) {
+    if (photo && streaming) {
       stopCamera();
     }
-  }, [photoBase64, streaming, stopCamera]);
+  }, [photo, streaming, stopCamera]);
 
   const handleVerify = () => {
-    if (!photoBase64) {
+    if (!photo) {
       return;
     }
     void dispatch(
       verifyCapturedFace({
-        faceVerificationRequest: { faceBase64Image: photoBase64 },
+        faceVerificationRequest: { faceBase64Image: photo },
         profile,
         navigate,
       }),
@@ -88,8 +74,7 @@ const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
   };
 
   const handleRetake = () => {
-    setPhotoBase64(null);
-    setPhotoSource(null);
+    clear();
     if (hasCamera && !streaming) {
       void startCamera();
     }
@@ -112,46 +97,14 @@ const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
           </Typography>
 
           {hasCamera ? (
-            <>
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                playsInline
-                className="rounded-xl shadow-md max-w-full border border-gray-200"
-                style={{ maxHeight: 360 }}
-              />
-              <canvas ref={canvasRef} style={{ display: "none" }} />
-
-              <div className="flex gap-3 mt-4">
-                {!streaming ? (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={startCamera}
-                  >
-                    Start Camera
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleCapture}
-                    >
-                      Capture
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={stopCamera}
-                    >
-                      Stop
-                    </Button>
-                  </>
-                )}
-              </div>
-            </>
+            <CameraViewfinder
+              videoRef={videoRef}
+              canvasRef={canvasRef}
+              streaming={streaming}
+              onStart={startCamera}
+              onStop={stopCamera}
+              onCapture={handleCapture}
+            />
           ) : (
             <div className="w-full mt-2">
               <Typography
@@ -161,37 +114,17 @@ const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
                 No local camera detected. You can capture a photo from another
                 device:
               </Typography>
-              <RemoteCaptureFallback onPhoto={onPhotoCb} />
+              <RemoteCaptureFallback onPhoto={acceptRemote} />
             </div>
           )}
 
-          {photoBase64 ? (
-            <div className="w-full mt-6 flex flex-col items-center">
-              <Typography
-                variant="subtitle1"
-                className="font-semibold text-gray-700 mb-2"
-              >
-                Preview {photoSource ? `(${photoSource})` : ""}
-              </Typography>
-              <img
-                src={photoBase64}
-                alt="Captured"
-                className="rounded-xl shadow-md mb-4 max-w-sm border border-gray-200"
-                style={{ objectFit: "cover", maxHeight: 360 }}
-              />
-              <div className="flex gap-3">
-                <Button variant="outlined" onClick={handleRetake}>
-                  Retake
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleVerify}
-                >
-                  Verify Photo
-                </Button>
-              </div>
-            </div>
+          {photo ? (
+            <PhotoPreview
+              src={photo}
+              source={source}
+              onRetake={handleRetake}
+              onVerify={handleVerify}
+            />
           ) : null}
         </CardContent>
       </Card>
@@ -199,11 +132,9 @@ const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
       <Snackbar
         open={snackOpen}
         autoHideDuration={2000}
-        onClose={() => setSnackOpen(false)}
+        onClose={closeSnack}
         message={
-          photoSource === "remote"
-            ? "Photo received from mobile"
-            : "Photo captured"
+          source === "remote" ? "Photo received from mobile" : "Photo captured"
         }
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       />
