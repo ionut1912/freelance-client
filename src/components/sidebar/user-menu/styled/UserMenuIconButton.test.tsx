@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { UserMenuIconButton } from "../../../../components/sidebar/user-menu/styled/UserMenuIconButton";
 
 it("renders its children with its styles", () => {

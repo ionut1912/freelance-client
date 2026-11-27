@@ -1,5 +1,5 @@
-import { fakeApi, makeStore } from "../../testUtils";
 import { loadSkills } from "../../store/skills/thunks";
+import { fakeApi, makeStore } from "../../testUtils";
 
 it("loads skills", async () => {
   fakeApi({ "GET skills": [200, [{ programmingLanguage: "Go" }]] });

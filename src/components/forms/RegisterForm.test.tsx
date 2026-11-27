@@ -1,5 +1,6 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import RegisterForm from "../../components/forms/RegisterForm";
 import { fakeApi, makeStore, renderApp } from "../../testUtils";
 
@@ -45,7 +46,9 @@ it("sends nothing without a role and goes to role selection", async () => {
   const calls = fakeApi();
   renderApp(<RegisterForm />, { path: "/register" });
   await submit();
-  await waitFor(() => expect(screen.getByTestId("path").textContent).toBe("/"));
+  await waitFor(() =>
+    expect(screen.getByTestId("path")).toHaveTextContent("/"),
+  );
   expect(calls).toHaveLength(0);
 });
 

@@ -1,9 +1,11 @@
 import { Container, Grid } from "@mui/material";
+
 import PageHeader from "../PageHeader/PageHeader";
-import WelcomeWidget from "./Widget/welcome/WelcomeWidget";
-import StatWidget from "./Widget/stat/StatWidget";
+
 import SalesWidget from "./Widget/sales/SalesWidget";
+import StatWidget from "./Widget/stat/StatWidget";
 import UsersStatsWidget from "./Widget/user-stats/UsersStatsWidget";
+import WelcomeWidget from "./Widget/welcome/WelcomeWidget";
 
 const Dashboard = () => {
   return (

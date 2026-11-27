@@ -13,13 +13,14 @@ import {
 import sessionStorage from "redux-persist/lib/storage/session";
 
 import authReducer, { logout } from "../src/store/auth/slice";
-import { api } from "./services/utils";
-import userProfileReducer from "../src/store/user-profile/slice";
-import faceVerificationReducer from "../src/store/face-verification/slice";
 import cityReducer from "../src/store/city/slice";
 import countryReducer from "../src/store/country/slice";
+import faceVerificationReducer from "../src/store/face-verification/slice";
 import languageReducer from "../src/store/language/slice";
 import skillReducer from "../src/store/skills/slice";
+import userProfileReducer from "../src/store/user-profile/slice";
+
+import { api } from "./services/utils";
 import navigationReducer from "./store/navigation/slice";
 
 const rootReducer = combineReducers({
@@ -58,7 +59,9 @@ api.interceptors.response.use(undefined, (error: unknown) => {
   ) {
     store.dispatch(logout());
   }
-  return Promise.reject(error as Error);
+  // Pass the original rejection through unchanged.
+  // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+  return Promise.reject(error);
 });
 
 export const persistor = persistStore(store);

@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { WelcomeWidgetContent } from "../../../../../components/dashboard/Widget/welcome/styled/WelcomeWidgetContent";
 
 it("renders its children with its styles", () => {

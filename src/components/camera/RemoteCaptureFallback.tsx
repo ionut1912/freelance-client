@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import type { HubConnection } from "@microsoft/signalr";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
-import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
 
+import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
 import { API_URL as API_BASE } from "../../services/utils";
 
 interface SessionData {
@@ -38,7 +38,9 @@ const RemoteCaptureFallback = ({
           throw new Error(`Capture session failed: ${res.status}`);
         }
         const data = (await res.json()) as SessionData;
-        if (request.cancelled) return;
+        if (request.cancelled) {
+          return;
+        }
         setSession(data);
 
         conn = createHubConnection(API_BASE);
@@ -54,11 +56,13 @@ const RemoteCaptureFallback = ({
 
     return () => {
       request.cancelled = true;
-      void conn?.stop().catch(() => {});
+      void conn?.stop().catch(() => undefined);
     };
   }, []);
 
-  if (!session) return null;
+  if (!session) {
+    return null;
+  }
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
@@ -73,7 +77,7 @@ const RemoteCaptureFallback = ({
           value={session.deepLink}
           fullWidth
           size="small"
-          InputProps={{ readOnly: true }}
+          slotProps={{ input: { readOnly: true } }}
         />
         <Button onClick={() => navigator.clipboard.writeText(session.deepLink)}>
           Copiază

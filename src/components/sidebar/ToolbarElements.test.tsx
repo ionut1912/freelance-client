@@ -1,4 +1,5 @@
 import { screen } from "@testing-library/react";
+
 import ToolbarElements from "../../components/sidebar/ToolbarElements";
 import { fakeApi, makeStore, profileState, renderApp } from "../../testUtils";
 
@@ -26,5 +27,5 @@ it("shows a spinner while loading", () => {
 
 it("shows no menu without a profile", () => {
   view("Client", { clientProfiles: [] });
-  expect(screen.queryByText("user menu")).toBeNull();
+  expect(screen.queryByText("user menu")).not.toBeInTheDocument();
 });

@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import RemoteCaptureFallback from "../../components/camera/RemoteCaptureFallback";
 import { createHubConnection } from "../../lib/signalr";
 import { fakeHub } from "../../testUtils";
@@ -50,7 +51,7 @@ it("renders nothing when the session cannot be created", async () => {
   window.fetch = jest.fn().mockRejectedValue(new Error("offline"));
   const { unmount } = render(<RemoteCaptureFallback onPhoto={jest.fn()} />);
   await waitFor(() => expect(log).toHaveBeenCalled());
-  expect(screen.queryByRole("button")).toBeNull();
+  expect(screen.queryByRole("button")).not.toBeInTheDocument();
   unmount();
 });
 
@@ -61,7 +62,7 @@ it("shows no link when the server refuses the session", async () => {
 
   await waitFor(() => expect(log).toHaveBeenCalled());
 
-  expect(screen.queryByRole("button")).toBeNull();
+  expect(screen.queryByRole("button")).not.toBeInTheDocument();
   expect(createHubConnection).not.toHaveBeenCalled();
 });
 
@@ -85,7 +86,7 @@ it("does not connect if unmounted before the session arrives", async () => {
   const { unmount } = render(<RemoteCaptureFallback onPhoto={jest.fn()} />);
 
   unmount();
-  await new Promise(process.nextTick);
+  await new Promise((resolve) => process.nextTick(resolve));
 
   expect(createHubConnection).not.toHaveBeenCalled();
 });

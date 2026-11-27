@@ -1,6 +1,7 @@
 import { ListItemButton, type ListItemButtonProps } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import type { PropsWithChildren } from "react";
+
 import type { NavigationListItemButtonProps } from "../../../../models/Ui";
 
 export const NavigationListItemButton = styled(ListItemButton, {
@@ -28,7 +29,7 @@ export const NavigationListItemButton = styled(ListItemButton, {
     },
 
     "&:hover": {
-      backgroundColor: `${alpha(theme.palette.primary.main, 0.1)}`,
+      backgroundColor: alpha(theme.palette.primary.main, 0.1),
     },
     ...(active && {
       backgroundColor: theme.palette.primary.main,

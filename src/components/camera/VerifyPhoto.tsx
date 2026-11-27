@@ -6,19 +6,21 @@ import {
   CircularProgress,
   Snackbar,
 } from "@mui/material";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import type { AppDispatch } from "../../store";
-import { verifyCapturedFace } from "../../store/face-verification/thunks";
+
+import { useCamera } from "../../hooks/useCamera";
+import { useCameraAvailability } from "../../hooks/useCameraAvailability";
+import { useRemotePhotoReceiver } from "../../hooks/useRemotePhotoReceiver";
 import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
-import { useCamera } from "../../hooks/useCamera";
-import { useCameraAvailability } from "../../hooks/useCameraAvailability";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import type { AppDispatch } from "../../store";
+import { verifyCapturedFace } from "../../store/face-verification/thunks";
+
 import RemoteCaptureFallback from "./RemoteCaptureFallback";
-import { useRemotePhotoReceiver } from "../../hooks/useRemotePhotoReceiver";
 
 interface VerifyPhotoProps {
   profile: ClientProfileDto | FreelancerProfileDto;
@@ -73,7 +75,9 @@ const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
   }, [photoBase64, streaming, stopCamera]);
 
   const handleVerify = () => {
-    if (!photoBase64) return;
+    if (!photoBase64) {
+      return;
+    }
     void dispatch(
       verifyCapturedFace({
         faceVerificationRequest: { faceBase64Image: photoBase64 },

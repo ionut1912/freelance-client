@@ -1,10 +1,11 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState, AppDispatch } from "../store";
+
 import {
   toggleSidebar,
   toggleNavigationId,
 } from "../../src/store/navigation/slice";
+import type { RootState, AppDispatch } from "../store";
 
 export const useAppNavigation = () => {
   const dispatch: AppDispatch = useDispatch();

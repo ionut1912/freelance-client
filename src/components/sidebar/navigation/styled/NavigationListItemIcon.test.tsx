@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { NavigationListItemIcon } from "../../../../components/sidebar/navigation/styled/NavigationListItemIcon";
 
 it("renders its children with its styles", () => {

@@ -1,4 +1,5 @@
 import { waitFor } from "@testing-library/react";
+
 import reportWebVitals from "./reportWebVitals";
 
 jest.mock("web-vitals", () => ({

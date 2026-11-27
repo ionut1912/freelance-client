@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
-import { fakeApi, makeStore } from "../../testUtils";
+
 import { loadCountries } from "../../store/country/thunks";
+import { fakeApi, makeStore } from "../../testUtils";
 
 it("maps countries to their common names", async () => {
   fakeApi({ "GET restcountries": [200, [{ name: { common: "Romania" } }]] });

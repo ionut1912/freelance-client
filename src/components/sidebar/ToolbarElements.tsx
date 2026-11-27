@@ -1,8 +1,10 @@
-import type { UserRole } from "../../models/UserProfile";
-import { useCurrentUser } from "../../hooks/useCurerentUser";
-import UserMenu from "./user-menu/UserMenu";
 import { Stack } from "@mui/material";
+
+import { useCurrentUser } from "../../hooks/useCurerentUser";
+import type { UserRole } from "../../models/UserProfile";
 import Spinner from "../wrappers/Spinner";
+
+import UserMenu from "./user-menu/UserMenu";
 interface ToolbarElementsProps {
   role: UserRole;
 }

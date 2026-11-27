@@ -1,4 +1,5 @@
 import { screen } from "@testing-library/react";
+
 import NavigationItem from "../../../components/sidebar/navigation/NavigationItem";
 import { renderApp } from "../../../testUtils";
 

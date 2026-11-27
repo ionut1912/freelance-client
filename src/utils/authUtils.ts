@@ -3,8 +3,9 @@ import axios, {
   type AxiosError,
   type InternalAxiosRequestConfig,
 } from "axios";
-import type { NavigateFunction } from "react-router-dom";
 import { jwtDecode, type JwtPayload as DefaultJwtPayload } from "jwt-decode";
+import type { NavigateFunction } from "react-router-dom";
+
 import { routesLinks } from "../routes/index";
 
 interface JwtPayload extends DefaultJwtPayload {
@@ -52,6 +53,7 @@ export const navigateByRole = (
     case "Client":
       void navigate(routesLinks.client);
       break;
+    case null:
     default:
       void navigate(routesLinks.home);
   }

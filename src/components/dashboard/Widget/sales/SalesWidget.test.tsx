@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import SalesWidget from "../../../../components/dashboard/Widget/sales/SalesWidget";
 
 jest.mock("@nivo/geo", () => ({

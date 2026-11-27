@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { LogoText } from "../../../../components/sidebar/Logo/styled/LogoText";
 
 it("renders its children with its styles", () => {

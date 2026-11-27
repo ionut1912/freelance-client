@@ -1,5 +1,5 @@
-import { fakeApi, makeStore } from "../../testUtils";
 import { loadLanguages } from "../../store/language/thunks";
+import { fakeApi, makeStore } from "../../testUtils";
 
 it("loads languages", async () => {
   fakeApi({ "GET libretranslate": [200, [{ code: "ro" }]] });

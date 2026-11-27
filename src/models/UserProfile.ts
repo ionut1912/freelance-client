@@ -1,10 +1,11 @@
+import type { NavigateFunction } from "react-router-dom";
+
 import type { UserProfileDto } from "./Accounts";
-import type { TaskDto } from "./Tasks";
-import type { ProjectDto } from "./Projects";
 import type { ContractsDto } from "./Contracts";
 import type { InvoicesDto } from "./Invoices";
+import type { ProjectDto } from "./Projects";
+import type { TaskDto } from "./Tasks";
 import type { FreelancerDetailsData } from "./Ui";
-import type { NavigateFunction } from "react-router-dom";
 
 type UserRole = "Client" | "Freelancer";
 
@@ -105,9 +106,9 @@ interface PatchFreelancerProfielRequest {
   freelancerData: FreelancerDetailsData;
 }
 
-interface ClientProfileDto extends BaseProfileDto {}
+type ClientProfileDto = BaseProfileDto;
 
-interface UpdateClientProfileRequest extends BaseUpdateProfile {}
+type UpdateClientProfileRequest = BaseUpdateProfile;
 
 interface SkillDto {
   id?: number;

@@ -1,6 +1,6 @@
-import { fakeApi, offlineApi } from "../testUtils";
 import getSkills from "../services/skillsService";
 import { API_URL } from "../services/utils";
+import { fakeApi, offlineApi } from "../testUtils";
 
 const endpoints = [
   {

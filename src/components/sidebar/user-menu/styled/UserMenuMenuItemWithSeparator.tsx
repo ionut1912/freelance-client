@@ -1,4 +1,5 @@
 import { styled } from "@mui/material/styles";
+
 import { UserMenuMenuItem } from "./UserMenuMenuItem";
 
 export const UserMenuMenuItemWithSeparator = styled(UserMenuMenuItem)(

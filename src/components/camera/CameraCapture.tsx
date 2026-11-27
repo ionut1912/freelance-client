@@ -1,9 +1,11 @@
 import { Box, Button, CircularProgress } from "@mui/material";
+import { useCallback } from "react";
+
 import { useCamera } from "../../hooks/useCamera";
 import { useCameraAvailability } from "../../hooks/useCameraAvailability";
-import type { UserData } from "../../models/UserProfile";
-import { useCallback } from "react";
 import { useRemotePhotoReceiver } from "../../hooks/useRemotePhotoReceiver";
+import type { UserData } from "../../models/UserProfile";
+
 import RemoteCaptureFallback from "./RemoteCaptureFallback";
 
 interface CameraCaptureProps {
@@ -24,7 +26,7 @@ const CameraCapture = ({ userData, onChange }: CameraCaptureProps) => {
 
   const onPhotoCb = useCallback(
     (dataUrl: string) => {
-      onChange("image", String(dataUrl));
+      onChange("image", dataUrl);
     },
     [onChange],
   );
@@ -35,7 +37,9 @@ const CameraCapture = ({ userData, onChange }: CameraCaptureProps) => {
 
   const handleCapture = () => {
     const photo = capturePhoto();
-    if (photo) onChange("image", String(photo));
+    if (photo) {
+      onChange("image", photo);
+    }
   };
 
   if (checking) {
@@ -74,7 +78,7 @@ const CameraCapture = ({ userData, onChange }: CameraCaptureProps) => {
           )}
         </>
       ) : (
-        <RemoteCaptureFallback onPhoto={(photo) => onPhotoCb(String(photo))} />
+        <RemoteCaptureFallback onPhoto={onPhotoCb} />
       )}
       {userData.image ? (
         <img

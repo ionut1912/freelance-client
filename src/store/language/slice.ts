@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { LanguageState } from "./types";
+
 import { loadLanguages } from "./thunks";
+import type { LanguageState } from "./types";
 
 const initialState: LanguageState = {
   languages: [],

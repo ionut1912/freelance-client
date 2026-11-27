@@ -1,11 +1,11 @@
 import { Button, Container, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { isAuthenticated } from "../../lib/auth";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
+import { isAuthenticated } from "../../lib/auth";
+import { routesLinks } from "../../routes/index";
 import type { RootState } from "../../store";
 import { navigateByRole } from "../../utils/authUtils";
-import { routesLinks } from "../../routes/index";
 
 const NotFound = () => {
   const navigate = useNavigate();

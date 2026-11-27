@@ -1,6 +1,8 @@
 import { alpha, useTheme } from "@mui/material";
-import Widget from "../Widget";
 import { ResponsiveChoropleth } from "@nivo/geo";
+
+import Widget from "../Widget";
+
 import { salesData } from "./salesData";
 import features from "./world.json";
 

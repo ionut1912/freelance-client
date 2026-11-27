@@ -1,25 +1,23 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../store";
-import { useNavigate } from "react-router-dom";
-import { useCurrentUser } from "../../hooks/useCurerentUser";
 import { Stepper, Step, StepLabel, Button, Box } from "@mui/material";
 import { useState, useEffect } from "react";
-import type {
-  AddressData,
-  UserData,
-  CreateClientProfileRequest,
-} from "../../models/UserProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { useCurrentUser } from "../../hooks/useCurerentUser";
+import type { AddressData, UserData } from "../../models/UserProfile";
+import { routesLinks } from "../../routes/index";
+import type { AppDispatch, RootState } from "../../store";
 import {
   loadCurrentUserProfile,
   saveClientProfile,
 } from "../../store/user-profile/thunks";
 import VerifyPhoto from "../camera/VerifyPhoto";
+import Dashboard from "../dashboard/Dashboard";
 import AddressForm from "../forms/AddressForm";
 import UserDataForm from "../forms/UserDataForm";
 import Spinner from "../wrappers/Spinner";
+
 import ProfileLoadError from "./ProfileLoadError";
-import { routesLinks } from "../../routes/index";
-import Dashboard from "../dashboard/Dashboard";
 
 const ClientPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -46,8 +44,12 @@ const ClientPage = () => {
     (state: RootState) => state.userProfile.loadFailed,
   );
 
-  if (loading) return <Spinner />;
-  if (loadFailed && !profile) return <ProfileLoadError />;
+  if (loading) {
+    return <Spinner />;
+  }
+  if (loadFailed && !profile) {
+    return <ProfileLoadError />;
+  }
 
   if (profile) {
     return (
@@ -81,7 +83,7 @@ const ClientPage = () => {
             saveClientProfile({
               address: addressData,
               user: vals,
-            } as CreateClientProfileRequest),
+            }),
           );
           void navigate(routesLinks.client);
         }}

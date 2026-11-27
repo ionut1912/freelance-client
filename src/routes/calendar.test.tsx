@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
 import { Suspense } from "react";
+
 import { renderWithProviders } from "../testUtils/render";
+
 import Page from "./calendar";
 
 describe("calendar route", () => {

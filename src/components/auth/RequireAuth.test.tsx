@@ -1,10 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
+
 import { store } from "../../store";
 import { logout, setRole } from "../../store/auth/slice";
 import { buildProfile } from "../../testUtils/factories";
 import { offline, reply } from "../../testUtils/handlers";
+
 import RequireAuth from "./RequireAuth";
 
 // RequireAuth asks the real app store whether a role is set.
@@ -40,7 +42,7 @@ describe("<RequireAuth />", () => {
     expect(
       await screen.findByRole("heading", { name: "login page" }),
     ).toBeInTheDocument();
-    expect(screen.queryByText("secret")).toBeNull();
+    expect(screen.queryByText("secret")).not.toBeInTheDocument();
   });
 
   it("shows the page inside the sidebar to a signed-in user", async () => {

@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { render, screen } from "@testing-library/react";
+
 import { LogoImg } from "../../../../components/sidebar/Logo/styled/LogoImg";
 
 it("renders its children with its styles", () => {

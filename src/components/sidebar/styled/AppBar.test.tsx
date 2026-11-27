@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { AppBar } from "../../../components/sidebar/styled/AppBar";
 
 it("makes room for the sidebar only while open", () => {

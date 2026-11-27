@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
-import LoginForm from "./LoginForm";
+
 import { buildToken } from "../../testUtils/factories";
 import {
   held,
@@ -9,6 +9,8 @@ import {
   reply,
 } from "../../testUtils/handlers";
 import { renderWithProviders } from "../../testUtils/render";
+
+import LoginForm from "./LoginForm";
 
 const setup = () => renderWithProviders(<LoginForm />, { path: "/login" });
 type User = ReturnType<typeof setup>["user"];

@@ -1,6 +1,8 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+import { incrementFalseCount, resetFalseCount } from "./actions";
 import { verifyCapturedFace } from "./thunks";
 import type { FaceVerificationState } from "./types";
-import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: FaceVerificationState = {
   verifyFaceResult: null,
@@ -11,16 +13,15 @@ const initialState: FaceVerificationState = {
 const faceVerificationSlice = createSlice({
   name: "faceVerification",
   initialState,
-  reducers: {
-    incrementFalseCount: (state) => {
-      state.falseCount += 1;
-    },
-    resetFalseCount: (state) => {
-      state.falseCount = 0;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(incrementFalseCount, (state) => {
+        state.falseCount += 1;
+      })
+      .addCase(resetFalseCount, (state) => {
+        state.falseCount = 0;
+      })
       .addCase(verifyCapturedFace.fulfilled, (state, action) => {
         state.verifyFaceResult = action.payload;
         state.error = null;
@@ -31,6 +32,5 @@ const faceVerificationSlice = createSlice({
   },
 });
 
-export const { incrementFalseCount, resetFalseCount } =
-  faceVerificationSlice.actions;
+export { incrementFalseCount, resetFalseCount };
 export default faceVerificationSlice.reducer;

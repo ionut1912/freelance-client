@@ -1,6 +1,8 @@
 import { screen, waitFor } from "@testing-library/react";
+
 import { fakeCamera } from "../testUtils";
 import { renderWithProviders } from "../testUtils/render";
+
 import Page from "./mobileCameraCapture";
 
 describe("mobileCameraCapture route", () => {

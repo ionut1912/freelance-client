@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react";
 import {
   Box,
   Grid,
@@ -11,15 +10,17 @@ import {
   Radio,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import type { UserRole } from "../models/UserProfile";
-import { setRole } from "../store/auth/slice";
+import { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import type { AppDispatch } from "../store";
+import { Link } from "react-router-dom";
+
+import type { UserRole } from "../models/UserProfile";
 import { routesLinks } from "../routes/index";
+import type { AppDispatch } from "../store";
+import { setRole } from "../store/auth/slice";
 
 const RoleSelection = () => {
-  const [role, setRoleState] = useState<UserRole>("Client");
+  const [selectedRole, setSelectedRole] = useState<UserRole>("Client");
   const dispatch = useDispatch<AppDispatch>();
   const roles = [
     {
@@ -35,16 +36,16 @@ const RoleSelection = () => {
   ];
 
   const choose = useCallback((newRole: UserRole) => {
-    setRoleState(newRole);
+    setSelectedRole(newRole);
   }, []);
   const setUserRole = () => {
-    dispatch(setRole(role));
+    dispatch(setRole(selectedRole));
   };
 
   return (
     <Box className="flex flex-col items-center justify-center min-h-screen px-4">
       <RadioGroup
-        value={role}
+        value={selectedRole}
         onChange={(e) => choose(e.target.value as UserRole)}
       >
         <Grid
@@ -57,7 +58,7 @@ const RoleSelection = () => {
             <Grid key={value} size={{ xs: 12, sm: 6 }}>
               <Card
                 className={`w-full h-full shadow-lg ${
-                  role === value ? "border-2 border-blue-500" : ""
+                  selectedRole === value ? "border-2 border-blue-500" : ""
                 }`}
               >
                 <CardActionArea onClick={() => choose(value)}>
@@ -94,7 +95,7 @@ const RoleSelection = () => {
           className="w-full"
           sx={{ textTransform: "none", py: 1.5 }}
         >
-          Join as {role}
+          Join as {selectedRole}
         </Button>
         <Typography variant="body2" className="text-center mt-3">
           <Link to={routesLinks.login} className="text-gray-700">

@@ -1,119 +1,122 @@
-import typescriptParser from "@typescript-eslint/parser";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import reactPlugin from "eslint-plugin-react";
-import reactHooksPlugin from "eslint-plugin-react-hooks";
-import prettierPlugin from "eslint-plugin-prettier";
-import unusedImportsPlugin from "eslint-plugin-unused-imports";
+// @ts-check
+import js from "@eslint/js";
+import eslintReact from "@eslint-react/eslint-plugin";
+import { defineConfig, globalIgnores } from "eslint/config";
+import prettierConfig from "eslint-config-prettier/flat";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import { createNodeResolver, importX } from "eslint-plugin-import-x";
+import jest from "eslint-plugin-jest";
+import jestDom from "eslint-plugin-jest-dom";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import playwright from "eslint-plugin-playwright";
+import reactHooks from "eslint-plugin-react-hooks";
+import testingLibrary from "eslint-plugin-testing-library";
+import unusedImports from "eslint-plugin-unused-imports";
+import globals from "globals";
+import { configs as tseslint } from "typescript-eslint";
 
-export default [
+const TS_FILES = ["**/*.{ts,tsx}"];
+const APP_FILES = ["src/**/*.{ts,tsx}"];
+const UNIT_TEST_FILES = ["src/**/*.test.{ts,tsx}"];
+const TEST_SUPPORT_FILES = ["src/testUtils/**/*.{ts,tsx}", "src/setupTests.ts"];
+
+// react-hooks owns the hooks and React Compiler rules, so switch off the copies
+// that @eslint-react ships under its own prefix. The names come from the preset
+// that lists the overlap.
+const DUPLICATE_HOOK_RULES = Object.fromEntries(
+  Object.keys(
+    eslintReact.configs["disable-conflict-eslint-plugin-react-hooks"].rules ??
+      {},
+  ).map((rule) => [
+    rule.replace("react-hooks/", "@eslint-react/"),
+    /** @type {const} */ ("off"),
+  ]),
+);
+
+// APIs that are removed or discouraged in React 19 and have no plugin rule.
+const LEGACY_REACT_SYNTAX = [
   {
-    ignores: ["dist/", "coverage/", "playwright-report/", "test-results/"],
+    selector:
+      "AssignmentExpression[left.property.name=/^(defaultProps|propTypes)$/]",
+    message: "Use TypeScript types and default parameter values instead.",
   },
   {
-    // Playwright integration tests
-    files: ["e2e/**/*.ts"],
+    selector:
+      "PropertyDefinition[static=true][key.name=/^(defaultProps|propTypes|contextTypes|childContextTypes)$/]",
+    message: "Not supported in React 19 function components or legacy context.",
+  },
+  {
+    selector:
+      "AssignmentExpression[left.property.name=/^(contextTypes|childContextTypes)$/]",
+    message: "Legacy context was removed in React 19. Use createContext.",
+  },
+  {
+    selector: "MethodDefinition[key.name='getChildContext']",
+    message: "Legacy context was removed in React 19. Use createContext.",
+  },
+  {
+    selector: "JSXAttribute[name.name='ref'] > Literal",
+    message: "String refs were removed in React 19. Use useRef.",
+  },
+];
+
+export default defineConfig([
+  // Build output, reports and generated files.
+  globalIgnores([
+    "dist/",
+    "build/",
+    ".next/",
+    "coverage/",
+    "playwright-report/",
+    "test-results/",
+    "**/*.gen.ts",
+  ]),
+
+  { linterOptions: { reportUnusedDisableDirectives: "error" } },
+
+  // Baseline for every file.
+  js.configs.recommended,
+
+  // TypeScript: strict, type-aware rules.
+  {
+    files: TS_FILES,
+    extends: [tseslint.strictTypeChecked, tseslint.stylisticTypeChecked],
     languageOptions: {
-      parser: typescriptParser,
       parserOptions: {
-        project: "./e2e/tsconfig.json",
+        // Picks the nearest tsconfig.json: ./ for src, ./e2e for e2e.
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-      prettier: prettierPlugin,
-    },
     rules: {
-      "prettier/prettier": "error",
+      // Rewrites `x as T` to `x!`, which no-non-null-assertion forbids.
+      "@typescript-eslint/non-nullable-type-assertion-style": "off",
       "@typescript-eslint/no-floating-promises": "error",
-    },
-  },
-  {
-    files: ["src/**/*.{js,jsx,ts,tsx}"],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        project: "./tsconfig.json",
-        tsconfigRootDir: import.meta.dirname,
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-      globals: {
-        window: "readonly",
-        document: "readonly",
-        console: "readonly",
-        process: "readonly",
-        module: "readonly",
-        require: "readonly",
-      },
-    },
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-      react: reactPlugin,
-      "react-hooks": reactHooksPlugin,
-      prettier: prettierPlugin,
-      "unused-imports": unusedImportsPlugin,
-    },
-    rules: {
-      // Prettier
-      "prettier/prettier": "error",
-
-      // Unused imports - Enhanced
-      "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
+      "@typescript-eslint/no-misused-promises": [
         "error",
-        {
-          vars: "all",
-          varsIgnorePattern: "^_",
-          args: "after-used",
-          argsIgnorePattern: "^_",
-        },
+        // Async JSX event handlers are fine.
+        { checksVoidReturn: { attributes: false } },
       ],
-
-      // TypeScript Rules - Latest Best Practices
-      "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-unused-vars": "off", // Handled by unused-imports
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-non-null-assertion": "error",
       "@typescript-eslint/consistent-type-imports": [
         "error",
-        {
-          prefer: "type-imports",
-          fixStyle: "separate-type-imports",
-        },
+        { prefer: "type-imports", fixStyle: "separate-type-imports" },
       ],
       "@typescript-eslint/consistent-type-exports": [
         "error",
         { fixMixedExportsWithInlineTypeSpecifier: true },
       ],
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/no-misused-promises": [
+      "@typescript-eslint/no-unnecessary-condition": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      // Numbers format predictably in template strings.
+      "@typescript-eslint/restrict-template-expressions": [
         "error",
-        {
-          checksVoidReturn: {
-            attributes: false, // Allow async event handlers
-          },
-        },
+        { allowNumber: true },
       ],
-      "@typescript-eslint/await-thenable": "error",
-      "@typescript-eslint/no-unnecessary-condition": "warn",
-      "@typescript-eslint/prefer-nullish-coalescing": "error",
-      "@typescript-eslint/prefer-optional-chain": "error",
-      "@typescript-eslint/strict-boolean-expressions": "off",
-      "@typescript-eslint/no-unsafe-assignment": "error",
-      "@typescript-eslint/no-unsafe-member-access": "error",
-      "@typescript-eslint/no-unsafe-call": "error",
-      "@typescript-eslint/no-unsafe-return": "error",
-      "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-confusing-void-expression": [
         "error",
         { ignoreArrowShorthand: true },
       ],
-      "@typescript-eslint/prefer-as-const": "error",
       "@typescript-eslint/ban-ts-comment": [
         "error",
         {
@@ -123,137 +126,183 @@ export default [
           minimumDescriptionLength: 3,
         },
       ],
+    },
+  },
 
-      // React 19 Rules - Latest Best Practices
-      "react/react-in-jsx-scope": "off", // Not needed in React 17+
-      "react/prop-types": "off", // Using TypeScript
-      "react/jsx-uses-react": "off",
-      "react/jsx-uses-vars": "error",
-      "react/jsx-key": [
-        "error",
-        {
-          checkFragmentShorthand: true,
-          checkKeyMustBeforeSpread: true,
-          warnOnDuplicates: true,
-        },
-      ],
-      "react/jsx-no-target-blank": ["error", { enforceDynamicLinks: "always" }],
-      "react/jsx-curly-brace-presence": [
-        "warn",
-        { props: "never", children: "never", propElementValues: "always" },
-      ],
-      "react/self-closing-comp": ["warn", { component: true, html: true }],
-      "react/jsx-boolean-value": ["warn", "never"],
-      "react/function-component-definition": [
-        "error",
-        {
-          namedComponents: "arrow-function",
-          unnamedComponents: "arrow-function",
-        },
-      ],
-      "react/jsx-no-useless-fragment": ["warn", { allowExpressions: true }],
-      "react/jsx-pascal-case": ["error", { allowAllCaps: false }],
-      "react/no-array-index-key": "warn",
-      "react/no-unstable-nested-components": "error",
-      "react/jsx-no-constructed-context-values": "error",
-      "react/no-danger": "warn",
-      "react/button-has-type": "error",
-      "react/jsx-fragments": ["warn", "syntax"], // Use <> instead of <Fragment>
-      "react/iframe-missing-sandbox": "error",
-      "react/no-invalid-html-attribute": "error",
-
-      // React 19 Specific - Use refs correctly
-      "react/no-string-refs": "error",
-      "react/jsx-no-leaked-render": [
-        "warn",
-        { validStrategies: ["ternary", "coerce"] },
-      ],
-
-      // React Hooks Rules - Enhanced for React 19
+  // React 19 and accessibility.
+  {
+    files: APP_FILES,
+    extends: [
+      eslintReact.configs["recommended-type-checked"],
+      // Includes the React Compiler rules (purity, refs, immutability, ...).
+      reactHooks.configs.flat.recommended,
+      jsxA11y.flatConfigs.strict,
+    ],
+    languageOptions: { globals: globals.browser },
+    rules: {
+      ...DUPLICATE_HOOK_RULES,
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": [
+      "react-hooks/exhaustive-deps": "error",
+
+      "@eslint-react/no-forward-ref": "error",
+      "@eslint-react/no-context-provider": "error",
+      "@eslint-react/no-array-index-key": "error",
+      "@eslint-react/no-nested-component-definitions": "error",
+      "@eslint-react/no-unstable-context-value": "error",
+      "@eslint-react/no-unstable-default-props": "error",
+      "@eslint-react/no-duplicate-key": "error",
+      "@eslint-react/no-implicit-key": "error",
+      "@eslint-react/no-leaked-conditional-rendering": "error",
+      "@eslint-react/jsx-no-useless-fragment": [
+        "error",
+        { allowExpressions: true },
+      ],
+      "@eslint-react/dom-no-missing-button-type": "error",
+      "@eslint-react/dom-no-missing-iframe-sandbox": "error",
+      "@eslint-react/dom-no-unsafe-target-blank": "error",
+
+      "no-restricted-syntax": ["error", ...LEGACY_REACT_SYNTAX],
+      // `role` is also an ordinary prop name on our own components.
+      "jsx-a11y/aria-role": ["error", { ignoreNonDOM: true }],
+    },
+  },
+
+  // Imports: no cycles, no duplicates, consistent order.
+  {
+    files: ["**/*.{js,mjs,cjs,ts,tsx}"],
+    extends: [importX.flatConfigs.recommended, importX.flatConfigs.typescript],
+    settings: {
+      "import-x/resolver-next": [
+        createTypeScriptImportResolver({
+          project: ["tsconfig.json", "e2e/tsconfig.json"],
+          noWarnOnMultipleProjects: true,
+        }),
+        createNodeResolver(),
+      ],
+    },
+    rules: {
+      "import-x/no-cycle": "error",
+      "import-x/no-duplicates": "error",
+      "import-x/order": [
         "error",
         {
-          additionalHooks: "(useRecoilCallback|useRecoilTransaction_UNSTABLE)",
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+          ],
+          "newlines-between": "always",
+          alphabetize: { order: "asc", caseInsensitive: true },
+        },
+      ],
+    },
+  },
+
+  // General hygiene.
+  {
+    plugins: { "unused-imports": unusedImports },
+    rules: {
+      // Unused code. Imports have an autofix, so the pre-commit `eslint --fix`
+      // removes them; other unused variables are only reported. These replace
+      // both built-in rules to avoid reporting everything twice.
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
         },
       ],
 
-      // General Best Practices
-      "no-console": ["warn", { allow: ["warn", "error"] }],
-      "prefer-const": "error",
-      "no-var": "error",
-      "object-shorthand": "warn",
-      "prefer-template": "warn",
-      "prefer-arrow-callback": "warn",
-      "no-nested-ternary": "error",
       eqeqeq: ["error", "always", { null: "ignore" }],
-      "no-duplicate-imports": "error",
+      "no-console": ["error", { allow: ["warn", "error"] }],
+      "prefer-const": "error",
+      "no-param-reassign": "error",
+      "no-var": "error",
+      "object-shorthand": "error",
+      "prefer-template": "error",
+      "no-nested-ternary": "error",
     },
-    settings: {
-      react: {
-        version: "detect",
-      },
+  },
+
+  // Unit tests (Jest + Testing Library).
+  {
+    files: UNIT_TEST_FILES,
+    extends: [
+      jest.configs["flat/recommended"],
+      testingLibrary.configs["flat/react"],
+      jestDom.configs["flat/recommended"],
+    ],
+    rules: {
+      // Treats the synchronous user-event v13 ("user-event-13") as async, and
+      // its autofix crashes the lint run. no-floating-promises already catches
+      // a missing await on the async v14 API.
+      "testing-library/await-async-events": "off",
+      // Some third-party markup has no accessible query.
+      "testing-library/no-node-access": "off",
+      // `alerted` is a local helper that asserts on window.alert.
+      "jest/expect-expect": [
+        "error",
+        { assertFunctionNames: ["expect", "alerted"] },
+      ],
+    },
+  },
+  // Relaxations for tests and test helpers only.
+  {
+    files: [...UNIT_TEST_FILES, ...TEST_SUPPORT_FILES],
+    plugins: { jest },
+    languageOptions: { globals: globals.jest },
+    rules: {
+      // Empty mock implementations are how console noise is silenced.
+      "@typescript-eslint/no-empty-function": "off",
+      // The Jest-aware version allows `expect(obj.method)`.
+      "@typescript-eslint/unbound-method": "off",
+      "jest/unbound-method": "error",
+    },
+  },
+
+  // Integration tests (Playwright).
+  {
+    files: ["e2e/**/*.ts"],
+    extends: [playwright.configs["flat/recommended"]],
+    languageOptions: { globals: globals.node },
+  },
+
+  // Plain JS and config files: Node globals, no type-aware rules.
+  {
+    files: ["**/*.{js,mjs,cjs}", "playwright.config.ts"],
+    extends: [tseslint.disableTypeChecked],
+    languageOptions: {
+      globals: globals.node,
+      parserOptions: { projectService: false },
     },
   },
   {
-    // Config files (no type checking)
-    files: ["*.config.{js,ts}", "*.setup.{js,ts}"],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-      },
-      globals: {
-        process: "readonly",
-        module: "readonly",
-        require: "readonly",
-        __dirname: "readonly",
-      },
-    },
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-      prettier: prettierPlugin,
-    },
-    rules: {
-      "prettier/prettier": "error",
-      "@typescript-eslint/no-var-requires": "off",
-      "@typescript-eslint/no-require-imports": "off",
-    },
+    files: ["**/*.cjs"],
+    languageOptions: { sourceType: "commonjs" },
+    rules: { "@typescript-eslint/no-require-imports": "off" },
   },
   {
-    // Test files
-    files: ["src/**/*.test.{js,jsx,ts,tsx}", "src/**/*.spec.{js,jsx,ts,tsx}"],
-    languageOptions: {
-      globals: {
-        test: "readonly",
-        describe: "readonly",
-        expect: "readonly",
-        jest: "readonly",
-        beforeEach: "readonly",
-        afterEach: "readonly",
-        beforeAll: "readonly",
-        afterAll: "readonly",
-        it: "readonly",
-      },
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        project: "./tsconfig.json",
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-      react: reactPlugin,
-    },
+    files: ["jest.polyfills.cjs", "jest.environment.cjs"],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
+
+  // Turns off rules that conflict with Prettier. Keep after all presets.
+  prettierConfig,
+
+  // eslint-config-prettier disables these two; both are safe with Prettier
+  // in these forms, so they have to be set after it.
+  {
     rules: {
-      "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-unsafe-assignment": "error",
-      "@typescript-eslint/no-unsafe-member-access": "error",
-      "@typescript-eslint/no-unsafe-call": "error",
-      "react/display-name": "off",
+      curly: ["error", "all"],
+      "prefer-arrow-callback": "error",
     },
   },
-];
+]);

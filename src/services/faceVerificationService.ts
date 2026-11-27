@@ -1,8 +1,10 @@
 import type { AxiosResponse } from "axios";
+
 import type {
   FaceVerificationRequest,
   VerifyFaceResult,
 } from "../models/UserProfile";
+
 import { api, API_URL } from "./utils";
 
 export default function verifyFace(

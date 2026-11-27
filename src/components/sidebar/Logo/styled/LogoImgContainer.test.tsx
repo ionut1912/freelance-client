@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { LogoImgContainer } from "../../../../components/sidebar/Logo/styled/LogoImgContainer";
 
 it("inverts the image only when asked", () => {

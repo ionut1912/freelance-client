@@ -1,6 +1,6 @@
 import type { NavigationItemType } from "../../../models/Ui";
-import NavigationItemHeader from "./NavigationItemHeader";
 
+import NavigationItemHeader from "./NavigationItemHeader";
 import NavigationItemNested from "./NavigationItemNested";
 import NavigationItemSimple from "./NavigationItemSimple";
 interface Props {

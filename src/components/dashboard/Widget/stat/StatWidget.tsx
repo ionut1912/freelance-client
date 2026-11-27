@@ -1,4 +1,5 @@
 import { Stack, Typography } from "@mui/material";
+
 import Widget, { type WidgetProps } from "../Widget";
 
 interface StatWidgetProps extends WidgetProps {

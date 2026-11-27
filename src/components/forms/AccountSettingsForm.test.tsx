@@ -1,11 +1,12 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import AccountSettingsForm from "../../components/forms/AccountSettingsForm";
 import { fakeApi, renderApp } from "../../testUtils";
 
 const button = (name: string) => screen.getByRole("button", { name });
 const closed = () =>
-  waitFor(() => expect(screen.queryByText("Yes")).toBeNull());
+  waitFor(() => expect(screen.queryByText("Yes")).not.toBeInTheDocument());
 
 it("toggles settings, saves and deletes the account", async () => {
   const calls = fakeApi();
@@ -34,7 +35,7 @@ it("renders the default settings without a profile", () => {
 
   expect(screen.getByLabelText("Enable email notifications")).toBeChecked();
   expect(screen.getByLabelText("Enable SMS notifications")).not.toBeChecked();
-  expect(screen.queryByText("Yes")).toBeNull();
+  expect(screen.queryByText("Yes")).not.toBeInTheDocument();
 });
 
 it("does not call the server when deletion is cancelled", async () => {

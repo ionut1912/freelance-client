@@ -1,8 +1,9 @@
-import type { AddressDto, UserRole } from "./UserProfile";
-import type React from "react";
 import type { SvgIconProps } from "@mui/material";
 import type { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import type { UseSuspenseQueryResult } from "@tanstack/react-query";
+import type React from "react";
+
+import type { AddressDto, UserRole } from "./UserProfile";
 
 type NavigationItemIconColor =
   | "primary"
@@ -52,7 +53,7 @@ interface BaseProfileData {
   image: string;
 }
 
-interface ClientProfileData extends BaseProfileData {}
+type ClientProfileData = BaseProfileData;
 
 interface FreelancerProfileData extends BaseProfileData {
   programmingLanguages: string[];

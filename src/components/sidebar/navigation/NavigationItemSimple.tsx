@@ -1,17 +1,19 @@
+import { Circle, Launch } from "@mui/icons-material";
+import { ListItemText, Stack, Typography, Zoom } from "@mui/material";
 import { useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import type {
   NavigationItemIconProps,
   NavigationItemSimpleType,
   NavigationItemSimpleTypeWithoutIcon,
 } from "../../../models/Ui";
-import { useLocation, useNavigate } from "react-router-dom";
+
+import { listItemPrimaryTypographyProps } from "./constants/listItemProps";
+import { NavigationItemBadge } from "./styled/NavigationItemBadge";
 import { NavigationListItemButton } from "./styled/NavigationListItemButton";
 import { NavigationListItemIcon } from "./styled/NavigationListItemIcon";
 import { NavigationListItemNestedIcon } from "./styled/NavigationListItemNestedIcon";
-import { ListItemText, Stack, Typography, Zoom } from "@mui/material";
-import { Circle, Launch } from "@mui/icons-material";
-import { listItemPrimaryTypographyProps } from "./constants/listItemProps";
-import { NavigationItemBadge } from "./styled/NavigationItemBadge";
 
 interface Props {
   iconColor?: NavigationItemIconProps["color"];
@@ -62,7 +64,7 @@ const NavigationItemSimple = ({ item, nested = false, animateOn }: Props) => {
       >
         <ListItemText
           primary={item.label}
-          primaryTypographyProps={listItemPrimaryTypographyProps}
+          slotProps={{ primary: listItemPrimaryTypographyProps }}
           sx={{ margin: 0, minWidth: 0, maxWidth: "100%" }}
         />
         {item.description ? (

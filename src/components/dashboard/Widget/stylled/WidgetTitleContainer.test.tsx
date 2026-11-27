@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { WidgetTitleContainer } from "../../../../components/dashboard/Widget/stylled/WidgetTitleContainer";
 
 it("renders its children with its styles", () => {

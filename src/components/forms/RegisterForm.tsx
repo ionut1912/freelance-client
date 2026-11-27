@@ -9,13 +9,15 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import { useForm } from "../../hooks/useForm";
+import type { RegisterDto } from "../../models/Accounts";
 import { routesLinks } from "../../routes/index";
 import type { AppDispatch, RootState } from "../../store";
 import { registerUser } from "../../store/auth/thunks";
-import type { RegisterDto } from "../../models/Accounts";
-import { useForm } from "../../hooks/useForm";
-import PasswordInput from "./common/PasswordInput";
 import { registerValidationSchema } from "../../utils/schemaValidators";
+
+import PasswordInput from "./common/PasswordInput";
 
 const INITIAL_VALUES: Omit<RegisterDto, "role"> = {
   email: "",
@@ -44,7 +46,7 @@ const RegisterForm = () => {
     true,
   );
 
-  const fields: Array<keyof typeof INITIAL_VALUES> = [
+  const fields: (keyof typeof INITIAL_VALUES)[] = [
     "email",
     "username",
     "phoneNumber",
@@ -76,9 +78,7 @@ const RegisterForm = () => {
                 onBlur={formik.handleBlur}
                 error={Boolean(formik.touched[field] && formik.errors[field])}
                 helperText={
-                  formik.touched[field]
-                    ? (formik.errors[field] as string | undefined)
-                    : undefined
+                  formik.touched[field] ? formik.errors[field] : undefined
                 }
               />
             ))}
@@ -90,9 +90,7 @@ const RegisterForm = () => {
               onBlur={() => formik.setFieldTouched("password", true)}
               error={Boolean(formik.touched.password && formik.errors.password)}
               helperText={
-                formik.touched.password
-                  ? (formik.errors.password as string | undefined)
-                  : undefined
+                formik.touched.password ? formik.errors.password : undefined
               }
             />
 

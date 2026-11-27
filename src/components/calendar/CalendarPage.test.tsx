@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
+
 import CalendarPage from "../../components/calendar/CalendarPage";
 
 const day = (n: number, hour = 10) => new Date(2030, 0, n, hour);
@@ -57,7 +58,7 @@ it("survives hovering every event", () => {
     fireEvent.mouseEnter(tile);
     fireEvent.mouseLeave(tile);
   });
-  fireEvent.mouseEnter(tiles()[0] as Element);
-  fireEvent.mouseEnter(tiles()[1] as Element);
+  fireEvent.mouseEnter(tiles()[0]);
+  fireEvent.mouseEnter(tiles()[1]);
   expect(tiles()).toHaveLength(total);
 });

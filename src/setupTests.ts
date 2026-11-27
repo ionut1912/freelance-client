@@ -5,6 +5,7 @@
 import "@testing-library/jest-dom";
 import { act } from "@testing-library/react";
 import { toast } from "react-toastify";
+
 import { server } from "./testUtils/server";
 
 const unhandled: string[] = [];

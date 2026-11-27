@@ -17,7 +17,7 @@ const freelancer = {
 const errorsOf = (schema: { validate: Validate }) =>
   schema.validate({}, { abortEarly: false }).then(
     () => [],
-    (e: { errors: string[] }) => e.errors,
+    (e: unknown) => (e as { errors: string[] }).errors,
   );
 type Validate = (value: object, options: object) => Promise<unknown>;
 

@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import UserAccountPage from "../../components/userProfile/UserAccountPage";
 import {
   fakeApi,

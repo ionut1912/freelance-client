@@ -1,5 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { UserProfileState } from "./types";
+
+import type { PaginatedList } from "../../models/Ui";
+import { logout } from "../auth/slice";
+import { deleteCurrentUserAccount } from "../auth/thunks";
+
 import {
   loadCurrentUserProfile,
   saveClientProfile,
@@ -7,9 +11,7 @@ import {
   patchUserProfileAddress,
   patchImage,
 } from "./thunks";
-import { logout } from "../auth/slice";
-import { deleteCurrentUserAccount } from "../auth/thunks";
-import type { PaginatedList } from "../../models/Ui";
+import type { UserProfileState } from "./types";
 
 const initialState: UserProfileState = {
   clientProfiles: null,

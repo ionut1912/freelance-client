@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios, { type AxiosError } from "axios";
+
 import type {
   LoadCitiesPayload,
   LoadCitiesResult,
 } from "../../models/ExternalApis";
-import axios, { type AxiosError } from "axios";
 
 interface CitiesApiResponse {
   data: string[];

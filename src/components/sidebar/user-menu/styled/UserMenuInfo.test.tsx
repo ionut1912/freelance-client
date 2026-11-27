@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { UserMenuInfo } from "../../../../components/sidebar/user-menu/styled/UserMenuInfo";
 
 it("renders its children with its styles", () => {

@@ -1,13 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { render } from "@testing-library/react";
-import axios, {
-  AxiosError,
-  type AxiosResponse,
-  type InternalAxiosRequestConfig,
-} from "axios";
+import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { ReactElement } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+
 import { api } from "../services/utils";
 import auth from "../store/auth/slice";
 import city from "../store/city/slice";
@@ -107,9 +104,9 @@ type Reply = [status: number, data?: unknown];
  */
 export const fakeApi = (routes: Record<string, Reply> = {}) => {
   const calls: Call[] = [];
-  const adapter = async (
-    config: InternalAxiosRequestConfig,
-  ): Promise<AxiosResponse> => {
+  // async so that the throw below becomes a rejected promise.
+  // eslint-disable-next-line @typescript-eslint/require-await
+  const adapter = async (config: InternalAxiosRequestConfig) => {
     const method = (config.method ?? "get").toUpperCase();
     const url = config.url ?? "";
     calls.push({
@@ -123,7 +120,7 @@ export const fakeApi = (routes: Record<string, Reply> = {}) => {
     });
     const key = Object.keys(routes).find((k) => {
       const [m, part] = k.split(" ");
-      return m === method && url.includes(String(part));
+      return m === method && url.includes(part);
     });
     const [status, data = {}] = (key ? routes[key] : undefined) ?? [200];
     const response = {

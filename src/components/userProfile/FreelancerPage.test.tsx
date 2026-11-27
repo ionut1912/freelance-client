@@ -1,4 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
+
 import { fakeCamera, makeStore } from "../../testUtils";
 import { buildProfile } from "../../testUtils/factories";
 import {
@@ -8,6 +9,7 @@ import {
   replyLookups,
 } from "../../testUtils/handlers";
 import { renderWithProviders } from "../../testUtils/render";
+
 import FreelancerPage from "./FreelancerPage";
 
 // Charts need real layout, which jsdom does not have.
@@ -88,7 +90,9 @@ describe("<FreelancerPage />", () => {
       expect(await screen.findByRole("alert")).toHaveTextContent(
         "We could not load your profile.",
       );
-      expect(screen.queryByRole("button", { name: "Save Address" })).toBeNull();
+      expect(
+        screen.queryByRole("button", { name: "Save Address" }),
+      ).not.toBeInTheDocument();
       reply("get", "current/userProfiles", buildProfile());
 
       await click(user, "Retry");

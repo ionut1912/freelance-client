@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import type { CalendarData, CalendarType, CalendarEvent } from "../models/Ui";
+
 import calendarJson from "../components/calendar/calendar.json";
+import type { CalendarData, CalendarType, CalendarEvent } from "../models/Ui";
 
 const parseCalendarData = (data: typeof calendarJson): CalendarData[] => {
   return data.map((entry) => ({
@@ -16,7 +17,7 @@ const parseCalendarData = (data: typeof calendarJson): CalendarData[] => {
 };
 
 export const useCalendar = (): CalendarType => {
-  return useSuspenseQuery<CalendarData[], Error>({
+  return useSuspenseQuery<CalendarData[]>({
     queryKey: ["calendar"],
     queryFn: () => parseCalendarData(calendarJson),
   });

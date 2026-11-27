@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import UserMenu from "../../../components/sidebar/user-menu/UserMenu";
 import { makeStore, profile, renderApp } from "../../../testUtils";
 
@@ -11,7 +12,7 @@ it("shows the email, closes and logs out", async () => {
   const trigger = screen.getByRole("button");
   const item = (name: string) => screen.getByRole("menuitem", { name });
   const closed = () =>
-    waitFor(() => expect(screen.queryByRole("menu")).toBeNull());
+    waitFor(() => expect(screen.queryByRole("menu")).not.toBeInTheDocument());
 
   for (const name of ["Profile", "My account"]) {
     userEvent.click(trigger);
@@ -34,7 +35,9 @@ it("stays logged in when the menu is dismissed with Escape", async () => {
   userEvent.click(screen.getByRole("button"));
   userEvent.keyboard("{esc}");
 
-  await waitFor(() => expect(screen.queryByRole("menu")).toBeNull());
+  await waitFor(() =>
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument(),
+  );
   expect(store.getState().auth.role).toBe("Client");
   expect(localStorage.getItem("jwt")).toBe("abc");
   localStorage.clear();

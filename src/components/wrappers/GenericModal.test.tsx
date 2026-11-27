@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+
 import GenericModal from "../../components/wrappers/GenericModal";
 
 it("reports Yes, No and close", () => {
@@ -32,7 +33,7 @@ it("renders nothing and calls nothing while closed", () => {
   };
   render(<GenericModal open={false} text="Delete?" {...handlers} />);
 
-  expect(screen.queryByText("Delete?")).toBeNull();
+  expect(screen.queryByText("Delete?")).not.toBeInTheDocument();
   for (const handler of Object.values(handlers)) {
     expect(handler).not.toHaveBeenCalled();
   }

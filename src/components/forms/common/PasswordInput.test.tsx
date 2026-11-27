@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+
 import PasswordInput from "../../../components/forms/common/PasswordInput";
 
 it("toggles visibility and reports changes", () => {

@@ -6,6 +6,7 @@ import type { ReactElement } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+
 import { makeStore } from "./index";
 
 const CurrentPath = () => (

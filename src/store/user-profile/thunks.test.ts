@@ -1,7 +1,8 @@
 import { toast } from "react-toastify";
-import { fakeApi, makeStore, profile } from "../../testUtils";
+
 import type { UserRole } from "../../models/UserProfile";
 import * as thunks from "../../store/user-profile/thunks";
+import { fakeApi, makeStore, profile } from "../../testUtils";
 
 jest.mock("react-toastify", () => ({
   toast: { success: jest.fn(), error: jest.fn(), warning: jest.fn() },
@@ -21,14 +22,18 @@ const saves = [
 it("saves and shows a success message", async () => {
   fakeApi();
   const store = makeStore();
-  for (const save of saves) await store.dispatch(save() as never);
+  for (const save of saves) {
+    await store.dispatch(save() as never);
+  }
   expect(toast.success).toHaveBeenCalledTimes(saves.length);
 });
 
 it("shows the backend error when saving fails", async () => {
   fakeApi({ "PATCH /api": fail, "POST /api": fail });
   const store = makeStore();
-  for (const save of saves) await store.dispatch(save() as never);
+  for (const save of saves) {
+    await store.dispatch(save() as never);
+  }
   expect(toast.error).toHaveBeenCalledTimes(saves.length);
   expect(store.getState().userProfile.error).not.toBeNull();
 });
@@ -71,9 +76,9 @@ it("lists profiles", async () => {
 it("rejects when removing or listing fails", async () => {
   fakeApi({ "DELETE /api": fail, "GET /api": fail });
   const store = makeStore();
-  const removed = (await store.dispatch(
+  const removed: { type: string } = await store.dispatch(
     thunks.removeUserProfile(7) as never,
-  )) as { type: string };
+  );
   const listed = await store.dispatch(
     thunks.getUserProfilesData({ pageSize: 1, pageNumber: 1 }),
   );

@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { NavigationItemBadge } from "../../../../components/sidebar/navigation/styled/NavigationItemBadge";
 
 it("shows the badge content inline", () => {

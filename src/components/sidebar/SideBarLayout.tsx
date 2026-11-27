@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
-import type { UserRole } from "../../models/UserProfile";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
   Drawer,
@@ -8,17 +9,18 @@ import {
   Toolbar,
   useTheme,
 } from "@mui/material";
+import type { ReactNode } from "react";
+
 import { useAppNavigation } from "../../hooks/useAppNavigation";
-import { AppBar } from "./styled/AppBar";
-import MenuIcon from "@mui/icons-material/Menu";
-import ToolbarElements from "./ToolbarElements";
+import type { UserRole } from "../../models/UserProfile";
+
 import { drawerWidth } from "./constants";
-import { DrawerHeader } from "./styled/DrawerHeader";
 import { Logo } from "./Logo/Logo";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Navigation from "./navigation/Navigation";
+import { AppBar } from "./styled/AppBar";
+import { DrawerHeader } from "./styled/DrawerHeader";
 import { Main } from "./styled/Main";
+import ToolbarElements from "./ToolbarElements";
 
 interface SideBarLayoutProps {
   children: ReactNode;

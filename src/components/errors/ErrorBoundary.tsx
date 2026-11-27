@@ -4,6 +4,7 @@ import {
   isRouteErrorResponse,
   useNavigate,
 } from "react-router-dom";
+
 import { routesLinks } from "../../routes/index";
 
 const ErrorBoundary = () => {

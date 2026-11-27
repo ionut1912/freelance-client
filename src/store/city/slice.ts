@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { loadCities } from "./thunks";
 import type { CityState } from "./types";
 
@@ -20,13 +21,17 @@ const citySlice = createSlice({
         state.loading = true;
       })
       .addCase(loadCities.fulfilled, (state, action) => {
-        if (state.requestId !== action.meta.requestId) return;
+        if (state.requestId !== action.meta.requestId) {
+          return;
+        }
         state.cities = action.payload.cities;
         state.error = null;
         state.loading = false;
       })
       .addCase(loadCities.rejected, (state, action) => {
-        if (state.requestId !== action.meta.requestId) return;
+        if (state.requestId !== action.meta.requestId) {
+          return;
+        }
         state.error = action.payload ?? (action.error.message as string);
         state.loading = false;
       });

@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
+
+import type { PaginatedDataRequest, UpdateUserRequest } from "../../models/Ui";
 import type {
   CreateClientProfileRequest,
   CreateFreelancerProfileRequest,
@@ -9,9 +11,11 @@ import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
-import type { PaginatedDataRequest, UpdateUserRequest } from "../../models/Ui";
-import { extractErrorMessages } from "../../utils/httpError";
-import type { AppDispatch, RootState } from "../../store";
+import { createClientProfile } from "../../services/clientProfileService";
+import {
+  createFreelancerProfile,
+  updateFreelancerProfileData,
+} from "../../services/freelancerProfileService";
 import {
   deleteUserProfile,
   getCurrentUserProfile,
@@ -20,18 +24,15 @@ import {
   updateUserData,
   updateUserProfileAddress,
 } from "../../services/userProfileService";
-import { createClientProfile } from "../../services/clientProfileService";
-import {
-  createFreelancerProfile,
-  updateFreelancerProfileData,
-} from "../../services/freelancerProfileService";
+import type { AppDispatch, RootState } from "../../store";
+import { extractErrorMessages } from "../../utils/httpError";
 
 export const loadCurrentUserProfile = createAsyncThunk<
   {
     clientProfiles?: ClientProfileDto[];
     freelancerProfiles?: FreelancerProfileDto[];
   },
-  void,
+  undefined,
   { state: RootState; rejectValue: number | undefined }
 >("userProfile/loadCurrentUserProfile", async (_, thunkApi) => {
   const { getState, rejectWithValue } = thunkApi;
@@ -61,7 +62,7 @@ export const loadCurrentUserProfile = createAsyncThunk<
 });
 
 export const patchImage = createAsyncThunk<
-  void,
+  undefined,
   string,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
@@ -80,7 +81,7 @@ export const patchImage = createAsyncThunk<
 );
 
 export const saveClientProfile = createAsyncThunk<
-  void,
+  undefined,
   CreateClientProfileRequest,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
@@ -99,7 +100,7 @@ export const saveClientProfile = createAsyncThunk<
 );
 
 export const saveFreelancerProfile = createAsyncThunk<
-  void,
+  undefined,
   CreateFreelancerProfileRequest,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
@@ -118,7 +119,7 @@ export const saveFreelancerProfile = createAsyncThunk<
 );
 
 export const removeUserProfile = createAsyncThunk<
-  void,
+  undefined,
   number,
   { state: RootState; rejectValue: AxiosError }
 >(
@@ -127,16 +128,18 @@ export const removeUserProfile = createAsyncThunk<
     try {
       await deleteUserProfile(id);
       const role = getState().auth.role;
-      if (role === "Client")
+      if (role === "Client") {
         dispatch({
           type: "userProfile/deleteClientProfileSuccess",
           payload: id,
         });
-      if (role === "Freelancer")
+      }
+      if (role === "Freelancer") {
         dispatch({
           type: "userProfile/deleteFreelancerProfileSuccess",
           payload: id,
         });
+      }
     } catch (error) {
       return rejectWithValue(error as AxiosError);
     }
@@ -144,7 +147,7 @@ export const removeUserProfile = createAsyncThunk<
 );
 
 export const patchUserData = createAsyncThunk<
-  void,
+  undefined,
   UpdateUserRequest,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
@@ -163,7 +166,7 @@ export const patchUserData = createAsyncThunk<
 );
 
 export const patchUserProfileAddress = createAsyncThunk<
-  void,
+  undefined,
   PatchUserProfileAddressRequest,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
@@ -182,7 +185,7 @@ export const patchUserProfileAddress = createAsyncThunk<
 );
 
 export const patchFreelancerData = createAsyncThunk<
-  void,
+  undefined,
   PatchFreelancerProfielRequest,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
@@ -200,7 +203,7 @@ export const patchFreelancerData = createAsyncThunk<
   },
 );
 export const getUserProfilesData = createAsyncThunk<
-  void,
+  undefined,
   PaginatedDataRequest,
   { rejectValue: AxiosError }
 >(

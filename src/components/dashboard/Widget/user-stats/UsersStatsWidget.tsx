@@ -1,6 +1,8 @@
-import Widget from "../Widget";
 import { alpha, useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
+
+import Widget from "../Widget";
+
 import { userStatsData } from "./chartData";
 
 const UsersStatsWidget = () => {

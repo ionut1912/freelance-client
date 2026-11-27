@@ -1,5 +1,3 @@
-import { useCallback, useState, useEffect, type ChangeEvent } from "react";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Avatar,
@@ -15,17 +13,20 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import { useCallback, useState, useEffect, type ChangeEvent } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useCurrentUser } from "../../hooks/useCurerentUser";
+import type { UpdateUserRequest } from "../../models/Ui";
+import type { AppDispatch, RootState } from "../../store";
+import { patchImage, patchUserData } from "../../store/user-profile/thunks";
 import {
   accountGeneralFormSchema,
   AccountGeneralFieldsNames,
   type AccountGeneralForm,
 } from "../../utils/schemaValidators";
-import type { UpdateUserRequest } from "../../models/Ui";
 import GenericModal from "../wrappers/GenericModal";
-import type { AppDispatch, RootState } from "../../store";
-import { patchImage, patchUserData } from "../../store/user-profile/thunks";
-import { useDispatch, useSelector } from "react-redux";
-import { useCurrentUser } from "../../hooks/useCurerentUser";
 
 interface Props {
   submitButtonText?: string;
@@ -95,12 +96,15 @@ const UserForm = ({ submitButtonText = "Save changes" }: Props) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
+      reader.onerror = () =>
+        reject(reader.error ?? new Error("Could not read the file"));
     });
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      return;
+    }
     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (!validTypes.includes(file.type)) {
       alert("Only JPG, JPEG, and PNG files are allowed.");
@@ -142,10 +146,12 @@ const UserForm = ({ submitButtonText = "Save changes" }: Props) => {
 
   const userFormValues = getValues();
 
-  if (loading)
+  if (loading) {
     return <Typography textAlign="center">Loading user data...</Typography>;
-  if (!user)
+  }
+  if (!user) {
     return <Typography textAlign="center">No user profile found.</Typography>;
+  }
 
   return (
     <form onSubmit={handleSubmit(handleSave)}>

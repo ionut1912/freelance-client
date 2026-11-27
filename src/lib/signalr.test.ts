@@ -1,4 +1,5 @@
 import * as signalR from "@microsoft/signalr";
+
 import { createHubConnection } from "../lib/signalr";
 
 jest.mock("@microsoft/signalr", () => {

@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
-import { fakeApi, makeStore, profile, profileState } from "../../testUtils";
+
 import { verifyCapturedFace } from "../../store/face-verification/thunks";
+import { fakeApi, makeStore, profile, profileState } from "../../testUtils";
 
 jest.mock("react-toastify", () => ({
   toast: { success: jest.fn(), error: jest.fn(), warning: jest.fn() },

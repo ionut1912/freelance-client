@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { useCalendar } from "../../hooks/useCalendar";
 import { Box, Container, Typography } from "@mui/material";
+import { useState } from "react";
+import ReactCalendar from "react-calendar";
+
+import { useCalendar } from "../../hooks/useCalendar";
+
 import { CalendarStyles } from "./styles/styles";
-import Calendar from "react-calendar";
 
 const CalendarPage = () => {
   const { data } = useCalendar();
   const [hoveredEvent, setHoveredEvent] = useState<string>("");
+  const [today] = useState(() => new Date());
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
@@ -47,15 +50,25 @@ const CalendarPage = () => {
             const handleMouseLeave = () => setHoveredEvent("");
 
             const getBorderRadius = () => {
-              if (isFirstDay) return "4px 0 0 4px";
-              if (isLastDay) return "0 4px 4px 0";
-              if (isMultiDayEvent) return "0";
+              if (isFirstDay) {
+                return "4px 0 0 4px";
+              }
+              if (isLastDay) {
+                return "0 4px 4px 0";
+              }
+              if (isMultiDayEvent) {
+                return "0";
+              }
               return "4px";
             };
 
             const getBackgroundColor = () => {
-              if (isHover && isMultiDayEvent) return "primary.dark";
-              if (isHover) return "grey.200";
+              if (isHover && isMultiDayEvent) {
+                return "primary.dark";
+              }
+              if (isHover) {
+                return "grey.200";
+              }
               return undefined;
             };
 
@@ -135,7 +148,7 @@ const CalendarPage = () => {
   return (
     <Container>
       <CalendarStyles>
-        <Calendar tileContent={tileContent} value={new Date()} />
+        <ReactCalendar tileContent={tileContent} value={today} />
       </CalendarStyles>
     </Container>
   );

@@ -1,12 +1,14 @@
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Collapse, List, ListItemText, Stack, Typography } from "@mui/material";
 import { useCallback } from "react";
+
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
-import NavigationItemSimple from "./NavigationItemSimple";
 import type { NavigationItemNestedType } from "../../../models/Ui";
+
+import { listItemPrimaryTypographyProps } from "./constants/listItemProps";
+import NavigationItemSimple from "./NavigationItemSimple";
 import { NavigationListItemButton } from "./styled/NavigationListItemButton";
 import { NavigationListItemIcon } from "./styled/NavigationListItemIcon";
-import { Collapse, List, ListItemText, Stack, Typography } from "@mui/material";
-import { listItemPrimaryTypographyProps } from "./constants/listItemProps";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
 interface Props {
   item: NavigationItemNestedType;
 }
@@ -40,7 +42,7 @@ const NavigationItemNested = ({ item }: Props) => {
         <Stack flex={1}>
           <ListItemText
             primary={item.label}
-            primaryTypographyProps={listItemPrimaryTypographyProps}
+            slotProps={{ primary: listItemPrimaryTypographyProps }}
             sx={{ margin: 0 }}
           />
           {item.description ? (

@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import type { GetSkillsResult } from "../../models/UserProfile";
 import getSkills from "../../services/skillsService";
 
 export const loadSkills = createAsyncThunk<
   GetSkillsResult,
-  void,
+  undefined,
   { rejectValue: string }
 >("skills/getSkills", async (_, { rejectWithValue }) => {
   try {

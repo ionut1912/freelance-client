@@ -1,11 +1,13 @@
 import type { AxiosResponse } from "axios";
+
 import type {
   PaginatedDataRequest,
   PaginatedList,
   UpdateUserRequest,
 } from "../models/Ui";
-import { api, API_URL } from "./utils";
 import type { PatchUserProfileAddressRequest } from "../models/UserProfile";
+
+import { api, API_URL } from "./utils";
 
 export function getUserProfiles(
   payload: PaginatedDataRequest,

@@ -1,5 +1,5 @@
-import type { ReviewsDto } from "./Reviews";
 import type { ProposalsDto } from "./Proposals";
+import type { ReviewsDto } from "./Reviews";
 
 interface LoginDto {
   username: string;

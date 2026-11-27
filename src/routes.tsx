@@ -1,8 +1,9 @@
 import { createBrowserRouter, type RouteObject } from "react-router-dom";
-import RootLayout from "./root";
-import Spinner from "./components/wrappers/Spinner";
-import ErrorBoundary from "./components/errors/ErrorBoundary";
+
 import RequireAuth from "./components/auth/RequireAuth";
+import ErrorBoundary from "./components/errors/ErrorBoundary";
+import Spinner from "./components/wrappers/Spinner";
+import RootLayout from "./root";
 import { routesLinks } from "./routes/index";
 
 const routes: RouteObject[] = [

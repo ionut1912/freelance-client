@@ -1,12 +1,13 @@
 import { act, renderHook } from "@testing-library/react";
+
 import { useCamera } from "../hooks/useCamera";
 import { fakeCamera } from "../testUtils";
 
 const mount = () => {
-  const hook = renderHook(() => useCamera());
-  hook.result.current.videoRef.current = document.createElement("video");
-  hook.result.current.canvasRef.current = document.createElement("canvas");
-  return hook;
+  const view = renderHook(() => useCamera());
+  view.result.current.videoRef.current = document.createElement("video");
+  view.result.current.canvasRef.current = document.createElement("canvas");
+  return view;
 };
 
 afterEach(() => jest.restoreAllMocks());

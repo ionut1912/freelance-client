@@ -1,6 +1,8 @@
 import { AxiosError, type AxiosResponse } from "axios";
+
 import { buildToken } from "../testUtils/factories";
 import { recordRequests, reply } from "../testUtils/handlers";
+
 import {
   createAuthAxios,
   getRoleFromToken,
@@ -74,7 +76,9 @@ describe("createAuthAxios", () => {
   });
 
   it.each([null, ""])("sends no header for a stored token %p", async (jwt) => {
-    if (jwt !== null) localStorage.setItem("jwt", jwt);
+    if (jwt !== null) {
+      localStorage.setItem("jwt", jwt);
+    }
 
     const { request } = await call({ "requires-auth": "" });
 

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import { createHubConnection } from "../../lib/signalr";
+import { useEffect, useRef, useState } from "react";
 
+import { createHubConnection } from "../../lib/signalr";
 import { API_URL as API_BASE } from "../../services/utils";
 
 const MAX_BASE64_CHARS = 40_000;
@@ -65,14 +65,18 @@ const MobileCapturePage = () => {
       request.cancelled = true;
       const s = videoElement?.srcObject as MediaStream | null;
       s?.getTracks().forEach((t) => t.stop());
-      if (videoElement) videoElement.srcObject = null;
+      if (videoElement) {
+        videoElement.srcObject = null;
+      }
     };
   }, []);
 
   const drawScaled = (video: HTMLVideoElement, canvas: HTMLCanvasElement) => {
     const vw = video.videoWidth;
     const vh = video.videoHeight;
-    if (!vw || !vh) return false;
+    if (!vw || !vh) {
+      return false;
+    }
     const scale = Math.min(TARGET_W / Math.max(vw, vh), 1);
     const cw = Math.round(vw * scale);
     const ch = Math.round(vh * scale);
@@ -81,7 +85,9 @@ const MobileCapturePage = () => {
     canvas.height = ch;
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) return false;
+    if (!ctx) {
+      return false;
+    }
     ctx.drawImage(video, 0, 0, cw, ch);
     return true;
   };
@@ -106,7 +112,9 @@ const MobileCapturePage = () => {
     }
     const video = videoRef.current,
       canvas = canvasRef.current;
-    if (!video || !canvas) return;
+    if (!video || !canvas) {
+      return;
+    }
 
     const ok = drawScaled(video, canvas);
     if (!ok) {

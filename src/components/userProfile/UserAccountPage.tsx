@@ -1,17 +1,19 @@
-import React from "react";
-import { Box, Container, Tab, Tabs, type TabProps } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState, AppDispatch } from "../../store";
-import Spinner from "../wrappers/Spinner";
-import PageHeader from "../PageHeader/PageHeader";
 import { Business, Person, Settings } from "@mui/icons-material";
-import TabPanel from "./TabPanel";
-import UserForm from "../forms/UserForm";
-import AccountSettingsForm from "../forms/AccountSettingsForm";
-import AddressForm from "../forms/AddressForm";
+import { Box, Container, Tab, Tabs, type TabProps } from "@mui/material";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 import type { AddressData } from "../../models/UserProfile";
+import type { RootState, AppDispatch } from "../../store";
 import { patchUserProfileAddress } from "../../store/user-profile/thunks";
+import AccountSettingsForm from "../forms/AccountSettingsForm";
+import AddressForm from "../forms/AddressForm";
+import UserForm from "../forms/UserForm";
+import PageHeader from "../PageHeader/PageHeader";
+import Spinner from "../wrappers/Spinner";
+
+import TabPanel from "./TabPanel";
 
 const UserAccountPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +42,9 @@ const UserAccountPage = () => {
       }
     : undefined;
 
-  if (loading || !user) return <Spinner />;
+  if (loading || !user) {
+    return <Spinner />;
+  }
 
   const handleAddressSubmit = async (addressValues: AddressData) => {
     const patchRequest = {

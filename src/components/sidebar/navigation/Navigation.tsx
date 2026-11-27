@@ -1,6 +1,3 @@
-import { useMemo } from "react";
-import type { UserRole } from "../../../models/UserProfile";
-import { routesLinks } from "../../../routes/index";
 import {
   AccountBoxOutlined,
   DashboardOutlined,
@@ -11,9 +8,14 @@ import {
   CodeOutlined,
   BusinessOutlined,
 } from "@mui/icons-material";
-import type { NavigationItemType } from "../../../models/Ui";
-import NavigationItem from "./NavigationItem";
 import { List, type SvgIconProps } from "@mui/material";
+import { useMemo } from "react";
+
+import type { NavigationItemType } from "../../../models/Ui";
+import type { UserRole } from "../../../models/UserProfile";
+import { routesLinks } from "../../../routes/index";
+
+import NavigationItem from "./NavigationItem";
 
 interface Props {
   role: UserRole;

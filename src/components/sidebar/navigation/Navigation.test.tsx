@@ -1,5 +1,6 @@
 import { screen } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import Navigation from "../../../components/sidebar/navigation/Navigation";
 import { renderApp } from "../../../testUtils";
 
@@ -24,7 +25,7 @@ it.each([
 ] as const)("hides the other role's group from a %s", (role, group) => {
   renderApp(<Navigation role={role} />);
 
-  expect(screen.queryByText(group)).toBeNull();
+  expect(screen.queryByText(group)).not.toBeInTheDocument();
 });
 
 it("disables links to pages that do not exist yet", () => {

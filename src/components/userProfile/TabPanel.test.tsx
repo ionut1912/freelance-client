@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import TabPanel from "../../components/userProfile/TabPanel";
 
 it("renders content only for the selected index", () => {
@@ -13,7 +14,7 @@ it("renders content only for the selected index", () => {
       content
     </TabPanel>,
   );
-  expect(screen.queryByText("content")).toBeNull();
+  expect(screen.queryByText("content")).not.toBeInTheDocument();
 });
 
 it("is hidden, and linked to its tab, when not selected", () => {

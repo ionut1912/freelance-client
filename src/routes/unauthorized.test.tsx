@@ -1,4 +1,5 @@
 import { screen } from "@testing-library/react";
+
 import { renderWithProviders } from "../testUtils/render";
 
 import Page from "./unauthorized";

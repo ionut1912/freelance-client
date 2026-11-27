@@ -1,5 +1,5 @@
-import { fakeApi, offlineApi } from "../testUtils";
 import getLanguages from "../services/languageService";
+import { fakeApi, offlineApi } from "../testUtils";
 
 afterEach(() => localStorage.clear());
 

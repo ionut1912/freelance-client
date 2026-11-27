@@ -1,10 +1,12 @@
+import type { AxiosResponse } from "axios";
+
 import type {
   CreateFreelancerProfileRequest,
   PatchFreelancerProfielRequest,
 } from "../models/UserProfile";
+
 import { api, API_URL } from "./utils";
-import type { AxiosResponse } from "axios";
-``;
+
 export function createFreelancerProfile(
   payload: CreateFreelancerProfileRequest,
 ): Promise<AxiosResponse<void>> {

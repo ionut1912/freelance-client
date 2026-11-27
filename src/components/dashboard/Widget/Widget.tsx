@@ -1,8 +1,9 @@
 import { Box, Paper, type BoxProps } from "@mui/material";
 import type { ReactNode } from "react";
+
 import { WidgetContainer } from "./stylled/WidgetContainer";
-import { WidgetTitleContainer } from "./stylled/WidgetTitleContainer";
 import { WidgetTitle } from "./stylled/WidgetTitle";
+import { WidgetTitleContainer } from "./stylled/WidgetTitleContainer";
 
 export interface WidgetProps {
   title: string;

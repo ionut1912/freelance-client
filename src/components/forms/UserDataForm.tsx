@@ -1,9 +1,10 @@
-import * as React from "react";
 import { Box, TextField, Button } from "@mui/material";
+import * as React from "react";
+
 import { useForm } from "../../hooks/useForm";
 import type { UserData } from "../../models/UserProfile";
-import CameraCapture from "../camera/CameraCapture";
 import { userDataValidationSchema } from "../../utils/schemaValidators";
+import CameraCapture from "../camera/CameraCapture";
 
 interface UserDataFormProps {
   initialValues?: UserData;
@@ -16,7 +17,7 @@ const UserDataForm = ({
   initialValues = DEFAULT_USER,
   onSubmit,
 }: UserDataFormProps) => {
-  const frozenInitials = React.useRef(initialValues).current;
+  const [frozenInitials] = React.useState(initialValues);
 
   const formik = useForm<UserData>(
     frozenInitials,
@@ -43,7 +44,7 @@ const UserDataForm = ({
       <CameraCapture
         userData={formik.values}
         onChange={(field, value) => {
-          const strValue = value ? String(value) : "";
+          const strValue = value ?? "";
           void formik.setFieldValue(field, strValue);
           void formik.setFieldTouched(field, true, false);
         }}

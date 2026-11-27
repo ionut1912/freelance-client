@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "user-event-13";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import userEvent from "user-event-13";
+
 import ErrorBoundary from "../../components/errors/ErrorBoundary";
 
 // The shape react-router recognises as a route error response.
@@ -29,6 +30,8 @@ it.each([
         path: "/boom",
         errorElement: <ErrorBoundary />,
         loader: () => {
+          // Non-Error values are what this test is about.
+          // eslint-disable-next-line @typescript-eslint/only-throw-error
           throw thrown;
         },
         element: <p />,

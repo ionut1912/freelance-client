@@ -1,5 +1,6 @@
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import VerifyPhoto from "../../components/camera/VerifyPhoto";
 import { createHubConnection } from "../../lib/signalr";
 import {
@@ -43,7 +44,7 @@ it("captures, retakes and sends the photo for verification", async () => {
   await click("Capture");
   expect(await screen.findByText("Preview (local)")).toBeInTheDocument();
   await click("Retake");
-  expect(screen.queryByText("Preview (local)")).toBeNull();
+  expect(screen.queryByText("Preview (local)")).not.toBeInTheDocument();
   await click("Capture");
   await click("Verify Photo");
 
@@ -60,7 +61,7 @@ it("ignores a capture that yields no photo", async () => {
   view();
   await click("Start Camera");
   await click("Capture");
-  expect(screen.queryByAltText("Captured")).toBeNull();
+  expect(screen.queryByAltText("Captured")).not.toBeInTheDocument();
 });
 
 it("accepts a photo sent from another device", async () => {
@@ -71,7 +72,7 @@ it("accepts a photo sent from another device", async () => {
 
   await waitFor(() => expect(hub.handlers.Photo).toBeDefined());
   act(() => hub.handlers.Photo("not-an-image"));
-  expect(screen.queryByAltText("Captured")).toBeNull();
+  expect(screen.queryByAltText("Captured")).not.toBeInTheDocument();
   act(() => hub.handlers.Photo("data:image/png;base64,A"));
 
   expect(screen.getByText("Preview (remote)")).toBeInTheDocument();

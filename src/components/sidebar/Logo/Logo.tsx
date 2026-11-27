@@ -1,10 +1,12 @@
 import { Box } from "@mui/material";
-import type { UserRole } from "../../../models/UserProfile";
-import { LogoImgContainer } from "./styled/LogoImgContainer";
-import { LogoImg } from "./styled/LogoImg";
-import { LogoText } from "./styled/LogoText";
-import { navigateByRole } from "../../../utils/authUtils";
 import { useNavigate } from "react-router-dom";
+
+import type { UserRole } from "../../../models/UserProfile";
+import { navigateByRole } from "../../../utils/authUtils";
+
+import { LogoImg } from "./styled/LogoImg";
+import { LogoImgContainer } from "./styled/LogoImgContainer";
+import { LogoText } from "./styled/LogoText";
 
 interface Params {
   invertImage?: boolean;

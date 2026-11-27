@@ -1,5 +1,6 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import FreelancerDataForm from "../../components/forms/FreelancerDataForm";
 import { fakeApi, renderApp } from "../../testUtils";
 
@@ -75,8 +76,8 @@ it.each(["0", "10000"])("accepts the boundary rate %s", async (rate) => {
   blur("Experience");
   await screen.findByText("Experience is required");
 
-  expect(screen.queryByText("Too high")).toBeNull();
-  expect(screen.queryByText("Must be >= 0")).toBeNull();
+  expect(screen.queryByText("Too high")).not.toBeInTheDocument();
+  expect(screen.queryByText("Must be >= 0")).not.toBeInTheDocument();
 });
 
 it("offers no options when both lookups fail", async () => {

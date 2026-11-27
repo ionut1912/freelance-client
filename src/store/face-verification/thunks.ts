@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
+import type { NavigateFunction } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import type {
   ClientProfileDto,
   FreelancerProfileDto,
@@ -8,20 +10,19 @@ import type {
   VerifyFaceRequest,
   VerifyFaceResult,
 } from "../../models/UserProfile";
-
-import type { NavigateFunction } from "react-router-dom";
+import { routesLinks } from "../../routes/index";
+import verifyFace from "../../services/faceVerificationService";
 import { verifyUserProfile } from "../../services/userProfileService";
 import type { AppDispatch, RootState } from "../../store";
-import { resetFalseCount, incrementFalseCount } from "./slice";
-import verifyFace from "../../services/faceVerificationService";
-import { blockUserAccount, deleteCurrentUserAccount } from "../auth/thunks";
 import { logout } from "../auth/slice";
+import { blockUserAccount, deleteCurrentUserAccount } from "../auth/thunks";
 import {
   verifreelancerProfile,
   verifyClientProfile,
 } from "../user-profile/slice";
 import { removeUserProfile } from "../user-profile/thunks";
-import { routesLinks } from "../../routes/index";
+
+import { incrementFalseCount, resetFalseCount } from "./actions";
 
 export const verifyCapturedFace = createAsyncThunk<
   VerifyFaceResult,
@@ -40,7 +41,9 @@ export const verifyCapturedFace = createAsyncThunk<
 
       if (verifyFaceResult.data.isMatch) {
         const role = state().auth.role;
-        if (!role) throw new Error("User role is missing");
+        if (!role) {
+          throw new Error("User role is missing");
+        }
 
         await processMatch(appDispatch, role, payload.profile);
       } else {

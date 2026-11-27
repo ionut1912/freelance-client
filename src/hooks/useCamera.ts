@@ -41,18 +41,24 @@ export function useCamera() {
   const stopCamera = useCallback(() => {
     const stream = videoRef.current?.srcObject as MediaStream | null;
     stream?.getTracks().forEach((t) => t.stop());
-    if (videoRef.current) videoRef.current.srcObject = null;
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
     setStreaming(false);
   }, []);
 
   const capturePhoto = useCallback((): string | null => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!video || !canvas) return null;
+    if (!video || !canvas) {
+      return null;
+    }
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return null;
+    if (!ctx) {
+      return null;
+    }
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL("image/png");
   }, []);

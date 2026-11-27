@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import { NavigationListItemButton } from "../../../../components/sidebar/navigation/styled/NavigationListItemButton";
 
 it("styles top-level and nested items differently", () => {

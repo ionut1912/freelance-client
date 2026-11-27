@@ -9,13 +9,15 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import CheckboxWithForm from "./common/CheckboxWithForm";
-import type { UserFormValues } from "../../models/Ui";
-import GenericModal from "../wrappers/GenericModal";
 import { useDispatch } from "react-redux";
-import type { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
+
+import type { UserFormValues } from "../../models/Ui";
+import type { AppDispatch } from "../../store";
 import { deleteCurrentUserAccount } from "../../store/auth/thunks";
+import GenericModal from "../wrappers/GenericModal";
+
+import CheckboxWithForm from "./common/CheckboxWithForm";
 
 interface Props {
   defaultValues?: UserFormValues;

@@ -1,5 +1,5 @@
-import axios, { type AxiosResponse } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios, { type AxiosResponse } from "axios";
 
 export interface LoadCountriesResult {
   countries: string[];
@@ -13,7 +13,7 @@ interface CountryApiResponse {
 
 export const loadCountries = createAsyncThunk<
   LoadCountriesResult,
-  void,
+  undefined,
   { rejectValue: string }
 >("countries/loadCountries", async (_, { rejectWithValue }) => {
   const apiUrl = "https://restcountries.com/v3.1/all?fields=name";

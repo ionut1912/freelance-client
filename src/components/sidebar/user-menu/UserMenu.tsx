@@ -1,22 +1,23 @@
+import { Typography } from "@mui/material";
 import { useState, type MouseEvent } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { UserMenuContainer } from "./styled/UserMenuContainer";
-import { UserMenuIconButton } from "./styled/UserMenuIconButton";
-import UserAvatar from "../UserAvatar";
-import { UserMenuMenu } from "./styled/UserMenuMenu";
 import type {
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../../models/UserProfile";
+import { routesLinks } from "../../../routes/index";
+import type { AppDispatch } from "../../../store";
+import { logout } from "../../../store/auth/slice";
+import UserAvatar from "../UserAvatar";
+
+import { UserMenuContainer } from "./styled/UserMenuContainer";
+import { UserMenuIconButton } from "./styled/UserMenuIconButton";
 import { UserMenuInfo } from "./styled/UserMenuInfo";
-import { Typography } from "@mui/material";
+import { UserMenuMenu } from "./styled/UserMenuMenu";
 import { UserMenuMenuItem } from "./styled/UserMenuMenuItem";
 import { UserMenuMenuItemWithSeparator } from "./styled/UserMenuMenuItemWithSeparator";
-import type { AppDispatch } from "../../../store";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { routesLinks } from "../../../routes/index";
-import { logout } from "../../../store/auth/slice";
 
 interface UserMenuProps {
   profile: ClientProfileDto | FreelancerProfileDto;
@@ -48,9 +49,7 @@ const UserMenu = ({ profile }: UserMenuProps) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
+        slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
         <UserMenuInfo>
           <Typography fontSize={14} color="text.secondary">

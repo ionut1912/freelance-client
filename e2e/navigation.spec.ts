@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+
 import { blockUnmockedApi } from "./mockApi";
 
 test.beforeEach(async ({ page }) => {

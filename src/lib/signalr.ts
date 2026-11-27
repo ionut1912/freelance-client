@@ -20,7 +20,9 @@ export function onRemotePhoto(
   onPhoto: (dataUrl: string) => void,
 ) {
   const forSession = (sid: string, dataUrl: string) => {
-    if (!sid || sid === sessionId) onPhoto(dataUrl);
+    if (!sid || sid === sessionId) {
+      onPhoto(dataUrl);
+    }
   };
   conn.on("PhotoDataUrl", forSession);
   conn.on("SendPhotoDataUrl", forSession);

@@ -8,7 +8,9 @@ module.exports = new Proxy(
   { __esModule: true },
   {
     get(target, name) {
-      if (name in target || typeof name !== "string") return target[name];
+      if (name in target || typeof name !== "string") {
+        return target[name];
+      }
       // Transitions such as Zoom need the ref and style to reach the element.
       icons[name] ??= forwardRef(({ style }, ref) =>
         createElement("svg", { ref, style, "data-testid": `${name}Icon` }),

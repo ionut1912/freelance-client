@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import { toast } from "react-toastify";
 import type { NavigateFunction } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import type { RegisterDto, LoginDto, UserDto } from "../../models/Accounts";
 import { routesLinks } from "../../routes/index";
 import {
@@ -15,7 +16,7 @@ import { getRoleFromToken, navigateByRole } from "../../utils/authUtils";
 import { extractErrorMessages } from "../../utils/httpError";
 
 export const registerUser = createAsyncThunk<
-  void,
+  undefined,
   { payload: RegisterDto; navigate: NavigateFunction },
   { rejectValue: AxiosError }
 >("auth/registerUser", async ({ payload, navigate }, { rejectWithValue }) => {
@@ -38,7 +39,9 @@ export const loginUser = createAsyncThunk<
   try {
     const response = await login(payload);
     const token = response.data.token;
-    if (!token) throw new Error("Login response has no token");
+    if (!token) {
+      throw new Error("Login response has no token");
+    }
     localStorage.setItem("jwt", token);
     const role = getRoleFromToken(token);
     navigateByRole(role, navigate);
@@ -51,7 +54,7 @@ export const loginUser = createAsyncThunk<
 });
 
 export const blockUserAccount = createAsyncThunk<
-  void,
+  undefined,
   { id: number; navigate: NavigateFunction },
   { rejectValue: AxiosError }
 >("auth/blockUserAccount", async ({ id, navigate }, { rejectWithValue }) => {
@@ -67,7 +70,7 @@ export const blockUserAccount = createAsyncThunk<
 });
 
 export const deleteUserAccount = createAsyncThunk<
-  void,
+  undefined,
   number,
   { rejectValue: AxiosError }
 >("auth/deleteUserAccount", async (id, { rejectWithValue }) => {
@@ -81,7 +84,7 @@ export const deleteUserAccount = createAsyncThunk<
 });
 
 export const deleteCurrentUserAccount = createAsyncThunk<
-  void,
+  undefined,
   { navigate: NavigateFunction },
   { rejectValue: AxiosError }
 >(

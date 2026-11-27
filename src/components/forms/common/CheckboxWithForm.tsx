@@ -27,8 +27,8 @@ const CheckboxWithForm = <T extends FieldValues>({
             <Checkbox
               onBlur={onBlur}
               onChange={onChange}
-              checked={value as boolean}
-              inputRef={ref}
+              checked={value}
+              slotProps={{ input: { ref } }}
             />
           }
           label={label}

@@ -1,6 +1,7 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import type { Language } from "../../models/ExternalApis";
 import getLanguages from "../../services/languageService";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 
 interface LoadLanguagesResult {
   languages: Language[];
@@ -8,7 +9,7 @@ interface LoadLanguagesResult {
 
 export const loadLanguages = createAsyncThunk<
   LoadLanguagesResult,
-  void,
+  undefined,
   { rejectValue: string }
 >("languages/loadLanguages", async (_, { rejectWithValue }) => {
   try {

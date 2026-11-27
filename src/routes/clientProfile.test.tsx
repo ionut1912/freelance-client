@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
-import { renderWithProviders } from "../testUtils/render";
+
 import { replyLookups, reply } from "../testUtils/handlers";
+import { renderWithProviders } from "../testUtils/render";
+
 import Page from "./clientProfile";
 
 // Charts need real layout, which jsdom does not have.

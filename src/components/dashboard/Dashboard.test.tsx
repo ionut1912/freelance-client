@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import Dashboard from "../../components/dashboard/Dashboard";
 
 jest.mock("../../components/dashboard/Widget/sales/SalesWidget", () => () => (

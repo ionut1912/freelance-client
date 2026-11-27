@@ -1,6 +1,8 @@
-import type { CreateClientProfileRequest } from "../models/UserProfile";
-import { api, API_URL } from "./utils";
 import type { AxiosResponse } from "axios";
+
+import type { CreateClientProfileRequest } from "../models/UserProfile";
+
+import { api, API_URL } from "./utils";
 
 export function createClientProfile(
   payload: CreateClientProfileRequest,

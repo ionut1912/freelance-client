@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import Widget from "../../../components/dashboard/Widget/Widget";
 
 it("shows the title and content", () => {

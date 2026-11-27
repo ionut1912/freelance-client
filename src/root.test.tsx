@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { lazy } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
+
 import RootLayout from "./root";
 
 const renderChild = (element: React.ReactNode) =>

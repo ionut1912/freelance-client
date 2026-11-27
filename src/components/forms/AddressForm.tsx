@@ -1,12 +1,13 @@
-import * as React from "react";
 import { Box, TextField, Autocomplete, Button } from "@mui/material";
+import * as React from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../store";
-import type { AddressData } from "../../models/UserProfile";
+
 import { useAddressData } from "../../hooks/useAddressData";
-import Spinner from "../wrappers/Spinner";
 import { useForm } from "../../hooks/useForm";
+import type { AddressData } from "../../models/UserProfile";
+import type { RootState } from "../../store";
 import { addressValidationSchema } from "../../utils/schemaValidators";
+import Spinner from "../wrappers/Spinner";
 
 interface AddressFormProps {
   initialValues?: AddressData;
@@ -25,7 +26,7 @@ const AddressForm = ({
   initialValues = DEFAULT_ADDR,
   onSubmit,
 }: AddressFormProps) => {
-  const frozenInitials = React.useRef(initialValues).current;
+  const [frozenInitials] = React.useState(initialValues);
 
   const formik = useForm<AddressData>(
     frozenInitials,
@@ -34,9 +35,7 @@ const AddressForm = ({
     true,
   );
 
-  const { countries = [], cities = [] } = useAddressData(
-    formik.values.addressCountry,
-  );
+  const { countries, cities } = useAddressData(formik.values.addressCountry);
   const loadingCountries = useSelector(
     (state: RootState) => state.country.loading,
   );
@@ -49,7 +48,7 @@ const AddressForm = ({
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 2 }}>
-      <Autocomplete<string, false, false, false>
+      <Autocomplete<string>
         options={countries}
         value={formik.values.addressCountry || null}
         onChange={(_, newValue) => {
@@ -76,20 +75,22 @@ const AddressForm = ({
                 ? formik.errors.addressCountry
                 : null
             }
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {showCountriesLoading ? <Spinner /> : null}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
+            slotProps={{
+              input: {
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {showCountriesLoading ? <Spinner /> : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              },
             }}
           />
         )}
       />
 
-      <Autocomplete<string, false, false, false>
+      <Autocomplete<string>
         options={cities}
         value={formik.values.addressCity || null}
         onChange={(_, newValue) => {
@@ -108,14 +109,16 @@ const AddressForm = ({
             helperText={
               formik.touched.addressCity ? formik.errors.addressCity : null
             }
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {showCitiesLoading ? <Spinner /> : null}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
+            slotProps={{
+              input: {
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {showCitiesLoading ? <Spinner /> : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              },
             }}
           />
         )}

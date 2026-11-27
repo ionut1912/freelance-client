@@ -1,7 +1,8 @@
+import { api } from "../services/utils";
 import { store } from "../store";
 import { logout, setRole } from "../store/auth/slice";
-import { api } from "../services/utils";
 import { reply } from "../testUtils/handlers";
+
 import { isAuthenticated } from "./auth";
 
 const signIn = () => {

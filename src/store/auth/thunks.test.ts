@@ -1,6 +1,7 @@
+import { makeStore } from "../../testUtils";
 import { buildToken } from "../../testUtils/factories";
 import { offline, recordRequests, reply } from "../../testUtils/handlers";
-import { makeStore } from "../../testUtils";
+
 import {
   blockUserAccount,
   deleteCurrentUserAccount,

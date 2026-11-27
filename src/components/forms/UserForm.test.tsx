@@ -1,9 +1,11 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+
 import { makeStore, profileState } from "../../testUtils";
 import { buildProfile } from "../../testUtils/factories";
 import { held, offline, recordRequests, reply } from "../../testUtils/handlers";
 import { renderWithProviders } from "../../testUtils/render";
+
 import UserForm from "./UserForm";
 
 const png = new File(["x"], "a.png", { type: "image/png" });
@@ -139,7 +141,9 @@ describe("<UserForm />", () => {
     await user.click(button("Remove picture"));
     await user.click(button("Yes"));
 
-    await waitFor(() => expect(screen.queryByText("Yes")).toBeNull());
+    await waitFor(() =>
+      expect(screen.queryByText("Yes")).not.toBeInTheDocument(),
+    );
     await expect(sent[0]?.body()).resolves.toEqual({ image: "" });
   });
 
@@ -150,10 +154,15 @@ describe("<UserForm />", () => {
       const sent = recordRequests();
       await user.click(button("Remove picture"));
 
-      if (how === "No") await user.click(button(how));
-      else await user.keyboard(how);
+      if (how === "No") {
+        await user.click(button(how));
+      } else {
+        await user.keyboard(how);
+      }
 
-      await waitFor(() => expect(screen.queryByText("Yes")).toBeNull());
+      await waitFor(() =>
+        expect(screen.queryByText("Yes")).not.toBeInTheDocument(),
+      );
       expect(sent).toHaveLength(0);
     },
   );

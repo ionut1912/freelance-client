@@ -1,12 +1,14 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { AuthState } from "./types";
+
+import type { UserRole } from "../../models/UserProfile";
+
 import {
   loginUser,
   registerUser,
   blockUserAccount,
   deleteCurrentUserAccount,
 } from "./thunks";
-import type { UserRole } from "../../models/UserProfile";
+import type { AuthState } from "./types";
 
 const initialState: AuthState = {
   user: null,

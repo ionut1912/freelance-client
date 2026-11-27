@@ -1,5 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
+
 import NavigationItemSimple from "../../../components/sidebar/navigation/NavigationItemSimple";
 import { renderApp } from "../../../testUtils";
 import { renderWithProviders } from "../../../testUtils/render";
@@ -15,7 +16,7 @@ it("navigates when clicked", () => {
 
 it("shows a dot instead of an icon when nested", () => {
   renderApp(<NavigationItemSimple item={base} nested animateOn />);
-  expect(screen.queryByText("icon")).toBeNull();
+  expect(screen.queryByText("icon")).not.toBeInTheDocument();
   expect(screen.getByTestId("CircleIcon")).toBeInTheDocument();
 });
 

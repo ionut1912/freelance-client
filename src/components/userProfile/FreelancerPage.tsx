@@ -1,27 +1,28 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../store";
-import { useNavigate } from "react-router-dom";
 import { Stepper, Step, StepLabel, Button, Box } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 import type {
   AddressData,
   UserData,
   FreelancerData,
-  CreateFreelancerProfileRequest,
 } from "../../models/UserProfile";
 import { routesLinks } from "../../routes/index";
+import type { AppDispatch, RootState } from "../../store";
 import {
   loadCurrentUserProfile,
   saveFreelancerProfile,
 } from "../../store/user-profile/thunks";
 import VerifyPhoto from "../camera/VerifyPhoto";
+import Dashboard from "../dashboard/Dashboard";
 import AddressForm from "../forms/AddressForm";
 import FreelancerDataForm from "../forms/FreelancerDataForm";
 import UserDataForm from "../forms/UserDataForm";
 import Spinner from "../wrappers/Spinner";
+
 import ProfileLoadError from "./ProfileLoadError";
-import Dashboard from "../dashboard/Dashboard";
 
 const FreelancerPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -56,8 +57,12 @@ const FreelancerPage = () => {
     (state: RootState) => state.userProfile.loadFailed,
   );
 
-  if (loading) return <Spinner />;
-  if (loadFailed && !profile) return <ProfileLoadError />;
+  if (loading) {
+    return <Spinner />;
+  }
+  if (loadFailed && !profile) {
+    return <ProfileLoadError />;
+  }
 
   if (profile) {
     return (
@@ -85,7 +90,7 @@ const FreelancerPage = () => {
       <UserDataForm
         key="step-1"
         initialValues={userData}
-        onSubmit={async (vals) => {
+        onSubmit={(vals) => {
           setUserData(vals);
           setActiveStep(2);
         }}
@@ -103,7 +108,7 @@ const FreelancerPage = () => {
               address: addressData,
               user: userData,
               freelancer: vals,
-            } as CreateFreelancerProfileRequest),
+            }),
           );
           void navigate(routesLinks.freelancer);
         }}

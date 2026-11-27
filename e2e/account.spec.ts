@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+
 import { API, blockUnmockedApi, fakeToken, json } from "./mockApi";
 
 // Chromium's built-in fake camera, so photo capture works without hardware.

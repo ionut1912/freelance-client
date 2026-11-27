@@ -1,5 +1,5 @@
-import { fakeApi, makeStore } from "../../testUtils";
 import { loadCities } from "../../store/city/thunks";
+import { fakeApi, makeStore } from "../../testUtils";
 
 it("loads the cities of a country", async () => {
   const calls = fakeApi({ "POST countriesnow": [200, { data: ["Cluj"] }] });

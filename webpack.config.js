@@ -1,15 +1,16 @@
 // webpack.config.js (ESM)
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { config as loadEnv } from "dotenv";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import webpack from "webpack";
-import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config();
+loadEnv();
 
 export default (env = {}) => ({
   mode: env.production ? "production" : "development",

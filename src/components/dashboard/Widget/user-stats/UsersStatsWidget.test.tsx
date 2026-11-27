@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import UsersStatsWidget from "../../../../components/dashboard/Widget/user-stats/UsersStatsWidget";
 
 jest.mock("@nivo/bar", () => ({
