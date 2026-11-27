@@ -25,8 +25,8 @@ FROM nginx:1.27-alpine AS production
 # Copy built assets from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy custom nginx config (optional)
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Serve index.html for client-side routes
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port
 EXPOSE 80
