@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { createHubConnection } from "../lib/signalr";
+import { createHubConnection, onRemotePhoto } from "../lib/signalr";
 
 import { API_URL as API_BASE } from "../services/utils";
 
@@ -19,14 +19,7 @@ export function useRemotePhotoReceiver(
     const conn = createHubConnection(API_BASE);
     let mounted = true;
 
-    const forSession = (sid: string, dataUrl: string) => {
-      if (mounted && (!sid || sid === sessionId)) {
-        onPhotoRef.current(dataUrl);
-      }
-    };
-    conn.on("PhotoDataUrl", forSession);
-    conn.on("SendPhotoDataUrl", forSession);
-    conn.on("Photo", (dataUrl: string) => {
+    onRemotePhoto(conn, sessionId, (dataUrl) => {
       if (mounted) onPhotoRef.current(dataUrl);
     });
     conn.onreconnected(() => {

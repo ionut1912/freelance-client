@@ -26,3 +26,14 @@ it.each([
 
   expect(screen.queryByText(group)).toBeNull();
 });
+
+it("disables links to pages that do not exist yet", () => {
+  renderApp(<Navigation role="Client" />);
+
+  expect(
+    screen.getByRole("button", { name: "Projects Boards" }),
+  ).toHaveAttribute("aria-disabled", "true");
+  expect(screen.getByRole("button", { name: "Calendar" })).not.toHaveAttribute(
+    "aria-disabled",
+  );
+});

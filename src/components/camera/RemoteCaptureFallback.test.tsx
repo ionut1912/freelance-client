@@ -4,7 +4,10 @@ import RemoteCaptureFallback from "../../components/camera/RemoteCaptureFallback
 import { createHubConnection } from "../../lib/signalr";
 import { fakeHub } from "../../testUtils";
 
-jest.mock("../../lib/signalr", () => ({ createHubConnection: jest.fn() }));
+jest.mock("../../lib/signalr", () => ({
+  ...jest.requireActual<object>("../../lib/signalr"),
+  createHubConnection: jest.fn(),
+}));
 
 let hub: ReturnType<typeof fakeHub>;
 beforeEach(() => {

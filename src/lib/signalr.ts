@@ -12,3 +12,18 @@ export function createHubConnection(apiBase: string) {
     .withAutomaticReconnect()
     .build();
 }
+
+/** Calls `onPhoto` for any of the photo events, for this session only. */
+export function onRemotePhoto(
+  conn: signalR.HubConnection,
+  sessionId: string,
+  onPhoto: (dataUrl: string) => void,
+) {
+  const forSession = (sid: string, dataUrl: string) => {
+    if (!sid || sid === sessionId) onPhoto(dataUrl);
+  };
+  conn.on("PhotoDataUrl", forSession);
+  conn.on("SendPhotoDataUrl", forSession);
+  conn.on("Photo", onPhoto);
+  conn.on("PhotoReceived", (p: { dataUrl: string }) => onPhoto(p.dataUrl));
+}

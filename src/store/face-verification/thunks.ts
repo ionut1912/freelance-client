@@ -15,6 +15,7 @@ import type { AppDispatch, RootState } from "../../store";
 import { resetFalseCount, incrementFalseCount } from "./slice";
 import verifyFace from "../../services/faceVerificationService";
 import { blockUserAccount, deleteCurrentUserAccount } from "../auth/thunks";
+import { logout } from "../auth/slice";
 import {
   verifreelancerProfile,
   verifyClientProfile,
@@ -99,7 +100,7 @@ async function processNoMatch(
 
   if (falseCount === 3 || falseCount === 6) {
     await dispatch(blockUserAccount({ id: profile.user.id, navigate }));
-    await dispatch(deleteCurrentUserAccount({ navigate }));
+    dispatch(logout());
     toast.error(
       `Your account will be locked for 1h because you attempted verification ${falseCount} times`,
     );

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import type { HubConnection } from "@microsoft/signalr";
 import QRCode from "react-qr-code";
-import { createHubConnection } from "../../lib/signalr";
+import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
 
 import { API_URL as API_BASE } from "../../services/utils";
 
@@ -42,8 +42,8 @@ const RemoteCaptureFallback = ({
         setSession(data);
 
         conn = createHubConnection(API_BASE);
-        conn.on("PhotoReceived", (p: { dataUrl: string }) =>
-          onPhotoRef.current(p.dataUrl),
+        onRemotePhoto(conn, data.sessionId, (dataUrl) =>
+          onPhotoRef.current(dataUrl),
         );
         await conn.start();
         await conn.invoke("Join", data.sessionId);

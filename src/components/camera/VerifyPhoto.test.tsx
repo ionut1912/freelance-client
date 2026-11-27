@@ -10,7 +10,10 @@ import {
   renderApp,
 } from "../../testUtils";
 
-jest.mock("../../lib/signalr", () => ({ createHubConnection: jest.fn() }));
+jest.mock("../../lib/signalr", () => ({
+  ...jest.requireActual<object>("../../lib/signalr"),
+  createHubConnection: jest.fn(),
+}));
 
 let hub: ReturnType<typeof fakeHub>;
 beforeEach(() => {

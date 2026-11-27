@@ -39,3 +39,12 @@ it("stays logged in when the menu is dismissed with Escape", async () => {
   expect(localStorage.getItem("jwt")).toBe("abc");
   localStorage.clear();
 });
+
+it.each(["Profile", "My account"])("opens the account page from %s", (name) => {
+  renderApp(<UserMenu profile={profile() as never} />);
+
+  userEvent.click(screen.getByRole("button"));
+  userEvent.click(screen.getByRole("menuitem", { name }));
+
+  expect(screen.getByTestId("path")).toHaveTextContent("/user-profile");
+});
