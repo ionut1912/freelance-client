@@ -11,7 +11,7 @@ import type { AppDispatch, RootState } from "../../store";
 import { loadLanguages } from "../../store/language/thunks";
 import { loadSkills } from "../../store/skills/thunks";
 import { freelancerValidationSchema } from "../../utils/schemaValidators";
-import Spinner from "../wrappers/Spinner";
+import Spinner from "../ui/Spinner";
 
 interface FreelancerDataFormProps {
   initialValues?: FreelancerData;

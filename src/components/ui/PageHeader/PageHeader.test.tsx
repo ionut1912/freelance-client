@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import PageHeader from "../../components/PageHeader/PageHeader";
+import PageHeader from "./PageHeader";
 
 it("shows only the title by default", () => {
   render(<PageHeader title="Title" />);

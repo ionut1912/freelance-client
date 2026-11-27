@@ -15,7 +15,7 @@ import VerifyPhoto from "../camera/VerifyPhoto";
 import Dashboard from "../dashboard/Dashboard";
 import AddressForm from "../forms/AddressForm";
 import UserDataForm from "../forms/UserDataForm";
-import Spinner from "../wrappers/Spinner";
+import Spinner from "../ui/Spinner";
 
 import ProfileLoadError from "./ProfileLoadError";
 

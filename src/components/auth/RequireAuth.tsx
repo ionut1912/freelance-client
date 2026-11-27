@@ -6,7 +6,7 @@ import { isAuthenticated } from "../../lib/auth";
 import { routesLinks } from "../../routes/index";
 import type { RootState } from "../../store";
 import SideBarLayout from "../sidebar/SideBarLayout";
-import Spinner from "../wrappers/Spinner";
+import Spinner from "../ui/Spinner";
 
 const RequireAuth = () => {
   const location = useLocation();

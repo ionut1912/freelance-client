@@ -10,8 +10,8 @@ import { patchUserProfileAddress } from "../../store/user-profile/thunks";
 import AccountSettingsForm from "../forms/AccountSettingsForm";
 import AddressForm from "../forms/AddressForm";
 import UserForm from "../forms/UserForm";
-import PageHeader from "../PageHeader/PageHeader";
-import Spinner from "../wrappers/Spinner";
+import PageHeader from "../ui/PageHeader/PageHeader";
+import Spinner from "../ui/Spinner";
 
 import TabPanel from "./TabPanel";
 

@@ -2,7 +2,7 @@ import { createBrowserRouter, type RouteObject } from "react-router";
 
 import RequireAuth from "./components/auth/RequireAuth";
 import ErrorBoundary from "./components/errors/ErrorBoundary";
-import Spinner from "./components/wrappers/Spinner";
+import Spinner from "./components/ui/Spinner";
 import RootLayout from "./root";
 import { routesLinks } from "./routes/index";
 

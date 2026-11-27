@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import Spinner from "../../components/wrappers/Spinner";
+import Spinner from "./Spinner";
 
 it("shows a progress indicator", () => {
   render(<Spinner />);

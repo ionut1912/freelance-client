@@ -7,7 +7,7 @@ import { useForm } from "../../hooks/useForm";
 import type { AddressData } from "../../models/UserProfile";
 import type { RootState } from "../../store";
 import { addressValidationSchema } from "../../utils/schemaValidators";
-import Spinner from "../wrappers/Spinner";
+import Spinner from "../ui/Spinner";
 
 interface AddressFormProps {
   initialValues?: AddressData;

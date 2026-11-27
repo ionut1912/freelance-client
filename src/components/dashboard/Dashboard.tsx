@@ -1,6 +1,6 @@
 import { Container, Grid } from "@mui/material";
 
-import PageHeader from "../PageHeader/PageHeader";
+import PageHeader from "../ui/PageHeader/PageHeader";
 
 import SalesWidget from "./Widget/sales/SalesWidget";
 import StatWidget from "./Widget/stat/StatWidget";

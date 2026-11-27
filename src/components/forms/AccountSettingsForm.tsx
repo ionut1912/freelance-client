@@ -15,7 +15,7 @@ import { useNavigate } from "react-router";
 import type { UserFormValues } from "../../models/Ui";
 import type { AppDispatch } from "../../store";
 import { deleteCurrentUserAccount } from "../../store/auth/thunks";
-import GenericModal from "../wrappers/GenericModal";
+import GenericModal from "../ui/ConfirmModal";
 
 import CheckboxWithForm from "./common/CheckboxWithForm";
 

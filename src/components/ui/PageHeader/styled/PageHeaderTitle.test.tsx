@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { PageHeaderTitle } from "../../../components/PageHeader/styled/PageHeaderTitle";
+import { PageHeaderTitle } from "./PageHeaderTitle";
 
 it("renders its children with its styles", () => {
   render(<PageHeaderTitle data-testid="el">content</PageHeaderTitle>);

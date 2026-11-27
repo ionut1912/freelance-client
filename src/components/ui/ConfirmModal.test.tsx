@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
-import GenericModal from "../../components/wrappers/GenericModal";
+import GenericModal from "./ConfirmModal";
 
 it("reports Yes, No and close", () => {
   const onYes = jest.fn();

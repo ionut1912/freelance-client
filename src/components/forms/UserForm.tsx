@@ -26,7 +26,7 @@ import {
   AccountGeneralFieldsNames,
   type AccountGeneralForm,
 } from "../../utils/schemaValidators";
-import GenericModal from "../wrappers/GenericModal";
+import GenericModal from "../ui/ConfirmModal";
 
 interface Props {
   submitButtonText?: string;
