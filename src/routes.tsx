@@ -1,4 +1,4 @@
-import { createBrowserRouter, type RouteObject } from "react-router-dom";
+import { createBrowserRouter, type RouteObject } from "react-router";
 
 import RequireAuth from "./components/auth/RequireAuth";
 import ErrorBoundary from "./components/errors/ErrorBoundary";
@@ -97,8 +97,6 @@ const routes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter(routes, {
-  future: { v7_partialHydration: true },
-});
+export const router = createBrowserRouter(routes, {});
 
 export default routes;

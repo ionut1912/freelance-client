@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router";
 
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 import { isAuthenticated } from "../../lib/auth";

@@ -10,7 +10,7 @@ import {
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import type { UserFormValues } from "../../models/Ui";
 import type { AppDispatch } from "../../store";

@@ -1,4 +1,4 @@
-import type { NavigateFunction } from "react-router-dom";
+import type { NavigateFunction } from "react-router";
 
 import type { UserProfileDto } from "./Accounts";
 import type { ContractsDto } from "./Contracts";

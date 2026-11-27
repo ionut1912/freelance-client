@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { useState, type MouseEvent } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import type {
   ClientProfileDto,

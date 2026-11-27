@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { useForm } from "../../hooks/useForm";
 import type { LoginDto } from "../../models/Accounts";

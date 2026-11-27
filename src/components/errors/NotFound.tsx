@@ -1,6 +1,6 @@
 import { Button, Container, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { isAuthenticated } from "../../lib/auth";
 import { routesLinks } from "../../routes/index";

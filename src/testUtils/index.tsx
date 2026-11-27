@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { ReactElement } from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router";
 
 import { api } from "../services/utils";
 import auth from "../store/auth/slice";

@@ -1,7 +1,7 @@
 import { Circle, Launch } from "@mui/icons-material";
 import { ListItemText, Stack, Typography, Zoom } from "@mui/material";
 import { useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 import type {
   NavigationItemIconProps,

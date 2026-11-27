@@ -1,7 +1,7 @@
 import { Stepper, Step, StepLabel, Button, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { useCurrentUser } from "../../hooks/useCurerentUser";
 import type { AddressData, UserData } from "../../models/UserProfile";

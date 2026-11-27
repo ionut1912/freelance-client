@@ -1,9 +1,5 @@
 import { Alert, Button, Container, Typography } from "@mui/material";
-import {
-  useRouteError,
-  isRouteErrorResponse,
-  useNavigate,
-} from "react-router-dom";
+import { useRouteError, isRouteErrorResponse, useNavigate } from "react-router";
 
 import { routesLinks } from "../../routes/index";
 
