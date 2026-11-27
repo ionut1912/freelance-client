@@ -24,3 +24,14 @@ it("records a failure", () => {
   });
   expect(state.error).toBe("bad");
 });
+
+it("stops loading and keeps the real message on failure", () => {
+  const state = reducer(undefined, {
+    type: loadSkills.rejected.type,
+    payload: "Network Error",
+    error: { message: "Rejected" },
+  });
+
+  expect(state.loading).toBe(false);
+  expect(state.error).toBe("Network Error");
+});

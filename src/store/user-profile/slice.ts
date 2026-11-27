@@ -46,6 +46,9 @@ const userProfileSlice = createSlice({
         state.freelancerProfiles = action.payload.freelancerProfiles ?? null;
         state.loading = false;
       })
+      .addCase(loadCurrentUserProfile.rejected, (state) => {
+        state.loading = false;
+      })
       .addCase(saveClientProfile.rejected, (state, action) => {
         state.error = action.payload ?? null;
       })

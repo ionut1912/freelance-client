@@ -63,9 +63,9 @@ interface ErrorResponse {
 
 export const handleHttpError = (error: unknown): string => {
   if (axios.isAxiosError(error)) {
-    const axiosError = error as AxiosError<ErrorResponse>;
+    const axiosError = error as AxiosError<ErrorResponse | null>;
 
-    if (axiosError.response?.data.message) {
+    if (axiosError.response?.data?.message) {
       return axiosError.response.data.message;
     }
 

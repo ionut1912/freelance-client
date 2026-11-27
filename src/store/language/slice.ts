@@ -20,7 +20,8 @@ const languageSlice = createSlice({
         state.error = null;
       })
       .addCase(loadLanguages.rejected, (state, action) => {
-        state.error = action.error.message as string;
+        state.error = action.payload ?? (action.error.message as string);
+        state.loading = false;
       });
   },
 });

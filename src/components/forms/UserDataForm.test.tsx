@@ -2,21 +2,6 @@ import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import UserDataForm from "../../components/forms/UserDataForm";
 import { renderApp } from "../../testUtils";
-import type * as UseForm from "../../hooks/useForm";
-
-// The component revalidates the photo on every render (see the last test), and
-// real revalidation re-renders, so it would loop forever inside `act`. Only
-// `validateField` is stubbed; the rest of formik is real.
-const mockValidateField = jest.fn();
-jest.mock("../../hooks/useForm", () => {
-  const actual = jest.requireActual<typeof UseForm>("../../hooks/useForm");
-  return {
-    useForm: (...args: Parameters<typeof actual.useForm>) => ({
-      ...actual.useForm(...args),
-      validateField: mockValidateField,
-    }),
-  };
-});
 
 jest.mock(
   "../../components/camera/CameraCapture",
@@ -65,19 +50,13 @@ it("submits a bio and photo", async () => {
   );
 });
 
-// Known bug: the effect depends on the whole `formik` object, which is new on
-// every render, so the photo is validated again and again.
-// `it.failing` passes while the bug exists; change it to `it` once fixed.
-it.failing("validates the photo only when it changes", async () => {
+it("disables saving again when the photo is cleared", async () => {
   renderApp(<UserDataForm onSubmit={jest.fn()} />);
+  type("Bio", "A long enough biography");
   userEvent.click(button("take photo"));
-  await waitFor(() => expect(mockValidateField).toHaveBeenCalled());
-  mockValidateField.mockClear();
+  await waitFor(() => expect(button("Save User Details")).toBeEnabled());
 
-  type("Bio", "A different biography");
-  await waitFor(() =>
-    expect(screen.getByLabelText("Bio")).toHaveValue("A different biography"),
-  );
+  userEvent.click(button("clear photo"));
 
-  expect(mockValidateField).not.toHaveBeenCalled();
+  await waitFor(() => expect(button("Save User Details")).toBeDisabled());
 });

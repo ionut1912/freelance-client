@@ -47,10 +47,11 @@ const MobileCapturePage = () => {
 
   useEffect(() => {
     const videoElement = videoRef.current;
+    const request = { cancelled: false };
     void (async () => {
       try {
         const stream = await getFrontCameraStream();
-        if (videoElement) {
+        if (videoElement && !request.cancelled) {
           videoElement.srcObject = stream;
           setReady(true);
         } else {
@@ -61,6 +62,7 @@ const MobileCapturePage = () => {
       }
     })();
     return () => {
+      request.cancelled = true;
       const s = videoElement?.srcObject as MediaStream | null;
       s?.getTracks().forEach((t) => t.stop());
       if (videoElement) videoElement.srcObject = null;

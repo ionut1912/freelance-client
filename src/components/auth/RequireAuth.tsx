@@ -13,14 +13,14 @@ const RequireAuth = () => {
   const { freelancerProfile, clientProfile, loading } = useCurrentUser();
   const user = role === "Client" ? clientProfile : freelancerProfile;
 
-  if (loading) {
-    return <Spinner />;
-  }
-
   if (!isAuthenticated()) {
     return (
       <Navigate to={routesLinks.login} replace state={{ from: location }} />
     );
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   const shouldRenderSidebar = role && user;

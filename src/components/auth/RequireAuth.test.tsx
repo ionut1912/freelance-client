@@ -38,10 +38,17 @@ afterEach(() => {
 });
 
 // Runs first, while the store still has its initial loading state.
-it("shows a spinner until the profile loads", () => {
-  fakeApi({ "GET current": [500] });
+it("redirects a logged-out visitor without waiting for a profile", async () => {
+  fakeApi({ "GET current": [401] });
   renderGuard();
-  expect(screen.getByRole("progressbar")).toBeInTheDocument();
+  expect(await screen.findByText("login page")).toBeInTheDocument();
+});
+
+it("shows the page, not an endless spinner, if the profile fails", async () => {
+  fakeApi({ "GET current": [500] });
+  store.dispatch(setRole("Client"));
+  renderGuard();
+  expect(await screen.findByText("secret")).toBeInTheDocument();
 });
 
 it("wraps the page in the sidebar for a signed-in user", async () => {

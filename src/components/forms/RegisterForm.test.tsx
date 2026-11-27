@@ -41,18 +41,15 @@ it("shows field errors", async () => {
   expect(screen.getByText("Password is required")).toBeInTheDocument();
 });
 
-it("sends nothing without a role", async () => {
+it("sends nothing without a role and goes to role selection", async () => {
   const calls = fakeApi();
-  renderApp(<RegisterForm />);
+  renderApp(<RegisterForm />, { path: "/register" });
   await submit();
-  await waitFor(() => expect(button("Create Account")).toBeDisabled());
+  await waitFor(() => expect(screen.getByTestId("path").textContent).toBe("/"));
   expect(calls).toHaveLength(0);
 });
 
-// Known bug: the submit handler returns nothing, so formik never clears
-// `isSubmitting` and the button stays disabled after a failed registration.
-// `it.failing` passes while the bug exists; change it to `it` once fixed.
-it.failing("can be retried after a failed registration", async () => {
+it("can be retried after a failed registration", async () => {
   fakeApi({ "POST auth/register": [400, { detail: "taken" }] });
   renderApp(<RegisterForm />, {
     store: makeStore({ auth: { user: null, role: "Client", error: null } }),

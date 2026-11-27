@@ -20,7 +20,8 @@ const citySlice = createSlice({
         state.loading = false;
       })
       .addCase(loadCities.rejected, (state, action) => {
-        state.error = action.error.message as string;
+        state.error = action.payload ?? (action.error.message as string);
+        state.loading = false;
       });
   },
 });

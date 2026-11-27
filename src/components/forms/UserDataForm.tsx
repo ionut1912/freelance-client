@@ -3,7 +3,6 @@ import { Box, TextField, Button } from "@mui/material";
 import { useForm } from "../../hooks/useForm";
 import type { UserData } from "../../models/UserProfile";
 import CameraCapture from "../camera/CameraCapture";
-import { useEffect } from "react";
 import { userDataValidationSchema } from "../../utils/schemaValidators";
 
 interface UserDataFormProps {
@@ -25,12 +24,6 @@ const UserDataForm = ({
     onSubmit,
     true,
   );
-
-  useEffect(() => {
-    if (formik.values.image) {
-      void formik.validateField("image");
-    }
-  }, [formik, formik.values.image]);
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 2 }}>

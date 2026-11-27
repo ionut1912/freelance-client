@@ -84,8 +84,8 @@ async function processMatch(
     await verifyUserProfile(profile.id);
     dispatch(verifyClientProfile(profile.id));
   }
-  window.location.reload();
   dispatch(resetFalseCount());
+  window.location.reload();
 }
 
 async function processNoMatch(
@@ -105,8 +105,8 @@ async function processNoMatch(
     );
     await navigate(routesLinks.home);
   } else if (falseCount === 9) {
-    await dispatch(deleteCurrentUserAccount({ navigate }));
     await dispatch(removeUserProfile(profile.id));
+    await dispatch(deleteCurrentUserAccount({ navigate }));
     dispatch(resetFalseCount());
     toast.error(
       "Your account will be deleted because you attempted verification too many times",

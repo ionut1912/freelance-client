@@ -51,3 +51,12 @@ it.each([
   expect(reducer(undefined, { type, payload: "bad" }).error).toBe("bad");
   expect(reducer(undefined, { type }).error).toBeNull();
 });
+
+it("stops loading when the profile cannot be loaded", () => {
+  const state = reducer(undefined, {
+    type: "userProfile/loadCurrentUserProfile/rejected",
+  });
+
+  expect(state.loading).toBe(false);
+  expect(state.clientProfiles).toBeNull();
+});

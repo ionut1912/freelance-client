@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import type { HubConnection } from "@microsoft/signalr";
 import QRCode from "react-qr-code";
@@ -18,8 +18,15 @@ const RemoteCaptureFallback = ({
 }) => {
   const [session, setSession] = useState<SessionData | null>(null);
 
+  // The latest callback, without restarting the session when it changes.
+  const onPhotoRef = useRef(onPhoto);
+  useEffect(() => {
+    onPhotoRef.current = onPhoto;
+  }, [onPhoto]);
+
   useEffect(() => {
     let conn: HubConnection | null = null;
+    const request = { cancelled: false };
 
     void (async () => {
       try {
@@ -27,24 +34,29 @@ const RemoteCaptureFallback = ({
           method: "POST",
           credentials: "include",
         });
+        if (!res.ok) {
+          throw new Error(`Capture session failed: ${res.status}`);
+        }
         const data = (await res.json()) as SessionData;
+        if (request.cancelled) return;
         setSession(data);
 
         conn = createHubConnection(API_BASE);
+        conn.on("PhotoReceived", (p: { dataUrl: string }) =>
+          onPhotoRef.current(p.dataUrl),
+        );
         await conn.start();
         await conn.invoke("Join", data.sessionId);
-        conn.on("PhotoReceived", (p: { dataUrl: string }) =>
-          onPhoto(p.dataUrl),
-        );
       } catch (err) {
         console.error("SignalR start error:", err);
       }
     })();
 
     return () => {
+      request.cancelled = true;
       void conn?.stop().catch(() => {});
     };
-  }, [onPhoto]);
+  }, []);
 
   if (!session) return null;
 

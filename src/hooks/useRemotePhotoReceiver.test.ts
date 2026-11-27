@@ -47,3 +47,20 @@ it("logs a connection failure", async () => {
   await waitFor(() => expect(log).toHaveBeenCalled());
   log.mockRestore();
 });
+
+it("keeps one connection when the callback changes", async () => {
+  const first = jest.fn();
+  const second = jest.fn();
+  const { rerender } = renderHook(
+    ({ onPhoto }) => useRemotePhotoReceiver("s1", onPhoto),
+    { initialProps: { onPhoto: first } },
+  );
+  await waitFor(() => expect(hub.hub.invoke).toHaveBeenCalled());
+
+  rerender({ onPhoto: second });
+  hub.handlers.Photo("a");
+
+  expect(createHubConnection).toHaveBeenCalledTimes(1);
+  expect(first).not.toHaveBeenCalled();
+  expect(second).toHaveBeenCalledWith("a");
+});

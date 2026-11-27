@@ -43,7 +43,9 @@ const AddressForm = ({
   const loadingCities = useSelector((state: RootState) => state.city.loading);
 
   const showCountriesLoading = loadingCountries && countries.length === 0;
-  const showCitiesLoading = loadingCities && cities.length === 0;
+  // Cities are only requested once a country is chosen.
+  const showCitiesLoading =
+    !!formik.values.addressCountry && loadingCities && cities.length === 0;
 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 2 }}>
@@ -51,9 +53,13 @@ const AddressForm = ({
         options={countries}
         value={formik.values.addressCountry || null}
         onChange={(_, newValue) => {
-          void formik.setFieldValue("addressCountry", newValue ?? "");
-          void formik.setFieldValue("addressCity", "");
-          void formik.setFieldTouched("addressCountry", true);
+          void formik.setFieldTouched("addressCountry", true, false);
+          // One update, so validation sees both new values.
+          void formik.setValues({
+            ...formik.values,
+            addressCountry: newValue ?? "",
+            addressCity: "",
+          });
         }}
         loading={showCountriesLoading}
         renderInput={(params) => (
@@ -88,7 +94,7 @@ const AddressForm = ({
         value={formik.values.addressCity || null}
         onChange={(_, newValue) => {
           void formik.setFieldValue("addressCity", newValue ?? "");
-          void formik.setFieldTouched("addressCity", true);
+          void formik.setFieldTouched("addressCity", true, false);
         }}
         loading={showCitiesLoading}
         disabled={!formik.values.addressCountry}

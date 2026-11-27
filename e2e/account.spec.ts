@@ -75,11 +75,6 @@ const takePhoto = async (page: Page) => {
 };
 
 test("completes client onboarding and saves the profile", async ({ page }) => {
-  // Known bug: UserDataForm revalidates the photo on every render, so taking a
-  // photo ends in "Maximum update depth exceeded" and the dev error overlay
-  // blocks the page. Remove this line once fixed.
-  test.fail();
-
   await page.route(`${API}/clientProfiles`, (route) => json(route, {}));
   await logIn(page, null);
 

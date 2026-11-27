@@ -45,7 +45,7 @@ it("rejects a match when the role is missing", async () => {
 it.each([
   [0, 1, []],
   [2, 3, ["POST auth/block/3", "DELETE auth/account/current"]],
-  [8, 0, ["DELETE auth/account/current", "DELETE userProfiles/7"]],
+  [8, 0, ["DELETE userProfiles/7", "DELETE auth/account/current"]],
 ])("handles a mismatch after %i failures", async (before, after, extra) => {
   const calls = fakeApi({ "POST verifyFace": [200, { isMatch: false }] });
   const store = makeStore({ faceVerification: attempts(before) });

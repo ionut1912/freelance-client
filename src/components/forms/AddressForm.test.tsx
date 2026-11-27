@@ -57,10 +57,7 @@ it("requires a city again after clearing it", async () => {
   expect(await screen.findByText("City is required")).toBeInTheDocument();
 });
 
-// Known bug: clearing the country validates against the previous value, so no
-// error shows and a completed form can still be saved without a country.
-// `it.failing` passes while the bug exists; change it to `it` once fixed.
-it.failing("blocks saving after the country is cleared", async () => {
+it("blocks saving after the country is cleared", async () => {
   api();
   renderApp(<AddressForm onSubmit={jest.fn()} />);
   await choose("Country", "Romania");
@@ -78,9 +75,7 @@ it.failing("blocks saving after the country is cleared", async () => {
   });
 });
 
-// Known bug: the country and city slices keep `loading` true when a load fails,
-// so the spinners never stop. Change `it.failing` to `it` once fixed.
-it.failing("stops loading when the country lookup fails", async () => {
+it("stops loading when the country lookup fails", async () => {
   fakeApi({ "GET restcountries": [500] });
   const { store } = renderApp(<AddressForm onSubmit={jest.fn()} />);
   await waitFor(() => expect(store.getState().country.error).not.toBeNull());
@@ -88,4 +83,11 @@ it.failing("stops loading when the country lookup fails", async () => {
   userEvent.click(screen.getByRole("combobox", { name: "Country" }));
 
   expect(screen.queryByRole("progressbar")).toBeNull();
+});
+
+it("shows no city spinner before a country is chosen", async () => {
+  api();
+  renderApp(<AddressForm onSubmit={jest.fn()} />);
+
+  await waitFor(() => expect(screen.queryByRole("progressbar")).toBeNull());
 });

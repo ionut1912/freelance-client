@@ -82,3 +82,14 @@ describe("handleHttpError", () => {
     expect(handleHttpError("x")).toBe("An unexpected error occurred.");
   });
 });
+
+it.each([null, undefined, ""])(
+  "handleHttpError survives a response body of %p",
+  (data) => {
+    const error = new AxiosError("Failed", "ERR", undefined, undefined, {
+      data,
+    } as AxiosResponse);
+
+    expect(handleHttpError(error)).toBe("Failed");
+  },
+);

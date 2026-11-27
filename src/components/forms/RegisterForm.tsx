@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { routesLinks } from "../../routes/index";
 import type { AppDispatch, RootState } from "../../store";
 import { registerUser } from "../../store/auth/thunks";
 import type { RegisterDto } from "../../models/Accounts";
@@ -30,10 +32,14 @@ const RegisterForm = () => {
   const formik = useForm<Omit<RegisterDto, "role">>(
     INITIAL_VALUES,
     registerValidationSchema,
-    (values) => {
-      if (role) {
-        void dispatch(registerUser({ payload: { ...values, role }, navigate }));
+    // Returning the promise lets formik clear `isSubmitting` afterwards.
+    async (values) => {
+      if (!role) {
+        toast.error("Choose a role before creating an account");
+        await navigate(routesLinks.home);
+        return;
       }
+      await dispatch(registerUser({ payload: { ...values, role }, navigate }));
     },
     true,
   );

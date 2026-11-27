@@ -94,7 +94,7 @@ const FreelancerDataForm = ({
         value={formik.values.programmingLanguages}
         onChange={(_, v) => {
           void formik.setFieldValue("programmingLanguages", v);
-          void formik.setFieldTouched("programmingLanguages", true);
+          void formik.setFieldTouched("programmingLanguages", true, false);
         }}
         loading={loadingSkills}
         loadingText="Se încarcă limbajele..."
@@ -141,7 +141,7 @@ const FreelancerDataForm = ({
         value={formik.values.foreignLanguages}
         onChange={(_, v) => {
           void formik.setFieldValue("foreignLanguages", v as string[]);
-          void formik.setFieldTouched("foreignLanguages", true);
+          void formik.setFieldTouched("foreignLanguages", true, false);
         }}
         loading={loadingLanguages}
         loadingText="Se încarcă limbile străine..."

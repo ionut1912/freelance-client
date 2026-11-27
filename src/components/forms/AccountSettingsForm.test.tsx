@@ -60,9 +60,7 @@ it("stays on the page when deletion fails", async () => {
   expect(screen.getByTestId("path")).toHaveTextContent("/settings");
 });
 
-// Known bug: deleting the current account clears the store but leaves the token
-// in localStorage. Change `it.failing` to `it` once fixed.
-it.failing("removes the token after deleting the account", async () => {
+it("removes the token after deleting the account", async () => {
   localStorage.setItem("jwt", "abc");
   fakeApi();
   renderApp(<AccountSettingsForm />);

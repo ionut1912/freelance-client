@@ -79,9 +79,7 @@ it.each(["0", "10000"])("accepts the boundary rate %s", async (rate) => {
   expect(screen.queryByText("Must be >= 0")).toBeNull();
 });
 
-// Known bug: the skill and language slices keep `loading` true when a load
-// fails. Change `it.failing` to `it` once fixed.
-it.failing("offers no options when both lookups fail", async () => {
+it("offers no options when both lookups fail", async () => {
   fakeApi({ "GET skills": [500], "GET libretranslate": [500] });
   renderApp(<FreelancerDataForm onSubmit={jest.fn()} />);
 

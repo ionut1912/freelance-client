@@ -20,7 +20,8 @@ const countrySlice = createSlice({
         state.loading = false;
       })
       .addCase(loadCountries.rejected, (state, action) => {
-        state.error = action.error.message as string;
+        state.error = action.payload ?? (action.error.message as string);
+        state.loading = false;
       });
   },
 });

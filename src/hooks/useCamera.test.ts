@@ -47,3 +47,27 @@ it.each([
   expect(result.current.error).toBe(message);
   expect(result.current.capturePhoto()).toBeNull();
 });
+
+it("switches the camera off on unmount", async () => {
+  const { stop } = fakeCamera();
+  const { result, unmount } = mount();
+  await act(async () => {
+    await result.current.startCamera();
+  });
+
+  unmount();
+
+  expect(stop).toHaveBeenCalled();
+});
+
+it("releases a stream granted after unmount", async () => {
+  const { stop } = fakeCamera();
+  const { result, unmount } = mount();
+  const { startCamera } = result.current;
+
+  const started = startCamera();
+  unmount();
+
+  await expect(started).resolves.toBe(false);
+  expect(stop).toHaveBeenCalled();
+});
