@@ -6,10 +6,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  FormControl,
-  FormHelperText,
   Stack,
-  TextField,
   Typography,
   Grid,
 } from "@mui/material";
@@ -27,6 +24,7 @@ import {
   type AccountGeneralForm,
 } from "../../utils/schemaValidators";
 import GenericModal from "../ui/ConfirmModal";
+import FormField from "../ui/FormField";
 
 interface Props {
   submitButtonText?: string;
@@ -222,71 +220,28 @@ const UserForm = ({ submitButtonText = "Save changes" }: Props) => {
           <CardContent>
             <Stack spacing={6}>
               <Stack direction="row" spacing={4}>
-                <FormControl fullWidth>
-                  <TextField
-                    label="Username"
-                    size="medium"
-                    {...register(AccountGeneralFieldsNames.username)}
-                    error={!!errors.username}
-                  />
-                  {errors.username ? (
-                    <FormHelperText error>
-                      {typeof errors.username === "object" &&
-                      "message" in errors.username
-                        ? errors.username.message
-                        : "Invalid field"}
-                    </FormHelperText>
-                  ) : null}
-                </FormControl>
-                <FormControl fullWidth>
-                  <TextField
-                    label="Email"
-                    size="medium"
-                    {...register(AccountGeneralFieldsNames.email)}
-                    error={!!errors.email}
-                  />
-                  {errors.email ? (
-                    <FormHelperText error>
-                      {typeof errors.email === "object" &&
-                      "message" in errors.email
-                        ? errors.email.message
-                        : "Invalid field"}
-                    </FormHelperText>
-                  ) : null}
-                </FormControl>
+                <FormField
+                  label="Username"
+                  registration={register(AccountGeneralFieldsNames.username)}
+                  error={errors.username}
+                />
+                <FormField
+                  label="Email"
+                  registration={register(AccountGeneralFieldsNames.email)}
+                  error={errors.email}
+                />
               </Stack>
               <Stack direction="row" spacing={4}>
-                <FormControl fullWidth>
-                  <TextField
-                    label="Phone Number"
-                    size="medium"
-                    {...register(AccountGeneralFieldsNames.phone)}
-                    error={!!errors.phone}
-                  />
-                  {errors.phone ? (
-                    <FormHelperText error>
-                      {typeof errors.phone === "object" &&
-                      "message" in errors.phone
-                        ? errors.phone.message
-                        : "Invalid field"}
-                    </FormHelperText>
-                  ) : null}
-                </FormControl>
-                <FormControl fullWidth>
-                  <TextField
-                    label="Bio"
-                    size="medium"
-                    {...register(AccountGeneralFieldsNames.bio)}
-                    error={!!errors.bio}
-                  />
-                  {errors.bio ? (
-                    <FormHelperText error>
-                      {typeof errors.bio === "object" && "message" in errors.bio
-                        ? errors.bio.message
-                        : "Invalid field"}
-                    </FormHelperText>
-                  ) : null}
-                </FormControl>
+                <FormField
+                  label="Phone Number"
+                  registration={register(AccountGeneralFieldsNames.phone)}
+                  error={errors.phone}
+                />
+                <FormField
+                  label="Bio"
+                  registration={register(AccountGeneralFieldsNames.bio)}
+                  error={errors.bio}
+                />
               </Stack>
             </Stack>
           </CardContent>
