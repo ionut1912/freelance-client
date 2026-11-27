@@ -10,7 +10,7 @@ import {
   Radio,
   Button,
 } from "@mui/material";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router";
 
@@ -35,9 +35,9 @@ const RoleSelection = () => {
     },
   ];
 
-  const choose = useCallback((newRole: UserRole) => {
+  const choose = (newRole: UserRole) => {
     setSelectedRole(newRole);
-  }, []);
+  };
   const setUserRole = () => {
     dispatch(setRole(selectedRole));
   };

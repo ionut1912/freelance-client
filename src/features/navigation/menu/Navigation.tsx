@@ -1,5 +1,4 @@
 import { List } from "@mui/material";
-import { useMemo } from "react";
 
 import type { UserRole } from "../../../models/UserProfile";
 
@@ -11,8 +10,7 @@ interface Props {
 }
 
 const Navigation = ({ role }: Props) => {
-  const navigationItems = useMemo(() => NAV_ITEMS[role], [role]);
-  const navigationItemsList = navigationItems.map((item) => {
+  const navigationItemsList = NAV_ITEMS[role].map((item) => {
     return <NavigationItem key={Object.values(item).toString()} item={item} />;
   });
 

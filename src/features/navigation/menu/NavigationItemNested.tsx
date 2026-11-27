@@ -1,6 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Collapse, List, ListItemText, Stack, Typography } from "@mui/material";
-import { useCallback } from "react";
 
 import type { NavigationItemNestedType } from "../../../models/Ui";
 import { useAppNavigation } from "../useAppNavigation";
@@ -17,9 +16,9 @@ const NavigationItemNested = ({ item }: Props) => {
   const { getIsOpen, toggleNavigationId } = useAppNavigation();
   const isOpen = getIsOpen(item.label);
 
-  const handleToggleOpen = useCallback(() => {
+  const handleToggleOpen = () => {
     toggleNavigationId(item.label);
-  }, [item.label, toggleNavigationId]);
+  };
 
   const nestedItems = item.items.map((item) => {
     return (

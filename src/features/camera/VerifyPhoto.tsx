@@ -5,7 +5,7 @@ import {
   CircularProgress,
   Snackbar,
 } from "@mui/material";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -41,7 +41,7 @@ const VerifyPhoto = ({ profile }: VerifyPhotoProps) => {
   } = useCamera();
   const { checking, hasCamera } = useCameraAvailability();
 
-  const params = useMemo(() => new URLSearchParams(window.location.search), []);
+  const params = new URLSearchParams(window.location.search);
   const sessionId = params.get("session") ?? "";
 
   const { photo, source, snackOpen, accept, acceptRemote, clear, closeSnack } =

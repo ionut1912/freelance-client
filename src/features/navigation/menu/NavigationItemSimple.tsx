@@ -1,6 +1,5 @@
 import { Circle, Launch } from "@mui/icons-material";
 import { ListItemText, Stack, Typography, Zoom } from "@mui/material";
-import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import type {
@@ -26,9 +25,9 @@ const NavigationItemSimple = ({ item, nested = false, animateOn }: Props) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isActive = pathname === item.path;
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     void navigate(item.path);
-  }, [item.path, navigate]);
+  };
 
   const iconProps: NavigationItemIconProps = {
     fontSize: nested ? "small" : "medium",

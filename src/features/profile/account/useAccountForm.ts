@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
@@ -50,23 +50,20 @@ export function useAccountForm(
     }
   }, [user, reset]);
 
-  const handleSave = useCallback(
-    async (data: AccountGeneralForm) => {
-      setSaving(true);
-      try {
-        const updateUser: UpdateUserRequest = {
-          username: data.username,
-          email: data.email,
-          phoneNumber: data.phone,
-          bio: data.bio || "",
-        };
-        await dispatch(patchUserData(updateUser));
-      } finally {
-        setSaving(false);
-      }
-    },
-    [dispatch],
-  );
+  const handleSave = async (data: AccountGeneralForm) => {
+    setSaving(true);
+    try {
+      const updateUser: UpdateUserRequest = {
+        username: data.username,
+        email: data.email,
+        phoneNumber: data.phone,
+        bio: data.bio || "",
+      };
+      await dispatch(patchUserData(updateUser));
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return {
     register,

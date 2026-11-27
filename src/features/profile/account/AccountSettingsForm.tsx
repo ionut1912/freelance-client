@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -36,9 +36,9 @@ const AccountSettingsForm = ({ defaultValues }: Props) => {
     },
   });
   const [open, setOpen] = useState(false);
-  const handleSave = useCallback((_data: unknown) => {
+  const handleSave = (_data: unknown) => {
     // Handle save logic here
-  }, []);
+  };
   const handleYes = async () => {
     await dispatch(deleteCurrentUserAccount({ navigate }));
     setOpen(false);
