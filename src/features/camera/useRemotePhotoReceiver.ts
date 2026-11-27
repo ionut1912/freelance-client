@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 
-import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
-import { API_URL as API_BASE } from "../../services/utils";
+import {
+  createPhotoConnection,
+  joinSession,
+} from "../../services/captureService";
 
 export function useRemotePhotoReceiver(
   sessionId: string,
@@ -18,10 +20,8 @@ export function useRemotePhotoReceiver(
       return;
     }
 
-    const conn = createHubConnection(API_BASE);
     let mounted = true;
-
-    onRemotePhoto(conn, sessionId, (dataUrl) => {
+    const conn = createPhotoConnection(sessionId, (dataUrl) => {
       if (mounted) {
         onPhotoRef.current(dataUrl);
       }
@@ -32,8 +32,7 @@ export function useRemotePhotoReceiver(
 
     void (async () => {
       try {
-        await conn.start();
-        await conn.invoke("Join", sessionId);
+        await joinSession(conn, sessionId);
       } catch (e) {
         console.error("SignalR connect error:", e);
       }

@@ -1,7 +1,6 @@
 import { useState, type RefObject } from "react";
 
-import { createHubConnection } from "../../lib/signalr";
-import { API_URL as API_BASE } from "../../services/utils";
+import { sendPhoto } from "../../services/captureService";
 
 import { canvasToSizedDataUrl, drawScaled, MAX_BASE64_CHARS } from "./capture";
 
@@ -42,14 +41,7 @@ export function useSendPhoto(
         return;
       }
 
-      const conn = createHubConnection(API_BASE);
-      try {
-        await conn.start();
-        await conn.invoke("Join", sessionId);
-        await conn.invoke("SendPhotoDataUrl", sessionId, dataUrl);
-      } finally {
-        await conn.stop();
-      }
+      await sendPhoto(sessionId, dataUrl);
 
       alert(`Foto trimisă (q=${q.toFixed(1)}). Revino pe desktop.`);
     } catch (e) {

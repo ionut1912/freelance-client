@@ -3,20 +3,19 @@ import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import QrCodeSvg from "react-qr-code";
 
-import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
-import { API_URL as API_BASE } from "../../services/utils";
-
-interface SessionData {
-  sessionId: string;
-  deepLink: string;
-}
+import {
+  createCaptureSession,
+  createPhotoConnection,
+  joinSession,
+  type CaptureSession,
+} from "../../services/captureService";
 
 const RemoteCaptureFallback = ({
   onPhoto,
 }: {
   onPhoto: (dataUrl: string) => void;
 }) => {
-  const [session, setSession] = useState<SessionData | null>(null);
+  const [session, setSession] = useState<CaptureSession | null>(null);
 
   // The latest callback, without restarting the session when it changes.
   const onPhotoRef = useRef(onPhoto);
@@ -30,25 +29,16 @@ const RemoteCaptureFallback = ({
 
     void (async () => {
       try {
-        const res = await fetch(`${API_BASE}/capture/sessions`, {
-          method: "POST",
-          credentials: "include",
-        });
-        if (!res.ok) {
-          throw new Error(`Capture session failed: ${res.status}`);
-        }
-        const data = (await res.json()) as SessionData;
+        const data = await createCaptureSession();
         if (request.cancelled) {
           return;
         }
         setSession(data);
 
-        conn = createHubConnection(API_BASE);
-        onRemotePhoto(conn, data.sessionId, (dataUrl) =>
+        conn = createPhotoConnection(data.sessionId, (dataUrl) =>
           onPhotoRef.current(dataUrl),
         );
-        await conn.start();
-        await conn.invoke("Join", data.sessionId);
+        await joinSession(conn, data.sessionId);
       } catch (err) {
         console.error("SignalR start error:", err);
       }
