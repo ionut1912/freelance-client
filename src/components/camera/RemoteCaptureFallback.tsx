@@ -1,7 +1,7 @@
 import type { HubConnection } from "@microsoft/signalr";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import QRCode from "react-qr-code";
+import QrCodeSvg from "react-qr-code";
 
 import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
 import { API_URL as API_BASE } from "../../services/utils";
@@ -70,7 +70,7 @@ const RemoteCaptureFallback = ({
         Nu am detectat cameră. Scanează cu telefonul:
       </Typography>
       <Box bgcolor="#fff" p={2} borderRadius={2}>
-        <QRCode value={session.deepLink} size={180} />
+        <QrCodeSvg value={session.deepLink} size={180} />
       </Box>
       <Stack direction="row" spacing={1} sx={{ width: "100%", maxWidth: 520 }}>
         <TextField

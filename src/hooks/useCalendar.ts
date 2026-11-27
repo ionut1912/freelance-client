@@ -6,13 +6,11 @@ import type { CalendarData, CalendarType, CalendarEvent } from "../models/Ui";
 const parseCalendarData = (data: typeof calendarJson): CalendarData[] => {
   return data.map((entry) => ({
     date: new Date(entry.date),
-    events: entry.events.map(
-      (event): CalendarEvent => ({
-        ...event,
-        startDate: new Date(event.startDate),
-        endDate: new Date(event.endDate),
-      }),
-    ),
+    events: entry.events.map((event): CalendarEvent => ({
+      ...event,
+      startDate: new Date(event.startDate),
+      endDate: new Date(event.endDate),
+    })),
   }));
 };
 
