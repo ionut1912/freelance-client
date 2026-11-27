@@ -1,11 +1,12 @@
 import { renderHook, waitFor } from "@testing-library/react";
 
-import { useRemotePhotoReceiver } from "../hooks/useRemotePhotoReceiver";
-import { createHubConnection } from "../lib/signalr";
-import { fakeHub } from "../testUtils";
+import { createHubConnection } from "../../lib/signalr";
+import { fakeHub } from "../../testUtils";
 
-jest.mock("../lib/signalr", () => ({
-  ...jest.requireActual<object>("../lib/signalr"),
+import { useRemotePhotoReceiver } from "./useRemotePhotoReceiver";
+
+jest.mock("../../lib/signalr", () => ({
+  ...jest.requireActual<object>("../../lib/signalr"),
   createHubConnection: jest.fn(),
 }));
 

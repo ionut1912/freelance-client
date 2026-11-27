@@ -1,4 +1,4 @@
-import MobileCapturePage from "../components/camera/MobileCapturePage";
+import MobileCapturePage from "../features/camera/MobileCapturePage";
 
 const MobileCaptureRoute = () => {
   return (

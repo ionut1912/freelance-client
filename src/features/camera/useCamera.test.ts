@@ -1,7 +1,8 @@
 import { act, renderHook } from "@testing-library/react";
 
-import { useCamera } from "../hooks/useCamera";
-import { fakeCamera } from "../testUtils";
+import { fakeCamera } from "../../testUtils";
+
+import { useCamera } from "./useCamera";
 
 const mount = () => {
   const view = renderHook(() => useCamera());

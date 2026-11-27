@@ -1,9 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import MobileCapturePage from "../../components/camera/MobileCapturePage";
 import { createHubConnection } from "../../lib/signalr";
 import { fakeCamera, fakeHub } from "../../testUtils";
+
+import MobileCapturePage from "./MobileCapturePage";
 
 jest.mock("../../lib/signalr", () => ({
   ...jest.requireActual<object>("../../lib/signalr"),

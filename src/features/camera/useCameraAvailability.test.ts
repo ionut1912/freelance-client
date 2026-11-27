@@ -1,7 +1,8 @@
 import { renderHook, waitFor } from "@testing-library/react";
 
-import { useCameraAvailability } from "../hooks/useCameraAvailability";
-import { fakeCamera } from "../testUtils";
+import { fakeCamera } from "../../testUtils";
+
+import { useCameraAvailability } from "./useCameraAvailability";
 
 afterEach(() => jest.restoreAllMocks());
 

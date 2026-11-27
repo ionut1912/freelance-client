@@ -1,9 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import RemoteCaptureFallback from "../../components/camera/RemoteCaptureFallback";
 import { createHubConnection } from "../../lib/signalr";
 import { fakeHub } from "../../testUtils";
+
+import RemoteCaptureFallback from "./RemoteCaptureFallback";
 
 jest.mock("../../lib/signalr", () => ({
   ...jest.requireActual<object>("../../lib/signalr"),

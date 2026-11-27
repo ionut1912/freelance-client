@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import VerifyPhoto from "../../../components/camera/VerifyPhoto";
 import Dashboard from "../../../components/dashboard/Dashboard";
 import Spinner from "../../../components/ui/Spinner";
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
@@ -14,6 +13,7 @@ import {
   loadCurrentUserProfile,
   saveClientProfile,
 } from "../../../store/user-profile/thunks";
+import VerifyPhoto from "../../camera/VerifyPhoto";
 import AddressForm from "../AddressForm";
 
 import ProfileLoadError from "./ProfileLoadError";

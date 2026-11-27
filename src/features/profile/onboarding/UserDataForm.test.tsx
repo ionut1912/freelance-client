@@ -6,7 +6,7 @@ import { renderApp } from "../../../testUtils";
 import UserDataForm from "./UserDataForm";
 
 jest.mock(
-  "../../../components/camera/CameraCapture",
+  "../../camera/CameraCapture",
   () =>
     ({ onChange }: { onChange: (f: string, v: string | null) => void }) => (
       <>

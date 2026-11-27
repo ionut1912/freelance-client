@@ -1,12 +1,12 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import { useCallback } from "react";
 
-import { useCamera } from "../../hooks/useCamera";
-import { useCameraAvailability } from "../../hooks/useCameraAvailability";
-import { useRemotePhotoReceiver } from "../../hooks/useRemotePhotoReceiver";
 import type { UserData } from "../../models/UserProfile";
 
 import RemoteCaptureFallback from "./RemoteCaptureFallback";
+import { useCamera } from "./useCamera";
+import { useCameraAvailability } from "./useCameraAvailability";
+import { useRemotePhotoReceiver } from "./useRemotePhotoReceiver";
 
 interface CameraCaptureProps {
   userData: UserData;

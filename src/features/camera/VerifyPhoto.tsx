@@ -10,9 +10,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { useCamera } from "../../hooks/useCamera";
-import { useCameraAvailability } from "../../hooks/useCameraAvailability";
-import { useRemotePhotoReceiver } from "../../hooks/useRemotePhotoReceiver";
 import type {
   ClientProfileDto,
   FreelancerProfileDto,
@@ -21,6 +18,9 @@ import type { AppDispatch } from "../../store";
 import { verifyCapturedFace } from "../../store/face-verification/thunks";
 
 import RemoteCaptureFallback from "./RemoteCaptureFallback";
+import { useCamera } from "./useCamera";
+import { useCameraAvailability } from "./useCameraAvailability";
+import { useRemotePhotoReceiver } from "./useRemotePhotoReceiver";
 
 interface VerifyPhotoProps {
   profile: ClientProfileDto | FreelancerProfileDto;

@@ -1,12 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import CameraCapture from "../../components/camera/CameraCapture";
 import { createHubConnection } from "../../lib/signalr";
 import { fakeCamera, fakeHub } from "../../testUtils";
 
+import CameraCapture from "./CameraCapture";
+
 jest.mock(
-  "../../components/camera/RemoteCaptureFallback",
+  "./RemoteCaptureFallback",
   () =>
     ({ onPhoto }: { onPhoto: (url: string) => void }) => (
       <button type="button" onClick={() => onPhoto("remote-shot")}>

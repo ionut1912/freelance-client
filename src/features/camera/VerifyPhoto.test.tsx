@@ -1,7 +1,6 @@
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import VerifyPhoto from "../../components/camera/VerifyPhoto";
 import { createHubConnection } from "../../lib/signalr";
 import {
   fakeApi,
@@ -10,6 +9,8 @@ import {
   profile,
   renderApp,
 } from "../../testUtils";
+
+import VerifyPhoto from "./VerifyPhoto";
 
 jest.mock("../../lib/signalr", () => ({
   ...jest.requireActual<object>("../../lib/signalr"),

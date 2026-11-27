@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
-import { createHubConnection, onRemotePhoto } from "../lib/signalr";
-import { API_URL as API_BASE } from "../services/utils";
+import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
+import { API_URL as API_BASE } from "../../services/utils";
 
 export function useRemotePhotoReceiver(
   sessionId: string,
