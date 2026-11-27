@@ -1,8 +1,8 @@
-import { createBrowserRouter, type RouteObject } from "react-router-dom";
+import { createBrowserRouter, type RouteObject } from "react-router";
 
-import RequireAuth from "./components/auth/RequireAuth";
 import ErrorBoundary from "./components/errors/ErrorBoundary";
-import Spinner from "./components/wrappers/Spinner";
+import Spinner from "./components/ui/Spinner";
+import RequireAuth from "./features/auth/RequireAuth";
 import RootLayout from "./root";
 import { routesLinks } from "./routes/index";
 
@@ -97,8 +97,6 @@ const routes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter(routes, {
-  future: { v7_partialHydration: true },
-});
+export const router = createBrowserRouter(routes, {});
 
 export default routes;

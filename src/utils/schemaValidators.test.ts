@@ -51,7 +51,7 @@ it.each([
   ["portfolioUrl", "nope", "Invalid URL"],
 ])("rejects a bad freelancer %s", async (field, value, message) => {
   await expect(
-    schemas.freelnacerValidationSchema.validate({
+    schemas.freelancerValidationSchema.validate({
       ...freelancer,
       [field]: value,
     }),

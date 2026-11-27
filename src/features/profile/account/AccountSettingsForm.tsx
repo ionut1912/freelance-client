@@ -1,0 +1,115 @@
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  FormGroup,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+
+import GenericModal from "../../../components/ui/ConfirmModal";
+import type { UserFormValues } from "../../../models/Ui";
+import type { AppDispatch } from "../../../store";
+import { deleteCurrentUserAccount } from "../../../store/auth/thunks";
+
+import CheckboxWithForm from "./CheckboxWithForm";
+import SettingsSection from "./SettingsSection";
+
+interface Props {
+  defaultValues?: UserFormValues;
+}
+
+const AccountSettingsForm = ({ defaultValues }: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      enableEmailNotifications: true,
+      enableSmsNotifications: false,
+      emailPublic: true,
+      profilePublic: false,
+    },
+  });
+  const [open, setOpen] = useState(false);
+  const handleSave = useCallback((_data: unknown) => {
+    // Handle save logic here
+  }, []);
+  const handleYes = async () => {
+    await dispatch(deleteCurrentUserAccount({ navigate }));
+    setOpen(false);
+  };
+
+  const handleNo = () => setOpen(false);
+  return (
+    <form onSubmit={handleSubmit(handleSave)}>
+      <Card elevation={2} sx={{ padding: 2 }}>
+        <CardContent>
+          <Stack spacing={6}>
+            <SettingsSection title="Notifications">
+              <FormGroup>
+                <CheckboxWithForm
+                  control={control}
+                  name="enableEmailNotifications"
+                  label="Enable email notifications"
+                />
+                <CheckboxWithForm
+                  control={control}
+                  name="enableSmsNotifications"
+                  label="Enable SMS notifications"
+                />
+              </FormGroup>
+            </SettingsSection>
+
+            <SettingsSection title="Privacy">
+              <FormGroup>
+                <CheckboxWithForm
+                  control={control}
+                  name="emailPublic"
+                  label="Email address is public"
+                />
+                <CheckboxWithForm
+                  control={control}
+                  name="profilePublic"
+                  label="Profile is public"
+                />
+              </FormGroup>
+            </SettingsSection>
+
+            <SettingsSection title="Description">
+              <Typography variant="body2">{defaultValues?.bio}</Typography>
+            </SettingsSection>
+
+            <SettingsSection title="Delete account">
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => setOpen(true)}
+              >
+                Delete account
+              </Button>
+              <GenericModal
+                open={open}
+                handleClose={() => setOpen(false)}
+                text="Are you sure you want to delete your account?"
+                onYes={handleYes}
+                onNo={handleNo}
+              />
+            </SettingsSection>
+          </Stack>
+        </CardContent>
+        <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button type="submit" variant="contained">
+            Save changes
+          </Button>
+        </CardActions>
+      </Card>
+    </form>
+  );
+};
+
+export default AccountSettingsForm;

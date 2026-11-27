@@ -1,9 +1,9 @@
 import { act, waitFor } from "@testing-library/react";
-import type * as Router from "react-router-dom";
+import type * as Router from "react-router";
 
 jest.mock("./routes", () => {
   const { createMemoryRouter } =
-    jest.requireActual<typeof Router>("react-router-dom");
+    jest.requireActual<typeof Router>("react-router");
   return { router: createMemoryRouter([{ path: "/", element: "app" }]) };
 });
 

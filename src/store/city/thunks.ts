@@ -1,14 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { type AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 import type {
   LoadCitiesPayload,
   LoadCitiesResult,
 } from "../../models/ExternalApis";
-
-interface CitiesApiResponse {
-  data: string[];
-}
+import { getCities } from "../../services/locationService";
 
 export const loadCities = createAsyncThunk<
   LoadCitiesResult,
@@ -16,8 +13,7 @@ export const loadCities = createAsyncThunk<
   { rejectValue: string }
 >("city/loadCities", async ({ country }, { rejectWithValue }) => {
   try {
-    const apiUrl = `https://countriesnow.space/api/v0.1/countries/cities`;
-    const response = await axios.post<CitiesApiResponse>(apiUrl, { country });
+    const response = await getCities(country);
     const cities: string[] = response.data.data;
     return { cities };
   } catch (error) {

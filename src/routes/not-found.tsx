@@ -1,6 +1,6 @@
 import NotFound from "../components/errors/NotFound";
 
-const Home = () => {
+const NotFoundRoute = () => {
   return (
     <section>
       <NotFound />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default NotFoundRoute;

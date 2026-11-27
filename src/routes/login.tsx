@@ -1,6 +1,6 @@
-import LoginForm from "../components/forms/LoginForm";
+import LoginForm from "../features/auth/LoginForm";
 
-const Home = () => {
+const LoginRoute = () => {
   return (
     <section>
       <LoginForm />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LoginRoute;

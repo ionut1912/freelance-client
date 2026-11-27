@@ -10,7 +10,7 @@ import webpack from "webpack";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-loadEnv();
+loadEnv({ quiet: true });
 
 export default (env = {}) => ({
   mode: env.production ? "production" : "development",

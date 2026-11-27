@@ -1,6 +1,6 @@
-import MobileCapturePage from "../components/camera/MobileCapturePage";
+import MobileCapturePage from "../features/camera/MobileCapturePage";
 
-const Home = () => {
+const MobileCaptureRoute = () => {
   return (
     <section>
       <MobileCapturePage />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MobileCaptureRoute;

@@ -1,6 +1,6 @@
-import Unauthorized from "../components/auth/Unauthoized";
+import Unauthorized from "../features/auth/Unauthorized";
 
-const Home = () => {
+const UnauthorizedRoute = () => {
   return (
     <section>
       <Unauthorized />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default UnauthorizedRoute;

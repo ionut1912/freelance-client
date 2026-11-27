@@ -7,7 +7,7 @@ import type {
   CreateClientProfileRequest,
   CreateFreelancerProfileRequest,
   PatchUserProfileAddressRequest,
-  PatchFreelancerProfielRequest,
+  PatchFreelancerProfileRequest,
   ClientProfileDto,
   FreelancerProfileDto,
 } from "../../models/UserProfile";
@@ -25,7 +25,7 @@ import {
   updateUserProfileAddress,
 } from "../../services/userProfileService";
 import type { AppDispatch, RootState } from "../../store";
-import { extractErrorMessages } from "../../utils/httpError";
+import { toastErrors } from "../../utils/toastErrors";
 
 export const loadCurrentUserProfile = createAsyncThunk<
   {
@@ -73,8 +73,7 @@ export const patchImage = createAsyncThunk<
       toast.success("Image updated successfully");
       void dispatch(loadCurrentUserProfile());
     } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
+      toastErrors(error);
       return rejectWithValue(error as AxiosError);
     }
   },
@@ -92,8 +91,7 @@ export const saveClientProfile = createAsyncThunk<
       toast.success("Client profile created successfully");
       void dispatch(loadCurrentUserProfile());
     } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
+      toastErrors(error);
       return rejectWithValue(error as AxiosError);
     }
   },
@@ -111,8 +109,7 @@ export const saveFreelancerProfile = createAsyncThunk<
       toast.success("Freelancer profile created successfully");
       void dispatch(loadCurrentUserProfile());
     } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
+      toastErrors(error);
       return rejectWithValue(error as AxiosError);
     }
   },
@@ -158,8 +155,7 @@ export const patchUserData = createAsyncThunk<
       toast.success("Profile updated successfully");
       void dispatch(loadCurrentUserProfile());
     } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
+      toastErrors(error);
       return rejectWithValue(error as AxiosError);
     }
   },
@@ -177,8 +173,7 @@ export const patchUserProfileAddress = createAsyncThunk<
       toast.success("Address updated successfully");
       void dispatch(loadCurrentUserProfile());
     } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
+      toastErrors(error);
       return rejectWithValue(error as AxiosError);
     }
   },
@@ -186,7 +181,7 @@ export const patchUserProfileAddress = createAsyncThunk<
 
 export const patchFreelancerData = createAsyncThunk<
   undefined,
-  PatchFreelancerProfielRequest,
+  PatchFreelancerProfileRequest,
   { rejectValue: AxiosError; dispatch: AppDispatch }
 >(
   "userProfile/patchFreelancerData",
@@ -196,8 +191,7 @@ export const patchFreelancerData = createAsyncThunk<
       toast.success("Freelancer details updated successfully");
       void dispatch(loadCurrentUserProfile());
     } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
+      toastErrors(error);
       return rejectWithValue(error as AxiosError);
     }
   },

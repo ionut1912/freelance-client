@@ -9,7 +9,7 @@ module.exports = {
   testEnvironmentOptions: { customExportConditions: [""] },
   // Some MSW dependencies ship only as ES modules.
   transformIgnorePatterns: [
-    "/node_modules/(?!(msw|@mswjs|@open-draft|until-async|rettime|outvariant|strict-event-emitter|headers-polyfill|react-calendar|@wojtekmaj|get-user-locale|memoize|mimic-function|warning)/)",
+    "/node_modules/(?!(msw|@mswjs|@open-draft|until-async|rettime|outvariant|strict-event-emitter|headers-polyfill|react-router|cookie-es|@remix-run|react-calendar|@wojtekmaj|get-user-locale|memoize|mimic-function|warning)/)",
   ],
   setupFiles: ["<rootDir>/jest.polyfills.cjs"],
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
@@ -24,6 +24,7 @@ module.exports = {
     "^.+\\.(js|mjs|ts|tsx|jsx)$": [
       "babel-jest",
       {
+        plugins: [require.resolve("./jest.importMeta.cjs")],
         presets: [
           [
             "@babel/preset-env",

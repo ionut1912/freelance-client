@@ -8,7 +8,7 @@ export const addressValidationSchema = Yup.object({
   addressZip: Yup.string().required("Zip is required"),
 });
 
-export const freelnacerValidationSchema = Yup.object({
+export const freelancerValidationSchema = Yup.object({
   programmingLanguages: Yup.array()
     .of(Yup.string().trim().required())
     .min(1, "Select at least one language")

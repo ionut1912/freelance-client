@@ -1,6 +1,6 @@
-import FreelancerPage from "../components/userProfile/FreelancerPage";
+import FreelancerPage from "../features/profile/onboarding/FreelancerPage";
 
-const Home = () => {
+const FreelancerProfileRoute = () => {
   return (
     <section>
       <FreelancerPage />
@@ -8,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default FreelancerProfileRoute;

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
-import type { NavigateFunction } from "react-router-dom";
+import type { NavigateFunction } from "react-router";
 import { toast } from "react-toastify";
 
 import type { RegisterDto, LoginDto, UserDto } from "../../models/Accounts";
@@ -13,7 +13,7 @@ import {
   deleteCurrentAccount,
 } from "../../services/authService";
 import { getRoleFromToken, navigateByRole } from "../../utils/authUtils";
-import { extractErrorMessages } from "../../utils/httpError";
+import { toastErrors } from "../../utils/toastErrors";
 
 export const registerUser = createAsyncThunk<
   undefined,
@@ -25,8 +25,7 @@ export const registerUser = createAsyncThunk<
     toast.success("Register successful");
     await navigate(routesLinks.login);
   } catch (error) {
-    const messages = extractErrorMessages(error);
-    messages.forEach((m) => toast.error(m));
+    toastErrors(error);
     return rejectWithValue(error as AxiosError);
   }
 });
@@ -47,8 +46,7 @@ export const loginUser = createAsyncThunk<
     navigateByRole(role, navigate);
     return { user: response.data, role };
   } catch (error) {
-    const messages = extractErrorMessages(error);
-    messages.forEach((m) => toast.error(m));
+    toastErrors(error);
     return rejectWithValue(error as AxiosError);
   }
 });
@@ -63,8 +61,7 @@ export const blockUserAccount = createAsyncThunk<
     toast.error("Account blocked");
     await navigate(routesLinks.login);
   } catch (error) {
-    const messages = extractErrorMessages(error);
-    messages.forEach((m) => toast.error(m));
+    toastErrors(error);
     return rejectWithValue(error as AxiosError);
   }
 });
@@ -77,8 +74,7 @@ export const deleteUserAccount = createAsyncThunk<
   try {
     await deleteAccount(id);
   } catch (error) {
-    const messages = extractErrorMessages(error);
-    messages.forEach((m) => toast.error(m));
+    toastErrors(error);
     return rejectWithValue(error as AxiosError);
   }
 });
@@ -94,8 +90,7 @@ export const deleteCurrentUserAccount = createAsyncThunk<
       await deleteCurrentAccount();
       await navigate(routesLinks.home);
     } catch (error) {
-      const messages = extractErrorMessages(error);
-      messages.forEach((m) => toast.error(m));
+      toastErrors(error);
       return rejectWithValue(error as AxiosError);
     }
   },

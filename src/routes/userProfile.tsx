@@ -1,10 +1,10 @@
-import UserAccountPage from "../components/userProfile/UserAccountPage";
+import UserAccountPage from "../features/profile/account/UserAccountPage";
 
-const Home = () => {
+const UserProfileRoute = () => {
   return (
     <section>
       <UserAccountPage />
     </section>
   );
 };
-export default Home;
+export default UserProfileRoute;

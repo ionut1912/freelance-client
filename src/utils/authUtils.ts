@@ -4,7 +4,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 import { jwtDecode, type JwtPayload as DefaultJwtPayload } from "jwt-decode";
-import type { NavigateFunction } from "react-router-dom";
+import type { NavigateFunction } from "react-router";
 
 import { routesLinks } from "../routes/index";
 

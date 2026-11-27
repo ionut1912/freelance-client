@@ -2,7 +2,7 @@ import type { AxiosResponse } from "axios";
 
 import type {
   CreateFreelancerProfileRequest,
-  PatchFreelancerProfielRequest,
+  PatchFreelancerProfileRequest,
 } from "../models/UserProfile";
 
 import { api, API_URL } from "./utils";
@@ -16,7 +16,7 @@ export function createFreelancerProfile(
 }
 
 export function updateFreelancerProfileData(
-  payload: PatchFreelancerProfielRequest,
+  payload: PatchFreelancerProfileRequest,
 ): Promise<AxiosResponse<void>> {
   return api.patch(
     `${API_URL}/freelancerProfiles/freelancerDetails/${payload.profileId}`,
