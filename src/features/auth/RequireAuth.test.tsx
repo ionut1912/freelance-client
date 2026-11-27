@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { use, type ReactNode } from "react";
 import { Provider } from "react-redux";
 import { createMemoryRouter, RouterProvider } from "react-router";
 
@@ -10,7 +11,7 @@ import { offline, reply } from "../../testUtils/handlers";
 import RequireAuth from "./RequireAuth";
 
 // RequireAuth asks the real app store whether a role is set.
-const renderGuard = () =>
+const renderGuard = (page: ReactNode = <p>secret</p>) =>
   render(
     <Provider store={store}>
       <RouterProvider
@@ -18,7 +19,7 @@ const renderGuard = () =>
           [
             {
               element: <RequireAuth />,
-              children: [{ path: "/private", element: <p>secret</p> }],
+              children: [{ path: "/private", element: page }],
             },
             { path: "/login", element: <h1>login page</h1> },
           ],
@@ -77,5 +78,20 @@ describe("<RequireAuth />", () => {
     renderGuard();
 
     expect(await screen.findByText("secret")).toBeInTheDocument();
+  });
+
+  it("keeps the sidebar while a page is suspended", async () => {
+    reply("get", "current/userProfiles", buildProfile());
+    store.dispatch(setRole("Client"));
+    localStorage.setItem("jwt", "abc");
+    const never = new Promise<never>(() => {});
+    const Waiting = () => use(never);
+
+    renderGuard(<Waiting />);
+
+    expect(await screen.findByRole("banner")).toBeInTheDocument();
+    expect(screen.getByRole("main")).toContainElement(
+      screen.getByRole("progressbar"),
+    );
   });
 });

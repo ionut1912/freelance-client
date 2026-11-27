@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
 
@@ -24,13 +25,17 @@ const RequireAuth = () => {
   }
 
   const shouldRenderSidebar = role && user;
+  // Keeps the sidebar in place while a page waits for its data.
+  const page = (
+    <Suspense fallback={<Spinner />}>
+      <Outlet />
+    </Suspense>
+  );
 
   return shouldRenderSidebar ? (
-    <SideBarLayout role={role}>
-      <Outlet />
-    </SideBarLayout>
+    <SideBarLayout role={role}>{page}</SideBarLayout>
   ) : (
-    <Outlet />
+    page
   );
 };
 
