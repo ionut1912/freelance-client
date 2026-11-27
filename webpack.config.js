@@ -1,4 +1,5 @@
 // webpack.config.js (ESM)
+import { cpSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,6 +12,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 loadEnv({ quiet: true });
+
+const publicDir = path.resolve(__dirname, "public");
+
+/** Ships public/ with the build; index.html comes from HtmlWebpackPlugin. */
+const copyPublicDir = {
+  apply(compiler) {
+    compiler.hooks.afterEmit.tap("CopyPublicDir", () => {
+      cpSync(publicDir, compiler.options.output.path, {
+        recursive: true,
+        filter: (source) => source !== path.join(publicDir, "index.html"),
+      });
+    });
+  },
+};
 
 export default (env = {}) => ({
   mode: env.production ? "production" : "development",
@@ -28,7 +43,7 @@ export default (env = {}) => ({
   devtool: env.production ? "source-map" : "eval-source-map",
 
   devServer: {
-    static: { directory: path.resolve(__dirname, "public") },
+    static: { directory: publicDir },
     historyApiFallback: true,
     hot: true,
     host: "0.0.0.0",
@@ -77,6 +92,8 @@ export default (env = {}) => ({
   },
 
   plugins: [
+    // The dev server already serves public/ itself.
+    ...(env.production ? [copyPublicDir] : []),
     new HtmlWebpackPlugin({ template: "public/index.html" }),
     new MiniCssExtractPlugin({
       filename: env.production
