@@ -1,4 +1,4 @@
-import ClientPage from "../components/userProfile/ClientPage";
+import ClientPage from "../features/profile/onboarding/ClientPage";
 
 const ClientProfileRoute = () => {
   return (

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import TabPanel from "../../components/userProfile/TabPanel";
+import TabPanel from "./TabPanel";
 
 it("renders content only for the selected index", () => {
   const { rerender } = render(

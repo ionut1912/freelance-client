@@ -1,11 +1,12 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import UserDataForm from "../../components/forms/UserDataForm";
-import { renderApp } from "../../testUtils";
+import { renderApp } from "../../../testUtils";
+
+import UserDataForm from "./UserDataForm";
 
 jest.mock(
-  "../../components/camera/CameraCapture",
+  "../../../components/camera/CameraCapture",
   () =>
     ({ onChange }: { onChange: (f: string, v: string | null) => void }) => (
       <>

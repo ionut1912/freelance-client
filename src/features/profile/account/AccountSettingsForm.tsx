@@ -12,12 +12,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
-import type { UserFormValues } from "../../models/Ui";
-import type { AppDispatch } from "../../store";
-import { deleteCurrentUserAccount } from "../../store/auth/thunks";
-import GenericModal from "../ui/ConfirmModal";
+import GenericModal from "../../../components/ui/ConfirmModal";
+import type { UserFormValues } from "../../../models/Ui";
+import type { AppDispatch } from "../../../store";
+import { deleteCurrentUserAccount } from "../../../store/auth/thunks";
 
-import CheckboxWithForm from "./common/CheckboxWithForm";
+import CheckboxWithForm from "./CheckboxWithForm";
 
 interface Props {
   defaultValues?: UserFormValues;

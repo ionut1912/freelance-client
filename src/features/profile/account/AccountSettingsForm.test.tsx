@@ -1,8 +1,9 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import AccountSettingsForm from "../../components/forms/AccountSettingsForm";
-import { fakeApi, renderApp } from "../../testUtils";
+import { fakeApi, renderApp } from "../../../testUtils";
+
+import AccountSettingsForm from "./AccountSettingsForm";
 
 const button = (name: string) => screen.getByRole("button", { name });
 const closed = () =>

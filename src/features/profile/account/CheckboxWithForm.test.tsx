@@ -1,7 +1,7 @@
 import { fireEvent, render, renderHook, screen } from "@testing-library/react";
 import { useForm } from "react-hook-form";
 
-import CheckboxWithForm from "../../../components/forms/common/CheckboxWithForm";
+import CheckboxWithForm from "./CheckboxWithForm";
 
 it("binds the checkbox to the form value", () => {
   const { result } = renderHook(() =>

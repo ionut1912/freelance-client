@@ -1,4 +1,4 @@
-import UserAccountPage from "../components/userProfile/UserAccountPage";
+import UserAccountPage from "../features/profile/account/UserAccountPage";
 
 const UserProfileRoute = () => {
   return (

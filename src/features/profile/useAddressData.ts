@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import type { AppDispatch, RootState } from "../store";
-import { loadCities } from "../store/city/thunks";
-import { loadCountries } from "../store/country/thunks";
+import type { AppDispatch, RootState } from "../../store";
+import { loadCities } from "../../store/city/thunks";
+import { loadCountries } from "../../store/country/thunks";
 
 export const useAddressData = (country?: string) => {
   const dispatch = useDispatch<AppDispatch>();

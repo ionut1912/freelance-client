@@ -1,8 +1,9 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import FreelancerDataForm from "../../components/forms/FreelancerDataForm";
-import { fakeApi, renderApp } from "../../testUtils";
+import { fakeApi, renderApp } from "../../../testUtils";
+
+import FreelancerDataForm from "./FreelancerDataForm";
 
 const type = (label: string, value: string) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });

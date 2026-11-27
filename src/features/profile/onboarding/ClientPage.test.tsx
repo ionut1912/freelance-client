@@ -1,14 +1,14 @@
 import { screen, waitFor } from "@testing-library/react";
 
-import { fakeCamera, makeStore } from "../../testUtils";
-import { buildProfile } from "../../testUtils/factories";
+import { fakeCamera, makeStore } from "../../../testUtils";
+import { buildProfile } from "../../../testUtils/factories";
 import {
   offline,
   recordRequests,
   reply,
   replyLookups,
-} from "../../testUtils/handlers";
-import { renderWithProviders } from "../../testUtils/render";
+} from "../../../testUtils/handlers";
+import { renderWithProviders } from "../../../testUtils/render";
 
 import ClientPage from "./ClientPage";
 

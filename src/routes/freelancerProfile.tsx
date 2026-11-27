@@ -1,4 +1,4 @@
-import FreelancerPage from "../components/userProfile/FreelancerPage";
+import FreelancerPage from "../features/profile/onboarding/FreelancerPage";
 
 const FreelancerProfileRoute = () => {
   return (

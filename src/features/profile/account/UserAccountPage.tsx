@@ -3,17 +3,17 @@ import { Box, Container, Tab, Tabs, type TabProps } from "@mui/material";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useCurrentUser } from "../../hooks/useCurrentUser";
-import type { AddressData } from "../../models/UserProfile";
-import type { RootState, AppDispatch } from "../../store";
-import { patchUserProfileAddress } from "../../store/user-profile/thunks";
-import AccountSettingsForm from "../forms/AccountSettingsForm";
-import AddressForm from "../forms/AddressForm";
-import UserForm from "../forms/UserForm";
-import PageHeader from "../ui/PageHeader/PageHeader";
-import Spinner from "../ui/Spinner";
+import PageHeader from "../../../components/ui/PageHeader/PageHeader";
+import Spinner from "../../../components/ui/Spinner";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import type { AddressData } from "../../../models/UserProfile";
+import type { RootState, AppDispatch } from "../../../store";
+import { patchUserProfileAddress } from "../../../store/user-profile/thunks";
+import AddressForm from "../AddressForm";
 
+import AccountSettingsForm from "./AccountSettingsForm";
 import TabPanel from "./TabPanel";
+import UserForm from "./UserForm";
 
 const UserAccountPage = () => {
   const dispatch = useDispatch<AppDispatch>();

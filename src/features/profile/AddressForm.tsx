@@ -2,12 +2,13 @@ import { Box, TextField, Autocomplete, Button } from "@mui/material";
 import * as React from "react";
 import { useSelector } from "react-redux";
 
-import { useAddressData } from "../../hooks/useAddressData";
+import Spinner from "../../components/ui/Spinner";
 import { useForm } from "../../hooks/useForm";
 import type { AddressData } from "../../models/UserProfile";
 import type { RootState } from "../../store";
 import { addressValidationSchema } from "../../utils/schemaValidators";
-import Spinner from "../ui/Spinner";
+
+import { useAddressData } from "./useAddressData";
 
 interface AddressFormProps {
   initialValues?: AddressData;

@@ -1,8 +1,9 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import AddressForm from "../../components/forms/AddressForm";
 import { fakeApi, renderApp } from "../../testUtils";
+
+import AddressForm from "./AddressForm";
 
 const type = (label: string, value: string) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });

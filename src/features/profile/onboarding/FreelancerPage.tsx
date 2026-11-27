@@ -3,29 +3,34 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { useCurrentUser } from "../../hooks/useCurrentUser";
-import type { AddressData, UserData } from "../../models/UserProfile";
-import { routesLinks } from "../../routes/index";
-import type { AppDispatch, RootState } from "../../store";
+import VerifyPhoto from "../../../components/camera/VerifyPhoto";
+import Dashboard from "../../../components/dashboard/Dashboard";
+import Spinner from "../../../components/ui/Spinner";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import type {
+  AddressData,
+  UserData,
+  FreelancerData,
+} from "../../../models/UserProfile";
+import { routesLinks } from "../../../routes/index";
+import type { AppDispatch, RootState } from "../../../store";
 import {
   loadCurrentUserProfile,
-  saveClientProfile,
-} from "../../store/user-profile/thunks";
-import VerifyPhoto from "../camera/VerifyPhoto";
-import Dashboard from "../dashboard/Dashboard";
-import AddressForm from "../forms/AddressForm";
-import UserDataForm from "../forms/UserDataForm";
-import Spinner from "../ui/Spinner";
+  saveFreelancerProfile,
+} from "../../../store/user-profile/thunks";
+import AddressForm from "../AddressForm";
 
+import FreelancerDataForm from "./FreelancerDataForm";
 import ProfileLoadError from "./ProfileLoadError";
+import UserDataForm from "./UserDataForm";
 
-const ClientPage = () => {
+const FreelancerPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const profile = useCurrentUser().clientProfile;
+  const profile = useCurrentUser().freelancerProfile;
   const loading = useSelector((state: RootState) => state.userProfile.loading);
-  const steps = ["Address Details", "User Details"];
+  const steps = ["Address Details", "User Details", "Freelancer Details"];
   const [activeStep, setActiveStep] = useState(0);
   const [addressData, setAddressData] = useState<AddressData>({
     addressCountry: "",
@@ -35,6 +40,14 @@ const ClientPage = () => {
     addressZip: "",
   });
   const [userData, setUserData] = useState<UserData>({ bio: "", image: "" });
+  const [freelancerData, setFreelancerData] = useState<FreelancerData>({
+    programmingLanguages: [],
+    foreignLanguages: [],
+    experience: "",
+    rate: 0,
+    currency: "",
+    portfolioUrl: "",
+  });
 
   useEffect(() => {
     void dispatch(loadCurrentUserProfile());
@@ -77,15 +90,27 @@ const ClientPage = () => {
       <UserDataForm
         key="step-1"
         initialValues={userData}
-        onSubmit={async (vals) => {
+        onSubmit={(vals) => {
           setUserData(vals);
+          setActiveStep(2);
+        }}
+      />
+    );
+  } else if (activeStep === 2) {
+    content = (
+      <FreelancerDataForm
+        key="step-2"
+        initialValues={freelancerData}
+        onSubmit={async (vals) => {
+          setFreelancerData(vals);
           await dispatch(
-            saveClientProfile({
+            saveFreelancerProfile({
               address: addressData,
-              user: vals,
+              user: userData,
+              freelancer: vals,
             }),
           );
-          void navigate(routesLinks.client);
+          void navigate(routesLinks.freelancer);
         }}
       />
     );
@@ -116,4 +141,5 @@ const ClientPage = () => {
     </Box>
   );
 };
-export default ClientPage;
+
+export default FreelancerPage;

@@ -4,14 +4,14 @@ import * as React from "react";
 import { useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useForm } from "../../hooks/useForm";
-import type { Language } from "../../models/ExternalApis";
-import type { FreelancerData, SkillDto } from "../../models/UserProfile";
-import type { AppDispatch, RootState } from "../../store";
-import { loadLanguages } from "../../store/language/thunks";
-import { loadSkills } from "../../store/skills/thunks";
-import { freelancerValidationSchema } from "../../utils/schemaValidators";
-import Spinner from "../ui/Spinner";
+import Spinner from "../../../components/ui/Spinner";
+import { useForm } from "../../../hooks/useForm";
+import type { Language } from "../../../models/ExternalApis";
+import type { FreelancerData, SkillDto } from "../../../models/UserProfile";
+import type { AppDispatch, RootState } from "../../../store";
+import { loadLanguages } from "../../../store/language/thunks";
+import { loadSkills } from "../../../store/skills/thunks";
+import { freelancerValidationSchema } from "../../../utils/schemaValidators";
 
 interface FreelancerDataFormProps {
   initialValues?: FreelancerData;

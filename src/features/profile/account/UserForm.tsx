@@ -14,17 +14,17 @@ import { useCallback, useState, useEffect, type ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useCurrentUser } from "../../hooks/useCurrentUser";
-import type { UpdateUserRequest } from "../../models/Ui";
-import type { AppDispatch, RootState } from "../../store";
-import { patchImage, patchUserData } from "../../store/user-profile/thunks";
+import GenericModal from "../../../components/ui/ConfirmModal";
+import FormField from "../../../components/ui/FormField";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import type { UpdateUserRequest } from "../../../models/Ui";
+import type { AppDispatch, RootState } from "../../../store";
+import { patchImage, patchUserData } from "../../../store/user-profile/thunks";
 import {
   accountGeneralFormSchema,
   AccountGeneralFieldsNames,
   type AccountGeneralForm,
-} from "../../utils/schemaValidators";
-import GenericModal from "../ui/ConfirmModal";
-import FormField from "../ui/FormField";
+} from "../../../utils/schemaValidators";
 
 interface Props {
   submitButtonText?: string;

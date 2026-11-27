@@ -1,9 +1,9 @@
 import { screen, waitFor } from "@testing-library/react";
 
-import { makeStore } from "../../testUtils";
-import { buildProfile } from "../../testUtils/factories";
-import { offline, recordRequests, reply } from "../../testUtils/handlers";
-import { renderWithProviders } from "../../testUtils/render";
+import { makeStore } from "../../../testUtils";
+import { buildProfile } from "../../../testUtils/factories";
+import { offline, recordRequests, reply } from "../../../testUtils/handlers";
+import { renderWithProviders } from "../../../testUtils/render";
 
 import ProfileLoadError from "./ProfileLoadError";
 

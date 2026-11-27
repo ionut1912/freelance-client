@@ -1,21 +1,20 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "user-event-13";
 
-import UserAccountPage from "../../components/userProfile/UserAccountPage";
 import {
   fakeApi,
   makeStore,
   profile,
   profileState,
   renderApp,
-} from "../../testUtils";
+} from "../../../testUtils";
 
-jest.mock("../../components/forms/UserForm", () => () => <p>user form</p>);
-jest.mock("../../components/forms/AccountSettingsForm", () => () => (
-  <p>settings form</p>
-));
+import UserAccountPage from "./UserAccountPage";
+
+jest.mock("./UserForm", () => () => <p>user form</p>);
+jest.mock("./AccountSettingsForm", () => () => <p>settings form</p>);
 jest.mock(
-  "../../components/forms/AddressForm",
+  "../AddressForm",
   () =>
     ({ onSubmit }: { onSubmit: (v: object) => void }) => (
       <button

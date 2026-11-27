@@ -1,0 +1,87 @@
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Button,
+} from "@mui/material";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+
+import { useForm } from "../../hooks/useForm";
+import type { LoginDto } from "../../models/Accounts";
+import type { AppDispatch } from "../../store";
+import { loginUser } from "../../store/auth/thunks";
+import { loginValidationSchema } from "../../utils/schemaValidators";
+
+import PasswordInput from "./PasswordInput";
+
+const LoginForm = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const formik = useForm<LoginDto>(
+    { username: "", password: "" },
+    loginValidationSchema,
+    // Returning the promise keeps `isSubmitting` true until it settles.
+    (values) => dispatch(loginUser({ payload: values, navigate })),
+    true,
+  );
+
+  return (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      p={2}
+    >
+      <Card sx={{ width: "100%", maxWidth: 400, boxShadow: 3 }}>
+        <CardContent>
+          <Typography variant="h5" textAlign="center" mb={3}>
+            Log In
+          </Typography>
+          <form onSubmit={formik.handleSubmit} noValidate>
+            <TextField
+              fullWidth
+              label="Username"
+              margin="normal"
+              name="username"
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={!!(formik.touched.username && formik.errors.username)}
+              helperText={
+                formik.touched.username ? formik.errors.username : null
+              }
+            />
+            <PasswordInput
+              label="Password"
+              value={formik.values.password}
+              onChange={(value) => formik.setFieldValue("password", value)}
+              onBlur={() => formik.setFieldTouched("password", true)}
+              error={!!(formik.touched.password && formik.errors.password)}
+              helperText={
+                formik.touched.password ? formik.errors.password : null
+              }
+            />
+            <Box display="flex" justifyContent="flex-end" mt={4}>
+              <Button
+                variant="contained"
+                type="submit"
+                disabled={
+                  !formik.isValid || !formik.dirty || formik.isSubmitting
+                }
+              >
+                Log In
+              </Button>
+            </Box>
+          </form>
+        </CardContent>
+      </Card>
+    </Box>
+  );
+};
+
+export default LoginForm;

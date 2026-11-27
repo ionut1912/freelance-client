@@ -1,10 +1,15 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { makeStore, profileState } from "../../testUtils";
-import { buildProfile } from "../../testUtils/factories";
-import { held, offline, recordRequests, reply } from "../../testUtils/handlers";
-import { renderWithProviders } from "../../testUtils/render";
+import { makeStore, profileState } from "../../../testUtils";
+import { buildProfile } from "../../../testUtils/factories";
+import {
+  held,
+  offline,
+  recordRequests,
+  reply,
+} from "../../../testUtils/handlers";
+import { renderWithProviders } from "../../../testUtils/render";
 
 import UserForm from "./UserForm";
 

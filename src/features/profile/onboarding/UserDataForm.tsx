@@ -1,10 +1,10 @@
 import { Box, TextField, Button } from "@mui/material";
 import * as React from "react";
 
-import { useForm } from "../../hooks/useForm";
-import type { UserData } from "../../models/UserProfile";
-import { userDataValidationSchema } from "../../utils/schemaValidators";
-import CameraCapture from "../camera/CameraCapture";
+import CameraCapture from "../../../components/camera/CameraCapture";
+import { useForm } from "../../../hooks/useForm";
+import type { UserData } from "../../../models/UserProfile";
+import { userDataValidationSchema } from "../../../utils/schemaValidators";
 
 interface UserDataFormProps {
   initialValues?: UserData;
