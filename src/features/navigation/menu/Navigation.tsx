@@ -18,7 +18,7 @@ const Navigation = ({ role }: Props) => {
     <List
       sx={{ width: "100%", maxWidth: 360, padding: 2 }}
       component="nav"
-      aria-labelledby="nested-list-subheader"
+      aria-label="Main navigation"
     >
       {navigationItemsList}
     </List>

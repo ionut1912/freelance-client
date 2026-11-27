@@ -1,4 +1,5 @@
 import { Modal, Box, Typography, Button } from "@mui/material";
+import { useId } from "react";
 
 interface Props {
   open: boolean;
@@ -9,14 +10,21 @@ interface Props {
 }
 
 const GenericModal = ({ open, handleClose, text, onYes, onNo }: Props) => {
+  const titleId = useId();
+
   return (
     <Modal
       open={open}
       onClose={handleClose}
       className="flex items-center justify-center"
     >
-      <Box className="bg-white p-6 rounded-2xl shadow-lg w-96">
-        <Typography variant="h6" className="mb-4 text-center">
+      <Box
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="bg-white p-6 rounded-2xl shadow-lg w-96"
+      >
+        <Typography id={titleId} variant="h6" className="mb-4 text-center">
           {text}
         </Typography>
         <div className="flex justify-end space-x-4 mt-6">

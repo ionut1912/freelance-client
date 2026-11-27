@@ -71,3 +71,12 @@ it("opens the settings of an incomplete profile", () => {
   userEvent.click(screen.getByRole("tab", { name: "Settings" }));
   expect(screen.getByText("settings form")).toBeInTheDocument();
 });
+
+it("labels each panel with its tab", () => {
+  fakeApi({ "GET current": [200, profile()] });
+  view("Client", { clientProfiles: [profile()] });
+
+  expect(screen.getByRole("tabpanel", { name: "General" })).toBeInTheDocument();
+  userEvent.click(screen.getByRole("tab", { name: "Address" }));
+  expect(screen.getByRole("tabpanel", { name: "Address" })).toBeInTheDocument();
+});

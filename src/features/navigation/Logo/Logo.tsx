@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 
 import type { UserRole } from "../../../models/UserProfile";
-import { navigateByRole } from "../../../utils/authUtils";
+import { pathByRole } from "../../../utils/authUtils";
 
 import { LogoImg } from "./styled/LogoImg";
 import { LogoImgContainer } from "./styled/LogoImgContainer";
@@ -14,7 +14,6 @@ interface Params {
 }
 
 export const Logo = ({ invertImage, role }: Params) => {
-  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -25,13 +24,13 @@ export const Logo = ({ invertImage, role }: Params) => {
         cursor: "pointer",
         "&:hover": { opacity: 0.8 },
       }}
-      onClick={() => navigateByRole(role, navigate)}
-      component="a"
+      component={Link}
+      to={pathByRole(role)}
     >
       <LogoImgContainer invertImage={invertImage}>
         <LogoImg component="img" src="/assets/logo.png" alt="" />
       </LogoImgContainer>
-      <LogoText component="h1">FreelanceHub</LogoText>
+      <LogoText component="span">FreelanceHub</LogoText>
     </Box>
   );
 };

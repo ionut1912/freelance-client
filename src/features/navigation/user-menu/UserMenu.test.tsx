@@ -52,3 +52,13 @@ it.each(["Profile", "My account"])("opens the account page from %s", (name) => {
 
   expect(screen.getByTestId("path")).toHaveTextContent("/user-profile");
 });
+
+it("labels the menu after its trigger", () => {
+  renderApp(<UserMenu profile={profile() as never} />);
+
+  userEvent.click(screen.getByRole("button", { name: "Account menu" }));
+
+  expect(
+    screen.getByRole("menu", { name: "Account menu" }),
+  ).toBeInTheDocument();
+});

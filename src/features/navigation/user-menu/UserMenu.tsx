@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { useState, type MouseEvent } from "react";
+import { useId, useState, type MouseEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -26,6 +26,7 @@ interface UserMenuProps {
 const UserMenu = ({ profile }: UserMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const triggerId = useId();
   const dispatch = useDispatch<AppDispatch>();
   const handleClose = () => setAnchorEl(null);
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -41,7 +42,14 @@ const UserMenu = ({ profile }: UserMenuProps) => {
   };
   return (
     <UserMenuContainer>
-      <UserMenuIconButton sx={{ padding: 0 }} onClick={handleClick}>
+      <UserMenuIconButton
+        id={triggerId}
+        aria-label="Account menu"
+        aria-haspopup="true"
+        aria-expanded={open}
+        sx={{ padding: 0 }}
+        onClick={handleClick}
+      >
         <UserAvatar profile={profile} />
       </UserMenuIconButton>
       <UserMenuMenu
@@ -49,7 +57,7 @@ const UserMenu = ({ profile }: UserMenuProps) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        slotProps={{ list: { "aria-labelledby": "basic-button" } }}
+        slotProps={{ list: { "aria-labelledby": triggerId } }}
       >
         <UserMenuInfo>
           <Typography fontSize={14} color="text.secondary">

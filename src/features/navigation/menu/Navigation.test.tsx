@@ -39,3 +39,11 @@ it("disables links to pages that do not exist yet", () => {
     "aria-disabled",
   );
 });
+
+it("names the navigation landmark", () => {
+  renderApp(<Navigation role="Client" />);
+
+  expect(
+    screen.getByRole("navigation", { name: "Main navigation" }),
+  ).toBeInTheDocument();
+});

@@ -38,3 +38,17 @@ it("renders nothing and calls nothing while closed", () => {
     expect(handler).not.toHaveBeenCalled();
   }
 });
+
+it("names the dialog after its question", () => {
+  render(
+    <GenericModal
+      open
+      text="Delete?"
+      handleClose={jest.fn()}
+      onYes={jest.fn()}
+      onNo={jest.fn()}
+    />,
+  );
+
+  expect(screen.getByRole("dialog", { name: "Delete?" })).toBeInTheDocument();
+});

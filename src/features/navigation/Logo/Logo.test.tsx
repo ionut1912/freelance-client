@@ -13,3 +13,14 @@ it.each([
   userEvent.click(screen.getByText("FreelanceHub"));
   expect(screen.getByTestId("path")).toHaveTextContent(path);
 });
+
+it("is a link that can be reached by keyboard", () => {
+  renderApp(<Logo role="Client" />);
+
+  userEvent.tab();
+
+  const link = screen.getByRole("link", { name: "FreelanceHub" });
+  expect(link).toHaveFocus();
+  expect(link).toHaveAttribute("href", "/client");
+  expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+});

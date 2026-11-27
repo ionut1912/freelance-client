@@ -64,9 +64,27 @@ const UserAccountPage = () => {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} aria-label="account tabs">
-            <Tab {...tabProps} icon={<Person />} label="General" />
-            <Tab {...tabProps} icon={<Business />} label="Address" />
-            <Tab {...tabProps} icon={<Settings />} label="Settings" />
+            <Tab
+              {...tabProps}
+              id="simple-tab-0"
+              aria-controls="simple-tabpanel-0"
+              icon={<Person />}
+              label="General"
+            />
+            <Tab
+              {...tabProps}
+              id="simple-tab-1"
+              aria-controls="simple-tabpanel-1"
+              icon={<Business />}
+              label="Address"
+            />
+            <Tab
+              {...tabProps}
+              id="simple-tab-2"
+              aria-controls="simple-tabpanel-2"
+              icon={<Settings />}
+              label="Settings"
+            />
           </Tabs>
         </Box>
 

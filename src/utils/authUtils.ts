@@ -42,21 +42,23 @@ export const createAuthAxios = (baseURL: string): AxiosInstance => {
   return api;
 };
 
+export const pathByRole = (role: string | null): string => {
+  switch (role) {
+    case "Freelancer":
+      return routesLinks.freelancer;
+    case "Client":
+      return routesLinks.client;
+    case null:
+    default:
+      return routesLinks.home;
+  }
+};
+
 export const navigateByRole = (
   role: string | null,
   navigate: NavigateFunction,
 ): void => {
-  switch (role) {
-    case "Freelancer":
-      void navigate(routesLinks.freelancer);
-      break;
-    case "Client":
-      void navigate(routesLinks.client);
-      break;
-    case null:
-    default:
-      void navigate(routesLinks.home);
-  }
+  void navigate(pathByRole(role));
 };
 
 interface ErrorResponse {
