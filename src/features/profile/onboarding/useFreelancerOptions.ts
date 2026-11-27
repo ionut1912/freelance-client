@@ -37,7 +37,7 @@ export function useFreelancerOptions() {
       Array.from(
         new Set(
           languagesRaw
-            .map((l: Language) => ("name" in l ? l.name : (l as string)))
+            .map((l: Language | string) => (typeof l === "string" ? l : l.name))
             .filter((v): v is string => !!v),
         ),
       ).sort(),

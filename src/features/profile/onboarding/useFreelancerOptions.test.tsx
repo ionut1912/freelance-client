@@ -8,16 +8,16 @@ const Options = () => (
   <p>{useFreelancerOptions().languageOptions.join(", ")}</p>
 );
 
-it("tolerates a language entry without a name", async () => {
+it("accepts plain names and skips entries without one", async () => {
   fakeApi({
     "GET skills": [200, []],
     "GET libretranslate": [
       200,
-      [{ code: "ro", name: "Romanian" }, { code: "xx" }],
+      [{ code: "ro", name: "Romanian" }, "English", { code: "xx" }],
     ],
   });
 
   renderApp(<Options />);
 
-  expect(await screen.findByText(/Romanian/)).toBeInTheDocument();
+  expect(await screen.findByText("English, Romanian")).toBeInTheDocument();
 });
