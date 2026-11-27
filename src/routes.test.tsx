@@ -31,6 +31,9 @@ afterEach(() => {
   store.dispatch(logout());
 });
 
+// The first visit to a page compiles its lazy chunk, which can be slow.
+const LAZY = { timeout: 10000 };
+
 describe("routing", () => {
   it.each([
     ["/", "link", "Join as Client"],
@@ -41,7 +44,7 @@ describe("routing", () => {
   ])("serves %s to anyone", async (path, role, name) => {
     visit(path);
 
-    expect(await screen.findByRole(role, { name })).toBeInTheDocument();
+    expect(await screen.findByRole(role, { name }, LAZY)).toBeInTheDocument();
   });
 
   it.each(["/client", "/freelancer", "/calendar", "/user-profile"])(
@@ -52,7 +55,7 @@ describe("routing", () => {
       const { router } = visit(path);
 
       expect(
-        await screen.findByRole("button", { name: "Log In" }),
+        await screen.findByRole("button", { name: "Log In" }, LAZY),
       ).toBeInTheDocument();
       expect(router.state.location.pathname).toBe("/login");
     },
@@ -65,14 +68,14 @@ describe("routing", () => {
     const { router, user } = visit("/login");
 
     await user.type(
-      await screen.findByRole("textbox", { name: "Username" }),
+      await screen.findByRole("textbox", { name: "Username" }, LAZY),
       "ana",
     );
     await user.type(screen.getByLabelText("Password"), "secret1");
     await user.click(screen.getByRole("button", { name: "Log In" }));
 
     expect(
-      await screen.findByRole("heading", { name: "Dashboard" }),
+      await screen.findByRole("heading", { name: "Dashboard" }, LAZY),
     ).toBeInTheDocument();
     expect(router.state.location.pathname).toBe("/client");
   });
