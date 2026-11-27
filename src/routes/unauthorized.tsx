@@ -1,4 +1,4 @@
-import Unauthorized from "../components/auth/Unauthorized";
+import Unauthorized from "../features/auth/Unauthorized";
 
 const UnauthorizedRoute = () => {
   return (
