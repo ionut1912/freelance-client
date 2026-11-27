@@ -17,6 +17,7 @@ import VerifyPhoto from "../camera/VerifyPhoto";
 import AddressForm from "../forms/AddressForm";
 import UserDataForm from "../forms/UserDataForm";
 import Spinner from "../wrappers/Spinner";
+import ProfileLoadError from "./ProfileLoadError";
 import { routesLinks } from "../../routes/index";
 import Dashboard from "../dashboard/Dashboard";
 
@@ -41,7 +42,12 @@ const ClientPage = () => {
     void dispatch(loadCurrentUserProfile());
   }, [dispatch]);
 
+  const loadFailed = useSelector(
+    (state: RootState) => state.userProfile.loadFailed,
+  );
+
   if (loading) return <Spinner />;
+  if (loadFailed && !profile) return <ProfileLoadError />;
 
   if (profile) {
     return (

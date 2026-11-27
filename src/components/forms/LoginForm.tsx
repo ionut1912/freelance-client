@@ -22,7 +22,8 @@ const LoginForm = () => {
   const formik = useForm<LoginDto>(
     { username: "", password: "" },
     loginValidationSchema,
-    (values) => void dispatch(loginUser({ payload: values, navigate })),
+    // Returning the promise keeps `isSubmitting` true until it settles.
+    (values) => dispatch(loginUser({ payload: values, navigate })),
     true,
   );
 
@@ -67,7 +68,9 @@ const LoginForm = () => {
               <Button
                 variant="contained"
                 type="submit"
-                disabled={!formik.isValid || !formik.dirty}
+                disabled={
+                  !formik.isValid || !formik.dirty || formik.isSubmitting
+                }
               >
                 Log In
               </Button>

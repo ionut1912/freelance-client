@@ -50,10 +50,12 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
       items: [
         {
           path: routesLinks.availableFreelancers,
+          disabled: true,
           label: "Available Freelancers",
         },
         {
           path: routesLinks.myFreelancers,
+          disabled: true,
           label: "My Freelancers",
         },
       ],
@@ -65,10 +67,12 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
       items: [
         {
           path: routesLinks.projects,
+          disabled: true,
           label: "My Projects",
         },
         {
           path: routesLinks.proposals,
+          disabled: true,
           label: "Proposals",
         },
       ],
@@ -80,14 +84,17 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
       items: [
         {
           path: routesLinks.invoices,
+          disabled: true,
           label: "My Invoices",
         },
         {
           path: routesLinks.contracts,
+          disabled: true,
           label: "My Contracts",
         },
         {
           path: routesLinks.payments,
+          disabled: true,
           label: "Payments",
         },
       ],
@@ -102,6 +109,7 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
     },
     {
       path: routesLinks.boards,
+      disabled: true,
       label: "Projects Boards",
       icon: (props: SvgIconProps) => <ListAltOutlined {...props} />,
     },
@@ -136,10 +144,12 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
       items: [
         {
           path: routesLinks.availableClients,
+          disabled: true,
           label: "Available Clients",
         },
         {
           path: routesLinks.myClients,
+          disabled: true,
           label: "My Clients",
         },
       ],
@@ -151,14 +161,17 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
       items: [
         {
           path: routesLinks.projects,
+          disabled: true,
           label: "My Projects",
         },
         {
           path: routesLinks.proposals,
+          disabled: true,
           label: "My Proposals",
         },
         {
           path: routesLinks.allProjects,
+          disabled: true,
           label: "All Projects",
         },
       ],
@@ -170,14 +183,17 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
       items: [
         {
           path: routesLinks.invoices,
+          disabled: true,
           label: "My Invoices",
         },
         {
           path: routesLinks.contracts,
+          disabled: true,
           label: "My Contracts",
         },
         {
           path: routesLinks.payments,
+          disabled: true,
           label: "Payments",
         },
       ],
@@ -192,6 +208,7 @@ const NAV_ITEMS: Record<UserRole, NavigationItemType[]> = {
     },
     {
       path: routesLinks.boards,
+      disabled: true,
       label: "Projects Boards",
       icon: (props: SvgIconProps) => <ListAltOutlined {...props} />,
     },

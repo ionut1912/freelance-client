@@ -14,6 +14,8 @@ import { UserMenuMenuItem } from "./styled/UserMenuMenuItem";
 import { UserMenuMenuItemWithSeparator } from "./styled/UserMenuMenuItemWithSeparator";
 import type { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { routesLinks } from "../../../routes/index";
 import { logout } from "../../../store/auth/slice";
 
 interface UserMenuProps {
@@ -27,6 +29,11 @@ const UserMenu = ({ profile }: UserMenuProps) => {
   const handleClose = () => setAnchorEl(null);
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+  const navigate = useNavigate();
+  const openAccount = () => {
+    handleClose();
+    void navigate(routesLinks.userProfile);
   };
   const handleLogout = () => {
     dispatch(logout());
@@ -50,8 +57,8 @@ const UserMenu = ({ profile }: UserMenuProps) => {
             {profile.user.email}
           </Typography>
         </UserMenuInfo>
-        <UserMenuMenuItem onClick={handleClose}>Profile</UserMenuMenuItem>
-        <UserMenuMenuItem onClick={handleClose}>My account</UserMenuMenuItem>
+        <UserMenuMenuItem onClick={openAccount}>Profile</UserMenuMenuItem>
+        <UserMenuMenuItem onClick={openAccount}>My account</UserMenuMenuItem>
         <UserMenuMenuItemWithSeparator onClick={handleLogout}>
           Logout
         </UserMenuMenuItemWithSeparator>

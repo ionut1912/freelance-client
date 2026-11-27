@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import type { HubConnection } from "@microsoft/signalr";
 import QRCode from "react-qr-code";
-import { createHubConnection } from "../../lib/signalr";
+import { createHubConnection, onRemotePhoto } from "../../lib/signalr";
 
-const API_BASE = process.env.REACT_APP_API_BASE ?? "";
+import { API_URL as API_BASE } from "../../services/utils";
 
 interface SessionData {
   sessionId: string;
@@ -18,33 +18,45 @@ const RemoteCaptureFallback = ({
 }) => {
   const [session, setSession] = useState<SessionData | null>(null);
 
+  // The latest callback, without restarting the session when it changes.
+  const onPhotoRef = useRef(onPhoto);
+  useEffect(() => {
+    onPhotoRef.current = onPhoto;
+  }, [onPhoto]);
+
   useEffect(() => {
     let conn: HubConnection | null = null;
+    const request = { cancelled: false };
 
     void (async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/capture/sessions`, {
+        const res = await fetch(`${API_BASE}/capture/sessions`, {
           method: "POST",
           credentials: "include",
         });
+        if (!res.ok) {
+          throw new Error(`Capture session failed: ${res.status}`);
+        }
         const data = (await res.json()) as SessionData;
+        if (request.cancelled) return;
         setSession(data);
 
         conn = createHubConnection(API_BASE);
+        onRemotePhoto(conn, data.sessionId, (dataUrl) =>
+          onPhotoRef.current(dataUrl),
+        );
         await conn.start();
         await conn.invoke("Join", data.sessionId);
-        conn.on("PhotoReceived", (p: { dataUrl: string }) =>
-          onPhoto(p.dataUrl),
-        );
       } catch (err) {
         console.error("SignalR start error:", err);
       }
     })();
 
     return () => {
+      request.cancelled = true;
       void conn?.stop().catch(() => {});
     };
-  }, [onPhoto]);
+  }, []);
 
   if (!session) return null;
 

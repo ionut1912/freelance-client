@@ -7,6 +7,9 @@ import {
   patchUserProfileAddress,
   patchImage,
 } from "./thunks";
+import { logout } from "../auth/slice";
+import { deleteCurrentUserAccount } from "../auth/thunks";
+import type { PaginatedList } from "../../models/Ui";
 
 const initialState: UserProfileState = {
   clientProfiles: null,
@@ -14,12 +17,28 @@ const initialState: UserProfileState = {
   paginatedUserProfiles: null,
   error: null,
   loading: true,
+  loadFailed: false,
 };
 
 const userProfileSlice = createSlice({
   name: "userProfile",
   initialState,
   reducers: {
+    deleteClientProfileSuccess: (state, action: PayloadAction<number>) => {
+      state.clientProfiles =
+        state.clientProfiles?.filter((p) => p.id !== action.payload) ?? null;
+    },
+    deleteFreelancerProfileSuccess: (state, action: PayloadAction<number>) => {
+      state.freelancerProfiles =
+        state.freelancerProfiles?.filter((p) => p.id !== action.payload) ??
+        null;
+    },
+    getUserProfilesSuccess: (
+      state,
+      action: PayloadAction<PaginatedList<object>>,
+    ) => {
+      state.paginatedUserProfiles = action.payload;
+    },
     verifyClientProfile: (state, action: PayloadAction<number>) => {
       if (state.clientProfiles) {
         state.clientProfiles = state.clientProfiles.map((profile) =>
@@ -45,7 +64,16 @@ const userProfileSlice = createSlice({
         state.clientProfiles = action.payload.clientProfiles ?? null;
         state.freelancerProfiles = action.payload.freelancerProfiles ?? null;
         state.loading = false;
+        state.loadFailed = false;
       })
+      .addCase(loadCurrentUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        // A 4xx means there is no profile yet; anything else is a failure.
+        const status = action.payload;
+        state.loadFailed = status === undefined || status >= 500;
+      })
+      .addCase(logout, () => initialState)
+      .addCase(deleteCurrentUserAccount.fulfilled, () => initialState)
       .addCase(saveClientProfile.rejected, (state, action) => {
         state.error = action.payload ?? null;
       })

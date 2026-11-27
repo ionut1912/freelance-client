@@ -13,6 +13,9 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# API url is baked into the bundle at build time: read from .env, or override with --build-arg
+ARG REACT_APP_API_BASE
+
 # Build the application
 RUN npm run build
 

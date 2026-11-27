@@ -15,6 +15,7 @@ import type { AppDispatch, RootState } from "../../store";
 import { resetFalseCount, incrementFalseCount } from "./slice";
 import verifyFace from "../../services/faceVerificationService";
 import { blockUserAccount, deleteCurrentUserAccount } from "../auth/thunks";
+import { logout } from "../auth/slice";
 import {
   verifreelancerProfile,
   verifyClientProfile,
@@ -84,8 +85,8 @@ async function processMatch(
     await verifyUserProfile(profile.id);
     dispatch(verifyClientProfile(profile.id));
   }
-  window.location.reload();
   dispatch(resetFalseCount());
+  window.location.reload();
 }
 
 async function processNoMatch(
@@ -99,14 +100,14 @@ async function processNoMatch(
 
   if (falseCount === 3 || falseCount === 6) {
     await dispatch(blockUserAccount({ id: profile.user.id, navigate }));
-    await dispatch(deleteCurrentUserAccount({ navigate }));
+    dispatch(logout());
     toast.error(
       `Your account will be locked for 1h because you attempted verification ${falseCount} times`,
     );
     await navigate(routesLinks.home);
   } else if (falseCount === 9) {
-    await dispatch(deleteCurrentUserAccount({ navigate }));
     await dispatch(removeUserProfile(profile.id));
+    await dispatch(deleteCurrentUserAccount({ navigate }));
     dispatch(resetFalseCount());
     toast.error(
       "Your account will be deleted because you attempted verification too many times",

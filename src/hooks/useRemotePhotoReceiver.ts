@@ -1,37 +1,35 @@
-import { useEffect } from "react";
-import { createHubConnection } from "../lib/signalr";
+import { useEffect, useRef } from "react";
+import { createHubConnection, onRemotePhoto } from "../lib/signalr";
 
-const API_BASE = process.env.REACT_APP_API_BASE ?? "";
+import { API_URL as API_BASE } from "../services/utils";
 
 export function useRemotePhotoReceiver(
   sessionId: string,
   onPhoto: (dataUrl: string) => void,
 ) {
+  // The latest callback, without reconnecting when it changes.
+  const onPhotoRef = useRef(onPhoto);
+  useEffect(() => {
+    onPhotoRef.current = onPhoto;
+  }, [onPhoto]);
+
   useEffect(() => {
     if (!sessionId) return;
 
     const conn = createHubConnection(API_BASE);
     let mounted = true;
 
+    onRemotePhoto(conn, sessionId, (dataUrl) => {
+      if (mounted) onPhotoRef.current(dataUrl);
+    });
+    conn.onreconnected(() => {
+      void conn.invoke("Join", sessionId);
+    });
+
     void (async () => {
       try {
         await conn.start();
         await conn.invoke("Join", sessionId);
-        conn.on("PhotoDataUrl", (sid: string, dataUrl: string) => {
-          if (!mounted) return;
-          if (!sid || sid === sessionId) onPhoto(dataUrl);
-        });
-        conn.on("SendPhotoDataUrl", (sid: string, dataUrl: string) => {
-          if (!mounted) return;
-          if (!sid || sid === sessionId) onPhoto(dataUrl);
-        });
-        conn.on("Photo", (dataUrl: string) => {
-          if (!mounted) return;
-          onPhoto(dataUrl);
-        });
-        conn.onreconnected(() => {
-          void conn.invoke("Join", sessionId);
-        });
       } catch (e) {
         console.error("SignalR connect error:", e);
       }
@@ -41,5 +39,5 @@ export function useRemotePhotoReceiver(
       mounted = false;
       void conn.stop();
     };
-  }, [sessionId, onPhoto]);
+  }, [sessionId]);
 }

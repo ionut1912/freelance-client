@@ -20,6 +20,7 @@ import AddressForm from "../forms/AddressForm";
 import FreelancerDataForm from "../forms/FreelancerDataForm";
 import UserDataForm from "../forms/UserDataForm";
 import Spinner from "../wrappers/Spinner";
+import ProfileLoadError from "./ProfileLoadError";
 import Dashboard from "../dashboard/Dashboard";
 
 const FreelancerPage = () => {
@@ -51,7 +52,12 @@ const FreelancerPage = () => {
     void dispatch(loadCurrentUserProfile());
   }, [dispatch]);
 
+  const loadFailed = useSelector(
+    (state: RootState) => state.userProfile.loadFailed,
+  );
+
   if (loading) return <Spinner />;
+  if (loadFailed && !profile) return <ProfileLoadError />;
 
   if (profile) {
     return (

@@ -1,4 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import axios from "axios";
 import {
   persistStore,
   persistReducer,
@@ -11,7 +12,8 @@ import {
 } from "redux-persist";
 import sessionStorage from "redux-persist/lib/storage/session";
 
-import authReducer from "../src/store/auth/slice";
+import authReducer, { logout } from "../src/store/auth/slice";
+import { api } from "./services/utils";
 import userProfileReducer from "../src/store/user-profile/slice";
 import faceVerificationReducer from "../src/store/face-verification/slice";
 import cityReducer from "../src/store/city/slice";
@@ -46,6 +48,17 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+});
+
+api.interceptors.response.use(undefined, (error: unknown) => {
+  if (
+    axios.isAxiosError(error) &&
+    error.response?.status === 401 &&
+    error.config?.headers.Authorization
+  ) {
+    store.dispatch(logout());
+  }
+  return Promise.reject(error as Error);
 });
 
 export const persistor = persistStore(store);

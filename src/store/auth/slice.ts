@@ -44,6 +44,7 @@ const authSlice = createSlice({
         state.error = action.payload ?? null;
       })
       .addCase(deleteCurrentUserAccount.fulfilled, (state) => {
+        localStorage.removeItem("jwt");
         state.user = null;
         state.role = null;
         state.error = null;

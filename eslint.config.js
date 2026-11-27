@@ -7,6 +7,28 @@ import unusedImportsPlugin from "eslint-plugin-unused-imports";
 
 export default [
   {
+    ignores: ["dist/", "coverage/", "playwright-report/", "test-results/"],
+  },
+  {
+    // Playwright integration tests
+    files: ["e2e/**/*.ts"],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        project: "./e2e/tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+      prettier: prettierPlugin,
+    },
+    rules: {
+      "prettier/prettier": "error",
+      "@typescript-eslint/no-floating-promises": "error",
+    },
+  },
+  {
     files: ["src/**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
       parser: typescriptParser,

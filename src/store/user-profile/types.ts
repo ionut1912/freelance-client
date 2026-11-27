@@ -10,5 +10,6 @@ export interface UserProfileState {
   freelancerProfiles: FreelancerProfileDto[] | null;
   paginatedUserProfiles: PaginatedList<object> | null;
   loading: boolean;
+  loadFailed: boolean;
   error: AxiosError | null;
 }

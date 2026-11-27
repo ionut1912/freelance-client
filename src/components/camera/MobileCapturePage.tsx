@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { createHubConnection } from "../../lib/signalr";
 
-const API_BASE = process.env.REACT_APP_API_BASE ?? "";
+import { API_URL as API_BASE } from "../../services/utils";
 
 const MAX_BASE64_CHARS = 40_000;
 const TARGET_W = 640;
@@ -47,10 +47,11 @@ const MobileCapturePage = () => {
 
   useEffect(() => {
     const videoElement = videoRef.current;
+    const request = { cancelled: false };
     void (async () => {
       try {
         const stream = await getFrontCameraStream();
-        if (videoElement) {
+        if (videoElement && !request.cancelled) {
           videoElement.srcObject = stream;
           setReady(true);
         } else {
@@ -61,6 +62,7 @@ const MobileCapturePage = () => {
       }
     })();
     return () => {
+      request.cancelled = true;
       const s = videoElement?.srcObject as MediaStream | null;
       s?.getTracks().forEach((t) => t.stop());
       if (videoElement) videoElement.srcObject = null;

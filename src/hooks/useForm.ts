@@ -4,7 +4,7 @@ import { useFormik, type FormikProps, type FormikValues } from "formik";
 export function useForm<T extends FormikValues>(
   initialValues: T,
   validationSchema: Yup.AnyObjectSchema,
-  onSubmit: (values: T) => void,
+  onSubmit: (values: T) => void | Promise<unknown>,
   validateOnMount: boolean = false,
 ): FormikProps<T> {
   return useFormik<T>({

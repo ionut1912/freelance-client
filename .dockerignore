@@ -4,4 +4,7 @@ Dockerfile
 .dockerignore
 .git
 .gitignore
-.env
+dist
+coverage
+playwright-report
+test-results

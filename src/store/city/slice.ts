@@ -14,13 +14,21 @@ const citySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(loadCities.pending, (state, action) => {
+        state.requestId = action.meta.requestId;
+        state.cities = [];
+        state.loading = true;
+      })
       .addCase(loadCities.fulfilled, (state, action) => {
+        if (state.requestId !== action.meta.requestId) return;
         state.cities = action.payload.cities;
         state.error = null;
         state.loading = false;
       })
       .addCase(loadCities.rejected, (state, action) => {
-        state.error = action.error.message as string;
+        if (state.requestId !== action.meta.requestId) return;
+        state.error = action.payload ?? (action.error.message as string);
+        state.loading = false;
       });
   },
 });

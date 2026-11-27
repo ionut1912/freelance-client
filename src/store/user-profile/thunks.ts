@@ -32,9 +32,15 @@ export const loadCurrentUserProfile = createAsyncThunk<
     freelancerProfiles?: FreelancerProfileDto[];
   },
   void,
-  { state: RootState }
->("userProfile/loadCurrentUserProfile", async (_, { getState }) => {
-  const response = await getCurrentUserProfile();
+  { state: RootState; rejectValue: number | undefined }
+>("userProfile/loadCurrentUserProfile", async (_, thunkApi) => {
+  const { getState, rejectWithValue } = thunkApi;
+  let response;
+  try {
+    response = await getCurrentUserProfile();
+  } catch (error) {
+    return rejectWithValue((error as AxiosError).response?.status);
+  }
   const role = getState().auth.role;
   if (role === "Client") {
     const dto = response.data as ClientProfileDto;
