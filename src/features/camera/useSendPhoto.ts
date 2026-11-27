@@ -1,4 +1,4 @@
-import { useState, type RefObject } from "react";
+import { useTransition, type RefObject } from "react";
 
 import { sendPhoto } from "../../services/captureService";
 
@@ -10,9 +10,9 @@ export function useSendPhoto(
   videoRef: RefObject<HTMLVideoElement | null>,
   canvasRef: RefObject<HTMLCanvasElement | null>,
 ) {
-  const [sending, setSending] = useState(false);
+  const [sending, startSending] = useTransition();
 
-  const captureAndSend = async () => {
+  const captureAndSend = () => {
     if (!sessionId) {
       alert("Lipsește sessionId");
       return;
@@ -29,26 +29,24 @@ export function useSendPhoto(
       return;
     }
 
-    setSending(true);
-    try {
-      const { dataUrl, q } = canvasToSizedDataUrl(canvas);
-      if (dataUrl.length > MAX_BASE64_CHARS) {
-        setSending(false);
-        alert(
-          "Imaginea e prea mare pentru setările serverului. " +
-            "Reduce calitatea/rezoluția sau mărește limita de mesaj pe server (SignalR).",
-        );
-        return;
+    startSending(async () => {
+      try {
+        const { dataUrl, q } = canvasToSizedDataUrl(canvas);
+        if (dataUrl.length > MAX_BASE64_CHARS) {
+          alert(
+            "Imaginea e prea mare pentru setările serverului. " +
+              "Reduce calitatea/rezoluția sau mărește limita de mesaj pe server (SignalR).",
+          );
+          return;
+        }
+
+        await sendPhoto(sessionId, dataUrl);
+
+        alert(`Foto trimisă (q=${q.toFixed(1)}). Revino pe desktop.`);
+      } catch (e) {
+        alert(`Eroare la trimitere: ${(e as Error).message}`);
       }
-
-      await sendPhoto(sessionId, dataUrl);
-
-      alert(`Foto trimisă (q=${q.toFixed(1)}). Revino pe desktop.`);
-    } catch (e) {
-      alert(`Eroare la trimitere: ${(e as Error).message}`);
-    } finally {
-      setSending(false);
-    }
+    });
   };
 
   return { sending, captureAndSend };
